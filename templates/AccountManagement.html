@@ -1,10 +1,40 @@
 {% extends "base.html" %} {% block title %} Account Management {% endblock %}
 {% block content %}
 <h1>Account Management</h1>
+    <h2>Add an Account</h2>
+    <form action="/" method="post">
+    {% csrf_token %}
+    FName:
+    <input name="fname" type="text"/>
+    
+    LName:
+    <input name="lname" type="text"/>
+    
+    Email:
+    <input name="lname" type="text"/>
+    
+    Role:
+    <!--SELECTOR FOR ROLES IN ROLES CLASS
+        {% for i in roles %}
+            <option value="{{ i.1 }}">{{ i.0 }}</option>
+        {% endfor %}
+    -->
+    Status:
+    
+    Actions:
+    
+    <br>
+    <br>
+    <input type="submit"/>
+</form>
+    <br>
+    <h2>Current Accounts</h2>
     <table border="1">
         <thead>
+        <!--Table will have columns for all current TAs and Instructors, -->
             <tr>
-                <th>Full Name</th>
+                <th>First Name</th>
+                <th>Last Name</th>
                 <th>Email Address</th>
                 <th>Role</th>
                 <th>Status</th>
