@@ -16,7 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from TAScheduler.views import AccountManagement
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    #Temporarily routing home page as Account Management so we can see what it looks like
+    path('',AccountManagement.as_view()),
 ]
