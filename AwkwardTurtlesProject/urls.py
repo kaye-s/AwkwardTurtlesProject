@@ -1,3 +1,6 @@
+
+
+from TAScheduler.views import AccountManagementView  # Import your view
 """
 URL configuration for AwkwardTurtlesProject project.
 
@@ -19,4 +22,8 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+path('account-management/', AccountManagementView.as_view(), name='account_management'),
+
+
 ]
