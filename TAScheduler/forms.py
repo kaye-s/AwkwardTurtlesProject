@@ -17,13 +17,14 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ['email', 'fname', 'lname', 'phone_number', 'address']
 
-    def clean_password1(self):
-        password1 = self.cleaned_data.get("password1")
-        try:
-            validate_password(password1)
-        except ValidationError as e:
-            raise forms.ValidationError(e)
-        return password1
+    #UNNECESARY?
+    # def clean_password1(self):
+    #     password1 = self.cleaned_data.get("password1")
+    #     try:
+    #         validate_password(password1)
+    #     except ValidationError as e:
+    #         raise forms.ValidationError(e)
+    #     return password1
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")

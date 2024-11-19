@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Permission,Group
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -42,7 +42,7 @@ class User(AbstractUser):
     objects = UserManager()  # Use the custom manager
 
     def __str__(self):
-        return f"{self.fname} {self.lname}"
+        return f"{self.email}"
 
 # Supervisor Model
 class Supervisor(models.Model):
@@ -66,16 +66,28 @@ class Supervisor(models.Model):
     def save(self, *args, **kwargs):
         is_new = self.pk is None  # Check if this is a new instance
         super().save(*args, **kwargs)
-        if is_new:  # Only assign permissions for new Supervisors
-            content_type = ContentType.objects.get_for_model(Supervisor)
-            permissions = Permission.objects.filter(content_type=content_type)
-            self.user.user_permissions.add(*permissions)
+        if is_new and self.user:
+            # Define the group name
+            group_name = 'Supervisor'
 
+            # Get or create the group
+            group, created = Group.objects.get_or_create(name=group_name)
+
+            if created:
+                # If the group was created, assign all Supervisor permissions to it
+                content_type = ContentType.objects.get_for_model(Supervisor)
+                permissions = Permission.objects.filter(content_type=content_type)
+                group.permissions.set(permissions)
+                group.save()
+
+            # Add the user to the group
+            self.user.groups.add(group)
+            self.user.save()
 
     def __str__(self):
-        return f"Supervisor: {self.user.fname} {self.user.lname} ({self.admin_dept})"
+        return f"Supervisor: {self.user.fname} {self.user.lname} of ({self.admin_dept})"
 
-
+#REFACTOR LATER TO CONFORM TO SUPERVISOR SAVE METHOD!!!!
 # # Instructor Model
 # class Instructor(models.Model):
 #     user = models.OneToOneField(User, on_delete=models.SET_NULL, related_name="instructor_profile")
