@@ -2,45 +2,39 @@
 {% block content %}
 <h1>Account Management</h1>
     <h2>Add an Account</h2>
-    <form action="/" method="post">
-    {% csrf_token %}
-    FName:
-    <input name="fname" type="text"/>
-    
-    LName:
-    <input name="lname" type="text"/>
-    
-    Email:
-    <input name="lname" type="text"/>
-    
-    Role:
-    <!--SELECTOR FOR ROLES IN ROLES CLASS
-        {% for i in roles %}
-            <option value="{{ i.1 }}">{{ i.0 }}</option>
-        {% endfor %}
-    -->
-    Status:
-    
-    Actions:
-    
-    <br>
-    <br>
-    <input type="submit"/>
-</form>
-    <br>
-    <h2>Current Accounts</h2>
-    <table border="1">
+    <h2>User List</h2>
+    <table>
         <thead>
-        <!--Table will have columns for all current TAs and Instructors, -->
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email Address</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email Address</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
         </thead>
-        
     </table>
+ 
+    <!-- Create Account Form -->
+    <h2>Create Account</h2>
+    <form id="create-account-form" action="/" method="post">
+    {% csrf_token %}
+        <label for="fname">Name</label>
+            <input type="text" id="fname" name="fname" placeholder="Enter first name" required>
+        
+        <label for="lname">Name</label>
+            <input type="text" id="lname" name="lname" placeholder="Enter last name" required>
+ 
+        <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter email" required>
+ 
+        <label for="role">Role</label>
+            <select id="role" name="role" required>
+            <option value="TA">TA</option>
+            <option value="Instructor">Instructor</option>
+            <option value="Supervisor">Supervisor</option>
+            </select>
+        <button type="submit">Create Account</button>
+    </form>
 {% endblock %}
