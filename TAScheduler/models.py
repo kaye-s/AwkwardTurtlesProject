@@ -140,5 +140,34 @@ class Supervisor(models.Model):
 #     def __str__(self):
 #         return f"TA: {self.user.fname} {self.user.lname} ({self.ta_dept})"
 
+class Course(models.Model):
+    course_id = models.AutoField(primary_key=True)
+    super_id = models.ForeignKey(Supervisor, to_field='user',on_delete=models.CASCADE, related_name='course_supervisor')
+    course_name = models.CharField(max_length=100)
+    course_identifier = models.CharField(max_length=10)
+    course_dept = models.CharField(max_length=100)
+    course_credits = models.IntegerField()
 
+class Section(models.Model):
+    section_id = models.AutoField(primary_key=True)
+    section_num = models.IntegerField()
+    section_course = models.ForeignKey(Course, to_field='course_id', on_delete=models.CASCADE, related_name="Sections course")
+
+class Lab(models.Model):
+    lab_id = models.AutoField(primary_key=True)
+    lab_section = models.ForeignKey(Section, to_field='section_id', on_delete=models.CASCADE, related_name="lab section")
+    # Uncomment line below once TA entity is implemented.
+    #lab_ta = models.ForeignKey(TA, to_field='ta_id', on_delete=models.CASCADE, related_name="Lab TA" )
+    days_of_week = models.CharField(max_length=7)
+    lab_startTime = models.DateTimeField()
+    lab_endTime = models.DateTimeField()
+
+class Lecture(models.Model):
+    lecture_id = models.AutoField(primary_key=True)
+    lecture_section = models.ForeignKey(Section, to_field='section_id', on_delete=models.CASCADE, related_name="lecture section")
+    #Uncomment line below once Instructor entity is implemented.
+    #lecture_instructor = models.ForeignKey(Instructor, to_field='instructor_id', on_delete=models.CASCADE, related_name="Lecture Instructor" )
+    days_of_week = models.CharField(max_length=8)
+    lecture_startTime = models.DateTimeField()
+    lecture_endTime = models.DateTimeField()
 
