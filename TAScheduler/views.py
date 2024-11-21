@@ -10,7 +10,7 @@ from TAScheduler.utils.account_management import create_user_account, edit_user_
 
 User = get_user_model()
 
-@method_decorator([login_required, group_required('Supervisor')], name='dispatch')
+@method_decorator([group_required('Supervisor'),  login_required], name='dispatch')
 class AccountManagementView(View):
     """
     Handles account management tasks accessible only to Supervisors.
