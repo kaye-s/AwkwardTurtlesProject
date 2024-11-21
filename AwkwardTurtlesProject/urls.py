@@ -15,12 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from TAScheduler.views import AccountManagement
+
+from django.urls import path, include  # Import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    #Temporarily routing home page as Account Management so we can see what it looks like
-    path('',AccountManagement.as_view()),
+    path('', include('TAScheduler.urls')),  # Include the app's URLs
 ]

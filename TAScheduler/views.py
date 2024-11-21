@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from django.views import View
 
@@ -17,3 +18,4 @@ class AccountManagement(View):
 
         # fill in context to handle database data
         return render(request, "AccountManagement.html", {})
+
