@@ -46,7 +46,7 @@ class User(AbstractUser):
 
 # Supervisor Model
 class Supervisor(models.Model):
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, related_name="supervisor_profile", null=True)
+    user = models.ForeignKey(User, to_field='email',on_delete=models.SET_NULL, related_name="supervisor_profile", null=True)
     admin_dept = models.CharField(max_length=100)
 
     class Meta:
