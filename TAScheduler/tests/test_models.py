@@ -24,5 +24,3 @@ class SupervisorModelTests(TestCase):
         self.assertIn('TAScheduler.create_courses', permissions)
         self.assertIn('TAScheduler.assign_instructors', permissions)
 
-
-
