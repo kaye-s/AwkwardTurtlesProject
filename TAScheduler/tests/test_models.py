@@ -23,3 +23,8 @@ class SupervisorModelTests(TestCase):
         permissions = self.user.get_all_permissions()
         self.assertIn('TAScheduler.create_courses', permissions)
         self.assertIn('TAScheduler.assign_instructors', permissions)
+        
+def CourseToSupervisorModelTests():
+    def setUp(self):
+        firstUser = User(email="supervisor@example.com", password="blank123", fname="John", lname="Doe", address='1234 Oaklane Rd', phone_number='123-456-7890')
+        supervisor = Supervisor()
