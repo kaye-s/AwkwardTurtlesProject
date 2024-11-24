@@ -46,7 +46,7 @@ class User(AbstractUser):
 
 # Supervisor Model
 class Supervisor(models.Model):
-    user = models.ForeignKey(User, to_field='email',on_delete=models.CASCADE, related_name="Supervisor_profile")
+    user = models.OneToOneField(User, to_field="email", on_delete=models.CASCADE, related_name="Supervisor_profile")
     admin_dept = models.CharField(max_length=100)
 
     class Meta:
@@ -179,22 +179,22 @@ class Course(models.Model):
 class Section(models.Model):
     section_id = models.AutoField(primary_key=True)
     section_num = models.IntegerField()
-    section_course = models.ForeignKey(Course, to_field='course_id', on_delete=models.CASCADE, related_name="Sections course")
+    section_course = models.ForeignKey(Course, to_field='course_id', on_delete=models.CASCADE, related_name="Sections_course")
 
 class Lab(models.Model):
     lab_id = models.AutoField(primary_key=True)
-    lab_section = models.ForeignKey(Section, to_field='section_id', on_delete=models.CASCADE, related_name="lab section")
+    lab_section = models.ForeignKey(Section, to_field='section_id', on_delete=models.CASCADE, related_name="lab_section")
     # Uncomment line below once TA entity is implemented.
-    lab_ta = models.ForeignKey(TA, to_field='ta_id', on_delete=models.CASCADE, related_name="Lab TA" )
+    lab_ta = models.ForeignKey(TA, to_field='id', on_delete=models.CASCADE, related_name="Lab_TA" )
     days_of_week = models.CharField(max_length=7)
     lab_startTime = models.DateTimeField()
     lab_endTime = models.DateTimeField()
 
 class Lecture(models.Model):
     lecture_id = models.AutoField(primary_key=True)
-    lecture_section = models.ForeignKey(Section, to_field='section_id', on_delete=models.CASCADE, related_name="lecture section")
+    lecture_section = models.ForeignKey(Section, to_field='section_id', on_delete=models.CASCADE, related_name="lecture_section")
     #Uncomment line below once Instructor entity is implemented.
-    lecture_instructor = models.ForeignKey(Instructor, to_field='instructor_id', on_delete=models.CASCADE, related_name="Lecture Instructor" )
+    lecture_instructor = models.ForeignKey(Instructor, to_field='id', on_delete=models.CASCADE, related_name="Lecture_Instructor" )
     days_of_week = models.CharField(max_length=8)
     lecture_startTime = models.DateTimeField()
     lecture_endTime = models.DateTimeField()
