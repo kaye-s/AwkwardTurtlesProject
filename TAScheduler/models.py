@@ -46,7 +46,7 @@ class User(AbstractUser):
 
 # Supervisor Model
 class Supervisor(models.Model):
-    user = models.OneToOneField(User, to_field="email", on_delete=models.CASCADE, related_name="Supervisor_profile")
+    user = models.OneToOneField(User, to_field="email", on_delete=models.CASCADE)
     admin_dept = models.CharField(max_length=100)
 
     class Meta:
@@ -89,7 +89,7 @@ class Supervisor(models.Model):
 
 # Instructor Model
 class Instructor(models.Model):
-    user = models.ForeignKey(User, to_field='email',on_delete=models.CASCADE, related_name="Instructor_profile")
+    user = models.ForeignKey(User, to_field='email',on_delete=models.CASCADE)
     instructor_dept = models.CharField(max_length=100)
 
     class Meta:
@@ -132,7 +132,7 @@ class Instructor(models.Model):
 
 #TA Model
 class TA(models.Model):
-    user = models.ForeignKey(User, to_field='email',on_delete=models.CASCADE, related_name="TA_profile")
+    user = models.ForeignKey(User, to_field='email',on_delete=models.CASCADE)
     ta_dept = models.CharField(max_length=100)
 
     class Meta:

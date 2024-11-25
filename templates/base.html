@@ -9,87 +9,18 @@
         Django App
       {% endblock %}
     </title>
-    <!--
--->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
-    <!-- CSS FOR ALL PAGES-->
-    <style>
-    body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 0;
-        }
-        nav {
-            background-color: #007BFF;
-            padding: 10px;
-            margin-bottom: 20px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        h1 {
-            text-align: center;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        button {
-            padding: 10px 15px;
-            margin: 5px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        form {
-            margin-bottom: 20px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-    </style>
-
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chango&family=Rubik+Wet+Paint&family=Russo+One&family=Sarina&family=Sofia&family=Teko:wght@300&family=Amatic+SC:wght@400&display=swap" rel="stylesheet">
   </head>
   <body>
-    <nav>
-        <a href="/notifications">Notifications</a>
-        <a href="/courses">Courses</a>
-        <a href="/assignments">Assignments</a>
-        <a href="/contact-info">Contact Info</a>
-    </nav>
-  <div class="container">{% block content %} {% endblock %}</div>
+    {% include "partials/_navbar.html" %}
+  <div class="custom-container">{% block content %} {% endblock %}</div>
+
+  <script src="https://kit.fontawesome.com/28aae1733d.js" crossorigin="anonymous"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzXcDEHgfcxy11Ljv9x2Mi5_wrhPVeIXM&libraries=places&callback=initializeAutocomplete" async defer></script>
+  <script src="{% static "js/index.js" %}"></script>
   </body>
 </html>
