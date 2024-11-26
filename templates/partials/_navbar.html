@@ -12,7 +12,8 @@
         <form id="logout_form" action="{% url 'logout' %}" method="POST">
             {% csrf_token %}
             {% comment %} <i id="logout_btn" class="btn-grad5 fa-solid fa-right-from-bracket"></i> {% endcomment %}
-            <input type="submit" value="Logout">
+            {% comment %} <input type="submit" value="Logout"> {% endcomment %}
+            <button id="logout_btn">Logout</button>
         </form>
     </div>
 </nav>

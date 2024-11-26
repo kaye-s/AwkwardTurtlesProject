@@ -81,9 +81,10 @@ thead tr {
   padding: 10px;
   justify-content: space-between;
   align-items: end;
-  line-height: 0.5rem;
+  line-height: 0.8rem;
   transition: 0.5s;
   border-radius: 22px;
+  border: 2px solid rgba(255, 255, 255, 0.235);
   color: rgba(3, 3, 3, 0.629);
 }
 @media screen and (max-width: 1000px) {
@@ -92,12 +93,12 @@ thead tr {
     height: 100px;
   }
 }
-
-.btn-gradx0 {
-  background-image: linear-gradient(to right, #7b4397 0%, #dc2430 51%, #7b4397 100%);
+.tbody-div .tr-div:hover {
+  border-color: transparent;
 }
 
 .btn-gradx0 {
+  background-image: linear-gradient(to right, #7b4397 0%, #dc2430 51%, #7b4397 100%);
   margin: 10px;
   padding: 15px 45px;
   text-align: center;
@@ -109,10 +110,47 @@ thead tr {
   border-radius: 10px;
   display: block;
 }
-
 .btn-gradx0:hover {
   background-position: right center; /* change the direction of the change here */
   color: #fff;
+  text-decoration: none;
+}
+
+.btn-gradx1 {
+  background-image: linear-gradient(to right, #480048 0%, rgba(215, 11, 11, 0.7764705882) 51%, #480048 100%);
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 9px 12px 10px rgba(9, 9, 9, 0.0705882353);
+  border-radius: 10px;
+  display: block;
+}
+.btn-gradx1:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-gradx2 {
+  margin: 10px;
+  background-image: linear-gradient(to right, #bebebe 0%, #FFFFFF 51%, #bebebe 100%);
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 9px 12px 10px rgba(9, 9, 9, 0.0705882353);
+  border-radius: 10px;
+  display: block;
+}
+.btn-gradx2:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #2a2828;
   text-decoration: none;
 }
 
@@ -136,7 +174,12 @@ thead tr {
   text-align: center;
 }
 
-button {
+.login-form {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.login-form button {
   padding: 10px 15px;
   margin: 5px 0;
   background-color: #007BFF;
@@ -146,24 +189,17 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
-
-button:hover {
+.login-form button:hover {
   background-color: #0056b3;
-}
-
-.login-form {
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
 }
 
 .delete-from {
   display: flex;
+  margin-bottom: 20px;
   justify-content: flex-end;
 }
 .delete-from i {
-  margin: 20px;
-  font-size: 40px;
+  font-size: 27px;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -207,6 +243,28 @@ input, select {
 }
 .custom-nav .nav-group .nav-btn {
   padding: 2px 20px;
+}
+.custom-nav button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  margin: 15px;
+  font-size: 27px;
+  font-family: "Sofia";
+  position: relative;
+}
+.custom-nav button::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: -4px;
+  width: 0%;
+  transition: ease-out 0.2s all;
+  height: 2px;
+  background-color: rgb(64, 62, 62);
+}
+.custom-nav button:hover::after {
+  width: 110%;
 }
 
 .login-container {
@@ -356,9 +414,6 @@ input, select {
   margin: 0 10px 0 0;
   border: none;
 }
-.logout-component form input {
-  margin: 0;
-}
 
 #modal-box-container {
   position: fixed;
@@ -378,6 +433,7 @@ input, select {
   animation-iteration-count: 1;
 }
 #modal-box-container .custom-back p {
+  z-index: 10000;
   font-family: "Amatic SC";
   font-size: 30px;
   font-weight: 500;
@@ -571,10 +627,7 @@ input, select {
 }
 
 .input-imp {
-  background-image: linear-gradient(to right, #EB3349 0%, #F45C43 51%, #EB3349 100%);
-}
-
-.input-imp {
+  background-image: linear-gradient(to right, #e2273d 0%, #fba0a0 51%, #c72e40 100%);
   padding: 5px;
   text-align: center;
   text-transform: uppercase;

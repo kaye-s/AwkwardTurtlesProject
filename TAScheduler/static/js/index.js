@@ -1,9 +1,13 @@
 console.log("hoyyyy");
 
-document.getElementById("delete_user_btn").addEventListener("click", () => {
-  document.getElementById("delete_from").submit();
-  console.log("Hey");
-})
+
+const del_btn = document.getElementById("delete_user_btn");
+if(del_btn){
+    del_btn.addEventListener("click", () => {
+        document.getElementById("delete_from").submit();
+        console.log("Hey");
+      })
+}
 
 
 const modal = document.getElementById("modal-box-container");
@@ -20,6 +24,7 @@ exit_btn.addEventListener("click", (e) => {
 })
 
 document.getElementById("logout_btn").addEventListener("click", () => {
+    console.log("hey");
     document.getElementById("logout_form").submit();
 })
 
