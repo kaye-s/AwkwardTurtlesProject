@@ -71,5 +71,3 @@ class CourseTests(TestCase):
         self.assertEqual(self.course1.course_dept, "Mathematics")
         self.course1.course_credits = 5
         self.assertEqual(self.course1.course_credits, 5)
-
-
