@@ -58,6 +58,7 @@ class CourseViewTests(TestCase):
         response = client.post("/", {  # Using "/" for now
             'action': 'delete_course',
             'course_id': course.id
+
         })
         # Replace with the correct URL for deleting a course
         self.assertEqual(response.status_code, 200)
