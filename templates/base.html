@@ -19,9 +19,11 @@
     {% include "partials/_navbar.html" %}
   <div class="custom-container">{% block content %} {% endblock %}</div>
 
-  <script src="https://kit.fontawesome.com/28aae1733d.js" crossorigin="anonymous"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzXcDEHgfcxy11Ljv9x2Mi5_wrhPVeIXM&libraries=places&callback=initializeAutocomplete" async defer></script>
   <script src="{% static "js/index.js" %}"></script>
   <script src="{% static "js/formValidation.js" %}"></script>
+  <script src="https://kit.fontawesome.com/28aae1733d.js" crossorigin="anonymous"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzXcDEHgfcxy11Ljv9x2Mi5_wrhPVeIXM&libraries=places&callback=initializeAutocomplete" async defer></script>
+
+
   </body>
 </html>

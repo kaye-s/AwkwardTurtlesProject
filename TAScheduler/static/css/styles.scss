@@ -83,9 +83,10 @@ thead tr{
     padding: 10px;
     justify-content: space-between;
     align-items: end;
-    line-height: 0.5rem;
+    line-height: 0.8rem;
     transition: 0.5s;
     border-radius:22px;
+    border: 2px solid rgba(255, 255, 255, 0.235);
     color: rgba(3, 3, 3, 0.629);
 
     @media screen and (max-width:1000px){
@@ -93,15 +94,19 @@ thead tr{
         height:100px ;
 
     }
+
+    &:hover{
+        border-color: transparent;
+    }
 }
 
 
 
 
 
-
-.btn-gradx0 {background-image: linear-gradient(to right, #7b4397 0%, #dc2430  51%, #7b4397  100%)}
+//Styling for supervisor cards
 .btn-gradx0 {
+   background-image: linear-gradient(to right, #7b4397 0%, #dc2430  51%, #7b4397  100%);
    margin: 10px;
    padding: 15px 45px;
    text-align: center;
@@ -112,13 +117,69 @@ thead tr{
    box-shadow: 0 0 20px #00000070;
    border-radius: 10px;
    display: block;
+
+   &:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+  }
  }
 
- .btn-gradx0:hover {
-   background-position: right center; /* change the direction of the change here */
-   color: #fff;
-   text-decoration: none;
- }
+ //Styling for Instructor cards
+ .btn-gradx1 {
+    background-image: linear-gradient(to right, #480048 0%,  #d70b0bc6  51%, #480048 100%);
+    margin: 10px;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+    box-shadow: 9px 12px 10px #09090912;
+    border-radius: 10px;
+    display: block;
+
+    &:hover {
+        background-position: right center; /* change the direction of the change here */
+        color: #fff;
+        text-decoration: none;
+      }
+  }
+ 
+
+
+
+ //Styling for TA cards
+ .btn-gradx2{
+    margin: 10px;
+    background-image: linear-gradient(to right, #bebebe 0%, #FFFFFF  51%, #bebebe 100%);
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+    box-shadow: 9px 12px 10px #09090912;
+    border-radius: 10px;
+    display: block;
+
+    &:hover {
+        background-position: right center; /* change the direction of the change here */
+        color: #2a2828;
+        text-decoration: none;
+      }
+  }
+ 
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -149,24 +210,26 @@ thead tr{
 // tr th{
 //     display: block;
 // }
-button {
-    padding: 10px 15px;
-    margin: 5px 0;
-    background-color: #007BFF;
-    color: white;
-    outline: none;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-button:hover {
-    background-color: #0056b3;
-}
+
 
 .login-form{
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
+
+    button {
+        padding: 10px 15px;
+        margin: 5px 0;
+        background-color: #007BFF;
+        color: white;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
 }
 
 .for-some-stuff{
@@ -176,11 +239,12 @@ button:hover {
 
 .delete-from{
     display: flex;
+    margin-bottom: 20px;
     justify-content: flex-end;
 
+
     i{
-        margin: 20px;
-        font-size: 40px;
+        font-size: 27px;
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -223,6 +287,35 @@ input, select {
 
         .nav-btn{
             padding:  2px 20px;
+        }
+    }
+
+
+    button{
+        background-color: transparent;
+        border: none;
+        color: white;
+        margin: 15px;
+        font-size: 27px;
+        font-family: variables.$default-font;
+        position: relative;
+
+
+        &::after{
+            content: "";
+            position: absolute;
+            bottom: 2px;
+            left: -4px;
+            width: 0%;
+            transition: ease-out 0.2s all;
+            height: 2px;
+            background-color: rgb(64, 62, 62);
+        }
+        &:hover{
+            &::after{
+                width: 110%;
+            }
+    
         }
     }
 }
@@ -384,9 +477,6 @@ input, select {
     margin: 0 10px 0 0;
     border: none;
 
-    input{
-        margin: 0;
-    }
 }
 
 #modal-box-container{
@@ -410,6 +500,7 @@ input, select {
    .custom-back{
      
     p{
+        z-index: 10000;
         font-family: variables.$cool-font;
         font-size: 30px;
         font-weight: 500;
@@ -625,9 +716,8 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+
   }
 
   
-  .input-imp {background-image: linear-gradient(to right, #EB3349 0%, #F45C43  51%, #EB3349  100%)}
   .input-imp {
-    
+     background-image: linear-gradient(to right, #e2273d 0%, #fba0a0  51%, #c72e40  100%);
      padding: 5px;
      text-align: center;
      text-transform: uppercase;

@@ -1,5 +1,3 @@
-
-
 <div class="custom-group">
     <h3>Supervisors</h3>
     <div class="role-group">
@@ -13,9 +11,8 @@
                 <div class="td-item text-capitalize">{{s.user.fname}} {{s.user.lname}}</div>
                 <div class="td-item text-lowercase">{{s.user.email}}</div>
                 <div class="td-item text-capitalize">{{s.admin_dept}}</div>
-                <div class="td-item text-capitalize mt-3"><em><strong>Don't delete this one.</strong></em></div>
+                <div class="td-item text-capitalize mt-3"><p><strong><em>Deletion requires superuser.</em></strong></p></div>
             </div>
-
         </div>
          {% endfor %}
     </div>
@@ -28,13 +25,13 @@
         <p>Nothing to show here.</p>
        {% endif %}
         {% for i in instructors  %}
-        <div class="tr-div">
+        <div class="tr-div btn-gradx1">
             <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
            <div>
             <form action="{% url "account-management" %}" class="delete-from w-100" method="POST">
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="user_id", value={{i.user.id}}>
-                <i class="input-imp fa-solid fa-trash"></i>
+                <i class="input-imp fa-solid  fa-delete-left"></i>
             </form>
                 <div class="td-item text-capitalize">{{i.user.fname}} {{i.user.lname}}</div>
                 <div class="td-item text-lowercase">{{i.user.email}}</div>
@@ -54,14 +51,14 @@
         <p>Nothing to show here.</p>
        {% endif %}
         {% for t in tas  %}
-        <div class="tr-div">
+        <div class="tr-div btn-gradx2">
             <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
             <div>
                 <form action="{% url "account-management" %}" id="delete_from" class="delete-from w-100" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="user_id", value={{t.user.id}}>
-                    <i id="delete_user_btn" class="input-imp fa-solid fa-trash"></i>
+                    <i id="delete_user_btn" class="input-imp fa-solid fa-delete-left"></i>
                 </form>
                 <div class="td-item text-capitalize">{{t.user.fname}} {{t.user.lname}}</div>
                 <div class="td-item text-lowercase">{{t.user.email}}</div>
