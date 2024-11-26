@@ -1,15 +1,6 @@
 console.log("hoyyyy");
 
 
-const del_btn = document.getElementById("delete_user_btn");
-if(del_btn){
-    del_btn.addEventListener("click", () => {
-        document.getElementById("delete_from").submit();
-        console.log("Hey");
-      })
-}
-
-
 const modal = document.getElementById("modal-box-container");
 const open_btn =   document.getElementById("add-modal");
 const exit_btn = document.getElementById("remove-modal");
