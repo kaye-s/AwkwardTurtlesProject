@@ -71,9 +71,9 @@ thead tr {
 
 .td-item {
   background-color: transparent;
-  margin: 4px;
   text-align: end;
   padding: 3px;
+  cursor: pointer;
 }
 
 .tbody-div .tr-div {
@@ -81,10 +81,16 @@ thead tr {
   padding: 10px;
   justify-content: space-between;
   align-items: end;
-  line-height: 1.2rem;
+  line-height: 0.5rem;
   transition: 0.5s;
-  border-radius: 3%;
+  border-radius: 22px;
   color: rgba(3, 3, 3, 0.629);
+}
+@media screen and (max-width: 1000px) {
+  .tbody-div .tr-div {
+    max-width: 40%;
+    height: 100px;
+  }
 }
 
 .btn-gradx0 {
@@ -114,6 +120,11 @@ thead tr {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 60px;
+}
+@media screen and (max-width: 1000px) {
+  .tbody-div .role-group {
+    display: block;
+  }
 }
 
 .tr-div i {
@@ -209,22 +220,14 @@ input, select {
     transform: scale(0.8);
   }
 }
-@media screen and (max-width: 800px) {
-  .login-container {
-    display: block;
-  }
-}
 @media screen and (max-width: 500px) {
   .login-container {
     transform: scale(0.7) translateX(-5%);
   }
-  .login-container .login-component {
-    min-width: 500px;
-  }
 }
 @media screen and (max-width: 420px) {
   .login-container {
-    transform: scale(0.6) translateX(-17%);
+    transform: scale(0.6);
   }
 }
 .login-container .login-component {
@@ -257,7 +260,7 @@ input, select {
 @media screen and (max-width: 800px) {
   .login-container .login-component .welcome-panel {
     border-radius: 22px 22px 0 0;
-    min-height: 400px;
+    min-height: 500px;
     width: 650px;
     background-size: 100% 100%;
   }
@@ -277,7 +280,7 @@ input, select {
   .login-container .login-component .welcome-panel h1 {
     font-size: 12px;
     line-height: 2rem;
-    bottom: 67px;
+    bottom: 90px;
     left: 120px;
     width: 80%;
     margin-left: 0;
