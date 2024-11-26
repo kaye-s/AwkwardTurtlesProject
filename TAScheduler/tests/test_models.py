@@ -23,8 +23,6 @@ class SupervisorModelTests(TestCase):
         permissions = self.user.get_all_permissions()
         self.assertIn('TAScheduler.create_courses', permissions)
         self.assertIn('TAScheduler.assign_instructors', permissions)
-<<<<<<< HEAD
-=======
         
 class CourseToSupervisorModelTests(TestCase):
     def setUp(self):
@@ -73,6 +71,3 @@ class CourseTests(TestCase):
         self.assertEqual(self.course1.course_dept, "Mathematics")
         self.course1.course_credits = 5
         self.assertEqual(self.course1.course_credits, 5)
-
->>>>>>> 428c88f (Added test classes for the relation between supervisor and course, and added test class for course entity)
-
