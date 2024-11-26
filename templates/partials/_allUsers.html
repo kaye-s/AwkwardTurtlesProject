@@ -3,13 +3,19 @@
 <div class="custom-group">
     <h3>Supervisors</h3>
     <div class="role-group">
+        {% if supervisors|length == 0 %}
+        <p>Nothing to show here.</p>
+       {% endif %}
         {% for s in supervisors  %}
         <div class="tr-div">
             <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
-            <div class="td-item text-capitalize">{{s.user.fname}} {{s.user.lname}}</div>
-            <div class="td-item">{{s.user.email}}</div>
-            <div class="td-item text-capitalize">{{s.admin_dept}}</div>
-            <div class="td-item text-capitalize">don't delete this one.</div>
+            <div>
+                <div class="td-item text-capitalize">{{s.user.fname}} {{s.user.lname}}</div>
+                <div class="td-item">{{s.user.email}}</div>
+                <div class="td-item text-capitalize">{{s.admin_dept}}</div>
+                <div class="td-item text-capitalize">don't delete this one.</div>
+            </div>
+
         </div>
          {% endfor %}
     </div>
@@ -18,17 +24,24 @@
 <div>
     <h3>Instructors</h3>
     <div class="role-group">
+        {% if instructors|length == 0 %}
+        <p>Nothing to show here.</p>
+       {% endif %}
         {% for i in instructors  %}
         <div class="tr-div">
             <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
-            <div class="td-item text-capitalize">{{i.user.fname}} {{i.user.lname}}</div>
-            <div class="td-item ">{{i.user.email}}</div>
-            <div class="td-item text-capitalize">{{i.instructor_dept}}</div>
+           <div>
             <form action="{% url "account-management" %}" class="delete-from w-100" method="POST">
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="user_id", value={{i.user.id}}>
                 <i class="input-imp fa-solid fa-trash"></i>
-           </form>
+            </form>
+                <div class="td-item text-capitalize">{{i.user.fname}} {{i.user.lname}}</div>
+                <div class="td-item ">{{i.user.email}}</div>
+                <div class="td-item text-capitalize">{{i.instructor_dept}}</div>
+              
+           </div>
+           
         </div>
         {% endfor %}
     </div>
@@ -37,18 +50,26 @@
 <div>
     <h3>TAs</h3>
     <div class="role-group">
+       {% if tas|length == 0 %}
+        <p>Nothing to show here.</p>
+       {% endif %}
         {% for t in tas  %}
         <div class="tr-div">
             <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
-            <div class="td-item text-capitalize">{{t.user.fname}} {{t.user.lname}}</div>
-            <div class="td-item">{{t.user.email}}</div>
-            <div class="td-item text-capitalize">{{t.ta_dept}}</div>
-            <form action="{% url "account-management" %}" id="delete_from" class="delete-from w-100" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="user_id", value={{t.user.id}}>
-                <i id="delete_user_btn" class="input-imp fa-solid fa-trash"></i>
-           </form>
+            <div>
+                <form action="{% url "account-management" %}" id="delete_from" class="delete-from w-100" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="user_id", value={{t.user.id}}>
+                    <i id="delete_user_btn" class="input-imp fa-solid fa-trash"></i>
+                </form>
+                <div class="td-item text-capitalize">{{t.user.fname}} {{t.user.lname}}</div>
+                <div class="td-item">{{t.user.email}}</div>
+                <div class="td-item text-capitalize">{{t.ta_dept}}</div>
+              
+            </div>
+           
+            
         </div>
         {% endfor %}
     </div>

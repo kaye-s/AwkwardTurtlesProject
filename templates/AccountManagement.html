@@ -1,6 +1,20 @@
 {% extends "base.html" %} {% block title %} Account Management {% endblock %}
 {% block content %}
-<div class="for-some-stuff"></div>
+<div class="for-some-stuff">
+    {% comment %} <div class="p-5 text-center bg-image rounded-3" style="
+        background-image: url('https://mdbcdn.b-cdn.net/img/new/slides/041.webp');
+        height: 400px;">
+        <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+            <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="text-white">
+                <h1 class="mb-3">Heading</h1>
+                <h4 class="mb-3">Subheading</h4>
+                <a data-mdb-ripple-init class="btn btn-outline-light btn-lg" href="#!" role="button">Call to action</a>
+            </div>
+            </div>
+        </div>
+    </div> {% endcomment %}
+</div>
 <header class="acct-mgmt-header">
     <div class="header-title">
         <h1>Account Management</h1>
@@ -28,10 +42,11 @@
 
     <!-- Create Account Form -->
      <div id="modal-box-container">
-        <div class="custom-back"><i id="remove-modal" class="btn-grad fa-regular fa-circle-xmark"></i></div>
+        {% comment %} fa-regular fa-circle-xmark {% endcomment %}
+        <div class="custom-back"><p id="remove-modal" class="btn-grad">Close</p></div>
         <div id="modal-box">
             <div class="custom-user-icon"><i class=" fa-solid fa-user-plus"></i></div>
-            <h2>Create Account</h2>
+            <h2 class="mb-4">Create Account</h2>
             <form id="create-account-form" action="{% url "account-management" %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="action" value="create">
@@ -75,7 +90,7 @@
                 <div><label for="dept">Department</label>
                     <input type="dept" id="dept" name="dept" placeholder="Enter Department" required></div>
 
-               <div class="submit-btn"><input class="btn-grad" type="submit" value="Create"></div>
+               <div class="submit-btn mx-auto"><input class="btn-grad" type="submit" value="Create"></div>
             </form>
         </div>
      </div>
