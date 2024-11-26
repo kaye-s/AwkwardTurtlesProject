@@ -71,9 +71,9 @@ thead tr{
 }
 .td-item {
     background-color: transparent;
-    margin: 4px;
     text-align: end;
     padding: 3px;
+    cursor: pointer;
 }
 
 
@@ -83,11 +83,16 @@ thead tr{
     padding: 10px;
     justify-content: space-between;
     align-items: end;
-    line-height: 1.2rem;
+    line-height: 0.5rem;
     transition: 0.5s;
-    border-radius:3%;
-
+    border-radius:22px;
     color: rgba(3, 3, 3, 0.629);
+
+    @media screen and (max-width:1000px){
+        max-width: 40%;
+        height:100px ;
+
+    }
 }
 
 
@@ -124,6 +129,10 @@ thead tr{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 60px;
+
+    @media screen and (max-width:1000px){
+        display: block;
+    }
 }
 .custom-group {
 
@@ -228,19 +237,14 @@ input, select {
     }
 
     @media screen and (max-width: 800px) {
-        display: block;
     }
 
     @media screen and (max-width: 500px) {
         transform: scale(0.7) translateX(-5%);
-
-        .login-component{
-            min-width: 500px;
-        }
     }
 
     @media screen and (max-width: 420px) {
-        transform: scale(0.6) translateX(-17%);
+        transform: scale(0.6)
     }
 
     .login-component {
@@ -270,7 +274,7 @@ input, select {
         padding: 50px 50px 0 50px;
         @media screen and (max-width: 800px) {
           border-radius: 22px 22px 0 0;
-          min-height: 400px;
+          min-height: 500px;
           width: 650px;
           background-size: 100% 100%;
           
@@ -289,7 +293,7 @@ input, select {
           @media screen and (max-width: 800px) {
             font-size: 12px;
             line-height: 2.0rem;
-            bottom: 67px;
+            bottom: 90px;
             left:120px;
             width: 80%;
             margin-left: 0;
