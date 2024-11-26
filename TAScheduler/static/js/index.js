@@ -6,15 +6,13 @@ const modal = document.getElementById("modal-box-container");
 const open_btn =   document.getElementById("add-modal");
 const exit_btn = document.getElementById("remove-modal");
 
-modal.style.display = "none";
-
 open_btn.addEventListener("click", (e) => {
     modal.style.display = "block";
 })
 
 exit_btn.addEventListener("click", (e) => {
     modal.style.display = "none";
-    console.log("hey");
+    console.log("yesss");
 })
 
 function initializeAutocomplete() {
