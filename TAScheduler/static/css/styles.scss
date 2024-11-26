@@ -86,17 +86,38 @@ thead tr{
     line-height: 1.2rem;
     transition: 0.5s;
     border-radius:3%;
-    background-size: 200% auto;
-    background-image: linear-gradient(to right, #000000 0%, #434343  51%, #000000  100%);         
-    // box-shadow: 0 0 20px #eee;
-    color: rgba(220, 220, 220, 0.51);
-
-    &:hover{
-        background-position: right center; /* change the direction of the change here */
-        color: #fff;
-        text-decoration: none;
-    }
+    color: rgba(3, 3, 3, 0.629);
 }
+
+
+
+
+
+
+.btn-gradx0 {background-image: linear-gradient(to right, #7b4397 0%, #dc2430  51%, #7b4397  100%)}
+.btn-gradx0 {
+   margin: 10px;
+   padding: 15px 45px;
+   text-align: center;
+   text-transform: uppercase;
+   transition: 0.5s;
+   background-size: 200% auto;
+   color: white;            
+   box-shadow: 0 0 20px #ffffff10;
+   border-radius: 10px;
+   display: block;
+ }
+
+ .btn-gradx0:hover {
+   background-position: right center; /* change the direction of the change here */
+   color: #fff;
+   text-decoration: none;
+ }
+
+
+
+
+
 
 .tbody-div .role-group{
     display: grid;

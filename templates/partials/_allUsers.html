@@ -7,11 +7,11 @@
         <p>Nothing to show here.</p>
        {% endif %}
         {% for s in supervisors  %}
-        <div class="tr-div">
+        <div class="tr-div btn-gradx0">
             <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
             <div>
                 <div class="td-item text-capitalize">{{s.user.fname}} {{s.user.lname}}</div>
-                <div class="td-item">{{s.user.email}}</div>
+                <div class="td-item text-lowercase">{{s.user.email}}</div>
                 <div class="td-item text-capitalize">{{s.admin_dept}}</div>
                 <div class="td-item text-capitalize">don't delete this one.</div>
             </div>
@@ -37,7 +37,7 @@
                 <i class="input-imp fa-solid fa-trash"></i>
             </form>
                 <div class="td-item text-capitalize">{{i.user.fname}} {{i.user.lname}}</div>
-                <div class="td-item ">{{i.user.email}}</div>
+                <div class="td-item text-lowercase">{{i.user.email}}</div>
                 <div class="td-item text-capitalize">{{i.instructor_dept}}</div>
               
            </div>
@@ -64,7 +64,7 @@
                     <i id="delete_user_btn" class="input-imp fa-solid fa-trash"></i>
                 </form>
                 <div class="td-item text-capitalize">{{t.user.fname}} {{t.user.lname}}</div>
-                <div class="td-item">{{t.user.email}}</div>
+                <div class="td-item text-lowercase">{{t.user.email}}</div>
                 <div class="td-item text-capitalize">{{t.ta_dept}}</div>
               
             </div>
