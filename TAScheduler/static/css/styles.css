@@ -99,7 +99,7 @@ thead tr {
   transition: 0.5s;
   background-size: 200% auto;
   color: white;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.062745098);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4392156863);
   border-radius: 10px;
   display: block;
 }
@@ -141,7 +141,6 @@ button:hover {
 }
 
 .login-form {
-  margin-bottom: 20px;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -231,6 +230,8 @@ input, select {
 .login-container .login-component {
   position: relative;
   display: flex;
+  width: -moz-fit-content;
+  width: fit-content;
   align-items: center;
   background: transparent;
   min-height: 500px;
@@ -241,8 +242,6 @@ input, select {
 @media screen and (max-width: 800px) {
   .login-container .login-component {
     display: block;
-    max-width: 500px;
-    margin: auto;
     transform: scaleX(0.8) scaleY(0.7);
   }
 }
@@ -259,6 +258,7 @@ input, select {
   .login-container .login-component .welcome-panel {
     border-radius: 22px 22px 0 0;
     min-height: 400px;
+    width: 650px;
     background-size: 100% 100%;
   }
 }
@@ -278,7 +278,7 @@ input, select {
     font-size: 12px;
     line-height: 2rem;
     bottom: 67px;
-    left: 86px;
+    left: 120px;
     width: 80%;
     margin-left: 0;
     text-align: center;
@@ -304,7 +304,7 @@ input, select {
   .login-container .login-component form {
     border-radius: 0 0 22px 22px;
     padding: 0 78px;
-    min-width: 500px;
+    min-width: 650px;
   }
   .login-container .login-component form label, .login-container .login-component form input {
     width: 75%;

@@ -86,6 +86,7 @@ thead tr{
     line-height: 1.2rem;
     transition: 0.5s;
     border-radius:3%;
+
     color: rgba(3, 3, 3, 0.629);
 }
 
@@ -103,7 +104,7 @@ thead tr{
    transition: 0.5s;
    background-size: 200% auto;
    color: white;            
-   box-shadow: 0 0 20px #ffffff10;
+   box-shadow: 0 0 20px #00000070;
    border-radius: 10px;
    display: block;
  }
@@ -154,7 +155,6 @@ button:hover {
 }
 
 .login-form{
-    margin-bottom: 20px;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -246,6 +246,7 @@ input, select {
     .login-component {
       position: relative;
       display: flex;
+      width: fit-content;
       align-items: center;
       background: transparent;
       min-height: 500px;
@@ -256,8 +257,6 @@ input, select {
       
       @media screen and (max-width: 800px) {
         display: block; 
-        max-width: 500px;
-        margin: auto;
         transform:scaleX(0.8) scaleY(0.7);
       }
 
@@ -272,6 +271,7 @@ input, select {
         @media screen and (max-width: 800px) {
           border-radius: 22px 22px 0 0;
           min-height: 400px;
+          width: 650px;
           background-size: 100% 100%;
           
           }
@@ -290,7 +290,7 @@ input, select {
             font-size: 12px;
             line-height: 2.0rem;
             bottom: 67px;
-            left:86px;
+            left:120px;
             width: 80%;
             margin-left: 0;
             text-align: center;
@@ -319,7 +319,7 @@ input, select {
             @media screen and (max-width: 800px) {
                 border-radius: 0 0 22px 22px;
                 padding:0 78px ;
-                min-width: 500px;
+                min-width: 650px;
 
                 label, input{
                     width: 75%;
