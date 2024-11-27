@@ -15,7 +15,11 @@
                         {% csrf_token %}
                         <input type="hidden" name="action" value="delete"> 
                         <input type="hidden" name="user_id" value={{s.user.id}}>
+<<<<<<< HEAD
                         <i  class="input-imp fa-solid  fa-delete-left delete-confirm"></i>
+=======
+                        <i  class="input-imp fa-solid  fa-delete-left" onclick="this.closest('form').submit();"></i>
+>>>>>>> 2966d5a (commented out supervisor deletion)
                     </form> {% endcomment %}
                 </div>
                 <div>
@@ -74,7 +78,11 @@
                         {% csrf_token %}
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="user_id" value={{t.user.id}}>
+<<<<<<< HEAD
                         <i class="input-imp fa-solid fa-delete-left delete-confirm"></i>
+=======
+                        <i class="input-imp fa-solid fa-delete-left" onclick="this.closest('form').submit();"></i>
+>>>>>>> 2966d5a (commented out supervisor deletion)
                     </form>
                 </div>
                 <div class="td-item text-capitalize">{{t.user.fname}} {{t.user.lname}}</div>
