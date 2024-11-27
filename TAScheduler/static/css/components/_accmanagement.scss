@@ -1,0 +1,440 @@
+@use "../partials/functions";
+@use "../partials/variables";
+@use "../partials/mixins";
+
+.content {
+    padding: 30px;
+
+    .acct-mgmt-header {
+        color: functions.contrast-color(variables.$current);
+        font-family: "Chango";
+
+        .header-title {
+            display: flex;
+            align-items: center;
+
+            .btn-grad3 {
+                background-image: linear-gradient(to right, #1D976C 0%, #93F9B9 51%, #1D976C 100%)
+            }
+
+            .btn-grad3 {
+                margin: 10px;
+                padding: 10px 20px;
+                text-align: center;
+                text-transform: uppercase;
+                transition: 0.5s;
+                background-size: 200% auto;
+                color: white;
+                border-radius: 10px;
+                display: block;
+            }
+
+            .btn-grad3:hover {
+                background-position: right center;
+                color: #fff;
+                text-decoration: none;
+            }
+        }
+
+        #add-modal {
+            margin-left: 20px;
+
+            h2 {
+                font-weight: 100;
+                font-size: 12px;
+
+                @media screen and (max-width:800px){
+                    font-size: 8px;
+                    border: 2px solid black;
+                }
+            }
+        }
+
+    }
+
+
+    .table-div {
+        color: functions.contrast-color(variables.$current);
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+
+
+        .role-group {
+            display: grid;
+            width: 80%;
+            max-height: 170px;
+            overflow-y: auto;
+            margin: auto;
+
+            border: 2px solid rgba(227, 109, 109, 0.065);
+            background: rgba(50, 1, 1, 0.42);
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 60px;
+
+            @include mixins.custom-scrollbar(8px);
+
+            @media screen and (max-width:800px) {
+                display: block;
+                width: 100%;
+            }
+
+            .tr-div {
+                display: flex;
+                padding: 10px;
+                position: relative;
+                justify-content: space-between;
+                align-items: start;
+                line-height: 0.9rem;
+                transition: 0.5s;
+                border-radius: 22px;
+                border: 2px solid rgba(255, 255, 255, 0.235);
+                color: rgba(3, 3, 3, 0.629);
+
+                &:hover {
+                    border-color: transparent;
+                    color: #fff;
+                }
+
+                .profile-img {
+                    margin: 0 10px;
+                    text-align: center;
+
+                    .fa-id-card-clip {
+                        font-size: 4pc;
+                    }
+
+
+                }
+
+                .edit-group {
+                    display: flex;
+                    align-items: start;
+                    margin: 0 0 20px 0;
+                    justify-content: end;
+
+                    i {
+                        font-size: 24px;
+                        margin: 0 10px;
+                        -webkit-background-clip: text;
+                        background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        color: transparent;
+                        cursor: pointer;
+                    }
+
+
+                    .input-edit {
+                        background-image: linear-gradient(to right, #348F50 0%, #56B4D3 51%, #348F50 100%);
+                        text-align: center;
+                        text-transform: uppercase;
+                        transition: 0.5s;
+                        background-size: 200% auto;
+                        color: white;
+                        border-radius: 10px;
+                        display: block;
+
+                        &:hover {
+                            background-position: right center;
+                            /* change the direction of the change here */
+                            color: #fff;
+                            text-decoration: none;
+                        }
+                    }
+
+                    .delete-from {
+                        display: flex;
+                        justify-content: flex-end;
+                        margin-bottom: 10px;
+
+
+
+                        .input-imp {
+                            background-image: linear-gradient(to right, #e2273d 0%, #fba0a0 51%, #c72e40 100%);
+                            text-align: center;
+                            text-transform: uppercase;
+                            transition: 0.5s;
+                            background-size: 200% auto;
+                            color: white;
+                            border-radius: 10px;
+                            display: block;
+
+                            &:hover {
+                                background-position: right center;
+                                /* change the direction of the change here */
+                                color: #fff;
+                                text-decoration: none;
+                            }
+                        }
+
+                    }
+                }
+
+                .td-item {
+                    background-color: transparent;
+                    text-align: end;
+                    padding: 3px;
+                    cursor: pointer;
+                }
+            }
+        }
+
+    }
+
+    .modal-box-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        background-color: rgba(7, 6, 6, 0.813);
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #f4f4f4;
+        z-index: 10;
+
+        animation-name: open-modal;
+        animation-duration: 1s;
+        animation-timing-function: ease-out;
+        animation-iteration-count: 1;
+
+        .custom-back {
+
+            p {
+
+                font-family: variables.$cool-font;
+                font-size: 30px;
+                font-weight: 500;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                color: transparent;
+                border-radius: 50%;
+                transition: all 0.5s;
+                cursor: pointer;
+
+
+            }
+
+            .btn-grad {
+                background-image: linear-gradient(to right, #757F9A 0%, #D7DDE8 51%, #757F9A 100%);
+                margin: 10px;
+                padding: 1px 4px;
+                text-align: center;
+                text-transform: uppercase;
+                transition: 0.5s;
+                background-size: 200% auto;
+                color: white;
+                display: block;
+
+                &:hover {
+                    background-position: right center;
+                    /* change the direction of the change here */
+                    color: #fff;
+                    text-decoration: none;
+                }
+            }
+
+         
+
+        }
+
+        .modal-box {
+            transform: scale(0.8);
+            padding: 15px;
+            position: relative;
+            width: 50%;
+            margin: 20px auto;
+            z-index: 50;
+            // text-align: center;
+            border-radius: 10px;
+            box-shadow: 2px 7px 12px 1px rgba(0, 0, 0, 0.119);
+            background: rgba(255, 255, 255, 0.153);
+
+
+            h2 {
+                text-align: center;
+            }
+
+            form {
+                div {
+                    max-width: 500px;
+                    margin: 0px auto 10px auto;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    label {
+                        font-size: 24px;
+                        font-weight: 100;
+                    }
+
+                    input,
+                    select {
+                        max-height: 40px;
+                        font-size: 16px;
+                        text-align: center;
+                        max-width: 20vw;
+                    }
+                }
+
+                border: none;
+
+
+                .submit-btn {
+                    width: 100%;
+                    align-self: center;
+                    margin: 10px 0;
+
+                    input {
+                        margin: auto;
+                        width: fit-content;
+                        font-size: 18px;
+                    }
+
+                    .btn-grad {
+                        background-image: linear-gradient(to right, #606c88 0%, #3f4c6b 51%, #606c88 100%)
+                    }
+
+                    .btn-grad {
+                        margin: 10px auto 0 auto;
+                        padding: 6px 45px;
+                        text-align: center;
+                        text-transform: uppercase;
+                        transition: 0.5s;
+                        background-size: 200% auto;
+                        color: white;
+                        border: none;
+                        border-radius: 10px;
+                        display: block;
+                    }
+
+                    .btn-grad:hover {
+                        background-position: right center;
+                        color: #fff;
+                        text-decoration: none;
+                    }
+
+                }
+
+
+            }
+
+            .custom-user-icon {
+                font-size: 30px;
+                text-align: center;
+                margin: 0px 0px 5px 0px;
+                z-index: 100;
+
+                i {
+                    text-align: center;
+                    padding: 20px;
+                    border-radius: 29%;
+                    background: #0F2027;
+                    /* fallback for old browsers */
+                    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
+                    /* Chrome 10-25, Safari 5.1-6 */
+                    background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
+                    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+                }
+            }
+        }
+    }
+
+}
+
+//Styling for supervisor cards
+.btn-gradx0 {
+    background-image: linear-gradient(to right, #7b4397 0%, #dc2430 51%, #7b4397 100%);
+    margin: 10px;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 9px 12px 10px #0909093e;
+    border-radius: 10px;
+    display: block;
+
+    &:hover {
+        background-position: right center;
+        /* change the direction of the change here */
+        color: #fff;
+        text-decoration: none;
+    }
+}
+
+//Styling for Instructor cards
+.btn-gradx1 {
+    background-image: linear-gradient(to right, #480048 0%, #d70b0bc6 51%, #480048 100%);
+    margin: 10px;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 9px 12px 10px #0909093e;
+    border-radius: 10px;
+    display: block;
+
+    &:hover {
+        background-position: right center;
+        /* change the direction of the change here */
+        color: #fff;
+        text-decoration: none;
+    }
+}
+
+//Styling for TA cards
+.btn-gradx2 {
+    margin: 10px;
+    background-image: linear-gradient(to right, #bebebe 0%, #FFFFFF 51%, #bebebe 100%);
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 9px 12px 10px #0909093e;
+    border-radius: 10px;
+    display: block;
+
+    &:hover {
+        background-position: right center;
+        /* change the direction of the change here */
+        text-decoration: none;
+
+        *{
+            color:#2a2828; ;
+        }
+    }
+
+}
+
+@keyframes open-modal {
+    0% {
+        opacity: 0;
+        transform: scale(1) translateX(50vw) translateY(50vh);
+        border-radius: 50%;
+        height: 10vh;
+        width: 10vh;
+
+    }
+
+    100% {
+        opacity: 0.2;
+        transform: scale(1) translateX(38vw) translateY(30vh);
+        height: 40vh;
+        width: 40vh;
+        border-radius: 50%;
+    }
+}
