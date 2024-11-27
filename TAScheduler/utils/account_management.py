@@ -73,7 +73,6 @@ def edit_user_account(request):
     # Fetching form data
     context = populate_dict(request)
 
-
     # Fetch role-specific object
     obj = None
     if user_role == "Supervisor":
