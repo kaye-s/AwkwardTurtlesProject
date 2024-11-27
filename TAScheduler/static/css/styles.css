@@ -608,18 +608,20 @@
 .btn-grad3 {
   background-image: linear-gradient(to right, #1D976C 0%, #93F9B9 51%, #1D976C 100%);
   margin: 10px;
-  padding: 10px 20px;
+  padding: 15px 45px;
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s all ease;
   background-size: 200% auto;
   color: white;
+  box-shadow: 9px 12px 10px rgba(9, 9, 9, 0.2431372549);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.371);
   display: block;
 }
 .btn-grad3:hover {
   background-position: right center;
+  /* change the direction of the change here */
   color: #fff;
   border-color: transparent;
   text-decoration: none;
