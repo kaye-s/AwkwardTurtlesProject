@@ -8,9 +8,21 @@
         <div class="tr-div btn-gradx0">
             <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
             <div>
-                <div class="td-item text-capitalize">{{s.user.fname}} {{s.user.lname}}</div>
-                <div class="td-item text-lowercase">{{s.user.email}}</div>
-                <div class="td-item text-capitalize">{{s.admin_dept}}</div>
+                <div class="edit-group">
+                    <i class="input-edit fa-solid fa-pen-to-square" onclick="editUser('Supervisor', '{{ s.user.email }}','{{ s.user.fname }}','{{ s.user.lname }}','{{ s.user.email }}','{{ s.user.phone_number }}','{{ s.user.address }}','{{ s.admin_dept }}')"></i>
+                    {% comment %} Only Uncomment the proceeding comment if we want supervisors to be able to delete other supervisors {% endcomment %}
+                    {% comment %} <form action="{% url "account-management" %}" class="delete-from" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="delete"> 
+                        <input type="hidden" name="user_id" value={{s.user.id}}>
+                        <i  class="input-imp fa-solid  fa-delete-left" onclick="this.closest('form').submit();"></i>
+                    </form> {% endcomment %}
+                </div>
+                <div>
+                    <div class="td-item text-capitalize">{{s.user.fname}} {{s.user.lname}}</div>
+                    <div class="td-item text-lowercase">{{s.user.email}}</div>
+                    <div class="td-item text-capitalize">{{s.admin_dept}}</div>
+                </div>
             </div>
         </div>
          {% endfor %}
@@ -23,22 +35,24 @@
         {% if instructors|length == 0 %}
         <p>Nothing to show here.</p>
        {% endif %}
-        {% for i in instructors  %}
+        {% for i in instructors %}
+        {% comment %} Silly bug {% endcomment %}
         <div class="tr-div btn-gradx1">
             <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
            <div>
-            <form action="{% url "account-management" %}" class="delete-from w-100" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="user_id", value={{i.user.id}}>
-                <i  class="input-imp fa-solid  fa-delete-left" onclick="this.closest('form').submit();"></i>
-            </form>
+                <div class="edit-group">
+                    <div><i class="input-edit fa-solid fa-pen-to-square" onclick="editUser('Instructor', '{{ i.user.email}}','{{ i.user.fname }}','{{ i.user.lname }}','{{ i.user.email }}','{{ i.user.phone_number }}','{{ i.user.address }}','{{ i.instructor_dept }}')"></i></div>
+                    <form action="{% url "account-management" %}" class="delete-from" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="user_id" value={{i.user.id}}>
+                        <i  class="input-imp fa-solid  fa-delete-left" onclick="this.closest('form').submit();"></i>
+                    </form>
+                </div>
                 <div class="td-item text-capitalize">{{i.user.fname}} {{i.user.lname}}</div>
                 <div class="td-item text-lowercase">{{i.user.email}}</div>
                 <div class="td-item text-capitalize">{{i.instructor_dept}}</div>
-              
            </div>
-           
         </div>
         {% endfor %}
     </div>
@@ -54,19 +68,19 @@
         <div class="tr-div btn-gradx2">
             <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
             <div>
-                <form action="{% url "account-management" %}" class="delete-from w-100" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="user_id", value={{t.user.id}}>
-                    <i class="delete_user_btn input-imp fa-solid fa-delete-left" onclick="this.closest('form').submit();"></i>
-                </form>
+                <div class="edit-group">
+                    <div><i class="input-edit fa-solid fa-pen-to-square" onclick="editUser('TA', '{{ t.user.email }}','{{ t.user.fname }}','{{ t.user.lname }}','{{ t.user.email }}','{{ t.user.phone_number }}','{{ t.user.address }}','{{ t.ta_dept }}')"></i></div>
+                    <form action="{% url "account-management" %}" class="delete-from" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="user_id" value={{t.user.id}}>
+                        <i class="input-imp fa-solid fa-delete-left" onclick="this.closest('form').submit();"></i>
+                    </form>
+                </div>
                 <div class="td-item text-capitalize">{{t.user.fname}} {{t.user.lname}}</div>
                 <div class="td-item text-lowercase">{{t.user.email}}</div>
                 <div class="td-item text-capitalize">{{t.ta_dept}}</div>
-              
             </div>
-           
-            
         </div>
         {% endfor %}
     </div>
