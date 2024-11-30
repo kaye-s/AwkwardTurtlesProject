@@ -7,7 +7,6 @@ from django.contrib.auth.hashers import check_password
 from TAScheduler.models import TA, Instructor
 
 User = get_user_model()
-
 class AccountManagementEditTests(TestCase):
 
     def setUp(self):
