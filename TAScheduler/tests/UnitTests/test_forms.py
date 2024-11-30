@@ -43,7 +43,7 @@ class SupervisorAdminFormTests(TestCase):
         )
 
     def test_supervisor_creation(self):
-        form_data = {'user': self.user.email, 'admin_dept': 'Computer Science'}
+        form_data = {'user': self.user.id, 'admin_dept': 'Computer Science'}
         form = SupervisorAdminForm(data=form_data)
         self.assertTrue(form.is_valid())
         supervisor = form.save()
