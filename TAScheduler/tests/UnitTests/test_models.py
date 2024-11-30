@@ -202,4 +202,3 @@
 #     def testModifyDOWSection(self):
 #         self.lecture1.days_of_week = "TR"
 #         self.assertEqual(self.lecture1.days_of_week, "TR")
-        
