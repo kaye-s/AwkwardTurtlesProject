@@ -1,0 +1,19 @@
+<nav class="custom-nav d-flex justify-content-between align-items-center">
+    <div class="nav-group">
+        <a href="/notifications" class="nav-btn {% if request.resolver_match.url_name == 'notifications' %}btn-grad4{% endif %}">Notifications</a>
+        <a href="/courses" class="nav-btn {% if request.resolver_match.url_name == 'courses' %}btn-grad4{% endif %}">Courses</i></a>
+        <a href="/assignments" class="nav-btn {% if request.resolver_match.url_name == 'assignments' %}btn-grad4{% endif %}">Assignments</a>
+        <a href="/contact-info" class="nav-btn {% if request.resolver_match.url_name == 'contact-info' %}btn-grad4{% endif %}">{{user.email}}</a>
+        {% if role and role == "Supervisor" %}
+            <a href="{% url 'account-management' %}" class="nav-btn {% if request.resolver_match.url_name == 'account-management' %}btn-grad4{% endif %}">Manage</a>
+        {% endif %}
+    </div>
+    <div class="logout-component">
+        <form id="logout_form" action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            {% comment %} <i id="logout_btn" class="btn-grad5 fa-solid fa-right-from-bracket"></i> {% endcomment %}
+            {% comment %} <input type="submit" value="Logout"> {% endcomment %}
+            <button id="logout_btn">Logout</button>
+        </form>
+    </div>
+</nav>

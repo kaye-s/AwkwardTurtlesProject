@@ -46,7 +46,7 @@ class User(AbstractUser):
 
 # Supervisor Model
 class Supervisor(models.Model):
-    user = models.ForeignKey(User, to_field='email',on_delete=models.SET_NULL, related_name="supervisor_profile", null=True)
+    user = models.OneToOneField(User, to_field="email", on_delete=models.CASCADE)
     admin_dept = models.CharField(max_length=100)
 
     class Meta:
@@ -87,62 +87,90 @@ class Supervisor(models.Model):
     def __str__(self):
         return f"Supervisor: {self.user.fname} {self.user.lname} of ({self.admin_dept})"
 
-#REFACTOR LATER TO CONFORM TO SUPERVISOR SAVE METHOD!!!!
-# # Instructor Model
-# class Instructor(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.SET_NULL, related_name="instructor_profile")
-#     instructor_dept = models.CharField(max_length=100)
+# Instructor Model
+class Instructor(models.Model):
+    user = models.ForeignKey(User, to_field='email',on_delete=models.CASCADE)
+    instructor_dept = models.CharField(max_length=100)
 
-#     class Meta:
-#         verbose_name = "Instructor"
-#         verbose_name_plural = "Instructors"
-#         permissions = [
-#             ("edit_contact_info", "Can edit own contact information"),
-#             ("view_course_assignments", "Can view course assignments"),
-#             ("view_ta_assignments", "Can view TA assignments"),
-#             ("assign_tas_to_labs", "Can assign TAs to specific lab sections"),
-#             ("send_notifications", "Can send notifications to TAs"),
-#             ("view_public_contact_info", "Can read public contact information of all users"),
-#         ]
+    class Meta:
+        verbose_name = "Instructor"
+        verbose_name_plural = "Instructors"
+        permissions = [
+            ("edit_contact_info", "Can edit own contact information"),
+            ("view_course_assignments", "Can view course assignments"),
+            ("view_ta_assignments", "Can view TA assignments"),
+            ("assign_tas_to_labs", "Can assign TAs to specific lab sections"),
+            ("send_notifications", "Can send notifications to TAs"),
+            ("view_public_contact_info", "Can read public contact information of all users"),
+        ]
 
-#     def save(self, *args, **kwargs):
-#         is_new = self.pk is None  # Check if this is a new instance
-#         super().save(*args, **kwargs)
-#         if is_new:  # Only assign permissions for new Supervisors
-#             content_type = ContentType.objects.get_for_model(Supervisor)
-#             permissions = Permission.objects.filter(content_type=content_type)
-#             self.user.user_permissions.add(*permissions)
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None  # Check if this is a new instance
+        super().save(*args, **kwargs)
+        if is_new and self.user:
+            # Define the group name
+            group_name = 'Instructor'
 
-#     def __str__(self):
-#         return f"Instructor: {self.user.fname} {self.user.lname} ({self.instructor_dept})"
+            # Get or create the group
+            group, created = Group.objects.get_or_create(name=group_name)
+
+            if created:
+                # If the group was created, assign all Supervisor permissions to it
+                content_type = ContentType.objects.get_for_model(Instructor)
+                permissions = Permission.objects.filter(content_type=content_type)
+                group.permissions.set(permissions)
+                group.save()
+
+            # Add the user to the group
+            self.user.groups.add(group)
+            self.user.save()
 
 
-# #TA Model
-# class TA(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.SET_NULL, related_name="ta_profile")
-#     ta_dept = models.CharField(max_length=100)
+    def __str__(self):
+        return f"Instructor: {self.user.fname} {self.user.lname} of ({self.instructor_dept})"
 
-#     class Meta:
-#         verbose_name = "TA"
-#         verbose_name_plural = "TAs"
-#         permissions = [
-#             ("edit_contact_info", "Can edit own contact information"),
-#             ("view_ta_assignments", "Can view TA assignments"),
-#             ("view_public_contact_info", "Can read public contact information of all users"),
-#         ]
 
-#     def save(self, *args, **kwargs):
-#         super().save(*args, **kwargs)
-#         content_type = ContentType.objects.get_for_model(TA)
-#         permissions = Permission.objects.filter(content_type=content_type)
-#         self.user.user_permissions.add(*permissions)
+#TA Model
+class TA(models.Model):
+    user = models.ForeignKey(User, to_field='email',on_delete=models.CASCADE)
+    ta_dept = models.CharField(max_length=100)
 
-#     def __str__(self):
-#         return f"TA: {self.user.fname} {self.user.lname} ({self.ta_dept})"
+    class Meta:
+        verbose_name = "TA"
+        verbose_name_plural = "TAs"
+        permissions = [
+            ("edit_contact_info", "Can edit own contact information"),
+            ("view_ta_assignments", "Can view TA assignments"),
+            ("view_public_contact_info", "Can read public contact information of all users"),
+        ]
+
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None  # Check if this is a new instance
+        super().save(*args, **kwargs)
+        if is_new and self.user:
+            # Define the group name
+            group_name = 'TA'
+
+            # Get or create the group
+            group, created = Group.objects.get_or_create(name=group_name)
+
+            if created:
+                # If the group was created, assign all Supervisor permissions to it
+                content_type = ContentType.objects.get_for_model(TA)
+                permissions = Permission.objects.filter(content_type=content_type)
+                group.permissions.set(permissions)
+                group.save()
+
+            # Add the user to the group
+            self.user.groups.add(group)
+            self.user.save()
+
+    def __str__(self):
+        return f"TA: {self.user.fname} {self.user.lname} of ({self.ta_dept})"
 
 class Course(models.Model):
     course_id = models.AutoField(primary_key=True)
-    super_id = models.ForeignKey(Supervisor, to_field='user',on_delete=models.CASCADE, related_name='course_supervisor')
+    super_id = models.ForeignKey(Supervisor, to_field='id',on_delete=models.CASCADE, related_name='course_supervisor')
     course_name = models.CharField(max_length=100)
     course_identifier = models.CharField(max_length=10)
     course_dept = models.CharField(max_length=100)
@@ -151,22 +179,22 @@ class Course(models.Model):
 class Section(models.Model):
     section_id = models.AutoField(primary_key=True)
     section_num = models.IntegerField()
-    section_course = models.ForeignKey(Course, to_field='course_id', on_delete=models.CASCADE, related_name="Sections course")
+    section_course = models.ForeignKey(Course, to_field='course_id', on_delete=models.CASCADE, related_name="Sections_course")
 
 class Lab(models.Model):
     lab_id = models.AutoField(primary_key=True)
-    lab_section = models.ForeignKey(Section, to_field='section_id', on_delete=models.CASCADE, related_name="lab section")
+    lab_section = models.ForeignKey(Section, to_field='section_id', on_delete=models.CASCADE, related_name="lab_section")
     # Uncomment line below once TA entity is implemented.
-    #lab_ta = models.ForeignKey(TA, to_field='ta_id', on_delete=models.CASCADE, related_name="Lab TA" )
+    lab_ta = models.ForeignKey(TA, to_field='id', on_delete=models.CASCADE, related_name="Lab_TA" )
     days_of_week = models.CharField(max_length=7)
     lab_startTime = models.DateTimeField()
     lab_endTime = models.DateTimeField()
 
 class Lecture(models.Model):
     lecture_id = models.AutoField(primary_key=True)
-    lecture_section = models.ForeignKey(Section, to_field='section_id', on_delete=models.CASCADE, related_name="lecture section")
+    lecture_section = models.ForeignKey(Section, to_field='section_id', on_delete=models.CASCADE, related_name="lecture_section")
     #Uncomment line below once Instructor entity is implemented.
-    #lecture_instructor = models.ForeignKey(Instructor, to_field='instructor_id', on_delete=models.CASCADE, related_name="Lecture Instructor" )
+    lecture_instructor = models.ForeignKey(Instructor, to_field='id', on_delete=models.CASCADE, related_name="Lecture_Instructor" )
     days_of_week = models.CharField(max_length=8)
     lecture_startTime = models.DateTimeField()
     lecture_endTime = models.DateTimeField()

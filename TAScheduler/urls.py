@@ -1,12 +1,10 @@
-
-from django.contrib import admin
 from django.urls import path
-from TAScheduler.views import AccountManagementView
-from TAScheduler.views import Login
+from TAScheduler.views import AccountManagementView, CustomLoginView
+from django.contrib.auth.views import LogoutView
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    #Temporarily routing home page as Account Management so we can see what it looks like
-    path('',Login.as_view()),
-    path('AccountManagement/',AccountManagementView.as_view()),
+    path("", CustomLoginView.as_view(), name="login"),
+    path("account-management/", AccountManagementView.as_view(), name="account-management"),
+    path("logout/",LogoutView.as_view(), name="logout")
 ]

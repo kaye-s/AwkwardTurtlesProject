@@ -1,0 +1,659 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #c31432; /* fallback for old browsers */ /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #240b36, #c31432); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+nav {
+  padding: 10px;
+  border-radius: 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 40px;
+  font-family: "Teko";
+  padding: 5px 10px;
+  text-align: center;
+  border-radius: 40px;
+  font-size: 17px;
+  letter-spacing: 0.1em;
+  background: rgba(251, 251, 251, 0.13);
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  text-align: center;
+}
+
+.table-div {
+  color: #fff;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+thead tr {
+  display: flex;
+  width: 80%;
+  font-family: "Amatic SC";
+  font-weight: 500;
+  font-size: 20px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background: #8e9eab; /* fallback for old browsers */ /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.td-item {
+  background-color: transparent;
+  text-align: end;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.tbody-div .tr-div {
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: end;
+  line-height: 0.8rem;
+  transition: 0.5s;
+  border-radius: 22px;
+  border: 2px solid rgba(255, 255, 255, 0.235);
+  color: rgba(3, 3, 3, 0.629);
+}
+@media screen and (max-width: 1000px) {
+  .tbody-div .tr-div {
+    max-width: 40%;
+    height: 100px;
+  }
+}
+.tbody-div .tr-div:hover {
+  border-color: transparent;
+}
+
+.btn-gradx0 {
+  background-image: linear-gradient(to right, #7b4397 0%, #dc2430 51%, #7b4397 100%);
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4392156863);
+  border-radius: 10px;
+  display: block;
+}
+.btn-gradx0:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-gradx1 {
+  background-image: linear-gradient(to right, #480048 0%, rgba(215, 11, 11, 0.7764705882) 51%, #480048 100%);
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 9px 12px 10px rgba(9, 9, 9, 0.0705882353);
+  border-radius: 10px;
+  display: block;
+}
+.btn-gradx1:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-gradx2 {
+  margin: 10px;
+  background-image: linear-gradient(to right, #bebebe 0%, #FFFFFF 51%, #bebebe 100%);
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 9px 12px 10px rgba(9, 9, 9, 0.0705882353);
+  border-radius: 10px;
+  display: block;
+}
+.btn-gradx2:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #2a2828;
+  text-decoration: none;
+}
+
+.tbody-div .role-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 60px;
+}
+@media screen and (max-width: 1000px) {
+  .tbody-div .role-group {
+    display: block;
+  }
+}
+
+.tr-div i {
+  font-size: 4pc;
+}
+
+.profile-img {
+  margin: 10px;
+  text-align: center;
+}
+
+.login-form {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.login-form button {
+  padding: 10px 15px;
+  margin: 5px 0;
+  background-color: #007BFF;
+  color: white;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.login-form button:hover {
+  background-color: #0056b3;
+}
+
+.delete-from {
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: flex-end;
+}
+.delete-from i {
+  font-size: 27px;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  cursor: pointer;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.navbar {
+  position: relative;
+}
+
+.custom-container {
+  width: 90%;
+  margin: auto;
+}
+
+.custom-nav {
+  padding: 5px 0;
+  position: sticky;
+  top: 0;
+  left: 0px;
+  margin: 20px 0px 20px 70px;
+}
+.custom-nav .nav-group {
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.357);
+}
+.custom-nav .nav-group .nav-btn {
+  padding: 2px 20px;
+}
+.custom-nav button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  margin: 15px;
+  font-size: 27px;
+  font-family: "Sofia";
+  position: relative;
+}
+.custom-nav button::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: -4px;
+  width: 0%;
+  transition: ease-out 0.2s all;
+  height: 2px;
+  background-color: rgb(64, 62, 62);
+}
+.custom-nav button:hover::after {
+  width: 110%;
+}
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media screen and (max-width: 1000px) {
+  .login-container {
+    transform: scale(0.8);
+  }
+}
+@media screen and (max-width: 500px) {
+  .login-container {
+    transform: scale(0.7) translateX(-5%);
+  }
+}
+@media screen and (max-width: 420px) {
+  .login-container {
+    transform: scale(0.6);
+  }
+}
+.login-container .login-component {
+  position: relative;
+  display: flex;
+  width: -moz-fit-content;
+  width: fit-content;
+  align-items: center;
+  background: transparent;
+  min-height: 500px;
+  box-shadow: 3px 5px 8px rgba(0, 0, 0, 0.286);
+  border-radius: 22px;
+  border: 2px solid rgba(255, 255, 255, 0.137);
+}
+@media screen and (max-width: 800px) {
+  .login-container .login-component {
+    display: block;
+    transform: scaleX(0.8) scaleY(0.7);
+  }
+}
+.login-container .login-component .welcome-panel {
+  min-height: 545px;
+  width: 500px;
+  position: relative;
+  border-radius: 22px 0 0 22px;
+  background: url("https://i.postimg.cc/5tGTzV1S/20944201.jpg") no-repeat center center;
+  background-size: cover;
+  padding: 50px 50px 0 50px;
+}
+@media screen and (max-width: 800px) {
+  .login-container .login-component .welcome-panel {
+    border-radius: 22px 22px 0 0;
+    min-height: 500px;
+    width: 650px;
+    background-size: 100% 100%;
+  }
+}
+.login-container .login-component .welcome-panel h1 {
+  font-family: "Sofia", sans-serif;
+  color: rgba(60, 1, 60, 0.789);
+  width: 50%;
+  line-height: 2.5rem;
+  position: absolute;
+  bottom: 55px;
+  margin-left: 120px;
+  font-weight: 1000;
+  font-size: 27px;
+}
+@media screen and (max-width: 800px) {
+  .login-container .login-component .welcome-panel h1 {
+    font-size: 12px;
+    line-height: 2rem;
+    bottom: 90px;
+    left: 120px;
+    width: 80%;
+    margin-left: 0;
+    text-align: center;
+  }
+}
+.login-container .login-component form {
+  min-width: 440px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.459);
+  color: rgb(255, 255, 255);
+  border: none;
+  border-top-left-radius: 0;
+  border-end-start-radius: 0;
+  border-top-right-radius: 22px;
+  border-end-end-radius: 22px;
+  min-height: 545px;
+  margin: 0;
+  padding: 60px 70px 70px 70px;
+  overflow-y: scroll;
+}
+@media screen and (max-width: 800px) {
+  .login-container .login-component form {
+    border-radius: 0 0 22px 22px;
+    padding: 0 78px;
+    min-width: 650px;
+  }
+  .login-container .login-component form label, .login-container .login-component form input {
+    width: 75%;
+    margin: 12px auto;
+  }
+}
+.login-container .login-component form h3 {
+  font-family: "Chango";
+  text-align: center;
+  opacity: 0.7;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+@media screen and (max-width: 800px) {
+  .login-container .login-component form h3 {
+    margin-bottom: 40px;
+  }
+}
+.login-container .login-component form input {
+  margin-bottom: 20px;
+}
+.login-container .login-component form button {
+  width: 40%;
+  margin: 10px auto 0 auto;
+}
+.login-container .login-component form .errors {
+  max-width: 300px;
+  max-height: 80px;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: "Teko", serif;
+}
+.login-container .login-component form .errors .myalert {
+  font-size: 16px;
+  font-weight: 300;
+  width: 100%;
+  padding: 0px;
+}
+
+.logout-component form {
+  padding: 0;
+  margin: 0 10px 0 0;
+  border: none;
+}
+
+#modal-box-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: rgba(7, 6, 6, 0.813);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #f4f4f4;
+  animation-name: open-modal;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-iteration-count: 1;
+}
+#modal-box-container .custom-back p {
+  z-index: 10000;
+  font-family: "Amatic SC";
+  font-size: 30px;
+  font-weight: 500;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  border-radius: 50%;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+#modal-box-container .custom-back .btn-grad {
+  background-image: linear-gradient(to right, #757F9A 0%, #D7DDE8 51%, #757F9A 100%);
+}
+#modal-box-container .custom-back .btn-grad {
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  display: block;
+}
+#modal-box-container .custom-back .btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+#modal-box {
+  transform: scale(0.8);
+  padding: 15px;
+  position: relative;
+  width: 50%;
+  margin: 20px auto;
+  z-index: 1000;
+  border-radius: 10px;
+  box-shadow: 2px 7px 12px 1px rgba(0, 0, 0, 0.119);
+  background: rgba(255, 255, 255, 0.153);
+}
+#modal-box h2 {
+  text-align: center;
+}
+#modal-box form {
+  border: none;
+}
+#modal-box form div {
+  max-width: 500px;
+  margin: 0px auto 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#modal-box form div label {
+  font-size: 24px;
+  font-weight: 100;
+}
+#modal-box form div input, #modal-box form div select {
+  max-height: 40px;
+  font-size: 16px;
+  text-align: center;
+  max-width: 20vw;
+}
+#modal-box form .submit-btn {
+  width: 100%;
+  align-self: center;
+  margin: 10px 0;
+}
+#modal-box form .submit-btn input {
+  margin: auto;
+  width: 10pc;
+  font-size: 18px;
+}
+#modal-box form .submit-btn .btn-grad {
+  background-image: linear-gradient(to right, #606c88 0%, #3f4c6b 51%, #606c88 100%);
+}
+#modal-box form .submit-btn .btn-grad {
+  margin: 10px auto 0 auto;
+  padding: 6px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  display: block;
+}
+#modal-box form .submit-btn .btn-grad:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+}
+#modal-box .custom-user-icon {
+  font-size: 30px;
+  text-align: center;
+  margin: 0px 0px 5px 0px;
+  z-index: 100;
+}
+#modal-box .custom-user-icon i {
+  text-align: center;
+  padding: 20px;
+  border-radius: 29%;
+  background: #0F2027; /* fallback for old browsers */ /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.acct-mgmt-header {
+  color: #fff;
+  font-family: "Chango";
+}
+.acct-mgmt-header .header-title {
+  display: flex;
+  align-items: center;
+}
+.acct-mgmt-header .header-title .btn-grad3 {
+  background-image: linear-gradient(to right, #1D976C 0%, #93F9B9 51%, #1D976C 100%);
+}
+.acct-mgmt-header .header-title .btn-grad3 {
+  margin: 10px;
+  padding: 10px 20px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  display: block;
+}
+.acct-mgmt-header .header-title .btn-grad3:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+}
+.acct-mgmt-header #add-modal {
+  margin-left: 20px;
+}
+.acct-mgmt-header #add-modal h2 {
+  font-weight: 100;
+  font-size: 12px;
+}
+
+.btn-grad4 {
+  background-image: linear-gradient(to right, #232526 0%, #414345 51%, #232526 100%);
+}
+
+.btn-grad4 {
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: rgb(255, 255, 255);
+  border-radius: 40px;
+  opacity: 0.8;
+}
+
+.btn-grad4:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-grad5 {
+  background-image: linear-gradient(to right, #606c88 0%, #3f4c6b 51%, #606c88 100%);
+}
+
+.btn-grad5 {
+  padding: 10px 20px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  color: white;
+  font-size: 30px;
+  display: block;
+  cursor: pointer;
+}
+
+.btn-grad5:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+.input-imp {
+  background-image: linear-gradient(to right, #e2273d 0%, #fba0a0 51%, #c72e40 100%);
+  padding: 5px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  display: block;
+}
+
+.input-imp:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+@keyframes open-modal {
+  0% {
+    opacity: 0.1;
+    transform: scale(0.1);
+  }
+  60% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}/*# sourceMappingURL=styles.css.map */

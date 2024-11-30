@@ -7,74 +7,40 @@
     <title>
       Login Page
     </title>
-    <!-- CSS FOR ALL PAGES-->
-    <style>
-    body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 0;
-        }
-        h1 {
-            text-align: center;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        button {
-            padding: 10px 15px;
-            margin: 5px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        form {
-            margin-bottom: 20px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-    </style>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chango&family=Rubik+Wet+Paint&family=Russo+One&family=Sarina&family=Sofia&family=Teko:wght@300&family=Amatic+SC:wght@400&display=swap" rel="stylesheet">
   </head>
   <body>
-    <h1>Welcome to TA Scheduler</h1>
-    <form id="login-form" action="/" method="post">
-    {% csrf_token %}
-        <label for="email">Email</label>
-            <input type="text" id="email" name="email" placeholder="Email" required>
+    <div class="login-container">
+        <div class="login-component">
+           <div class="welcome-panel">
+                <h1>Welcome to TA Scheduler</h1>
+           </div>
+            <form id="login-form" class="login-form" action="/" method="post">
+              <h3>Login</h3>
+            {% csrf_token %}
+            <div class="errors">
+              {% for error in form.non_field_errors %}
+             <div class="myalert"> <div class="alert alert-warning alert-dismissible">
+              <a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <p>{{ error }}</p>
+            </div>
+            </div>
+            {% endfor %}
+            </div>
+  
+                <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Username" required>
 
-        <label for="password">Password</label>
-            <input type="text" id="password" name="password" placeholder="Password" required>
-        
-        <button type="submit">Login</button>
-    </form>
+                <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
   </body>
 </html>
