@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password, make_password
 from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
 from TAScheduler.models import *
 from django.utils.html import escape
 
@@ -25,7 +26,7 @@ def create_user_account(request):
             password=password,
             fname=fname,
             lname=lname,
-            address=address1+"<TASCheduler_delimiter>"+address2,
+            address=address1+address2,
             phone_number=phone_number
         )
         user.save()
@@ -81,27 +82,27 @@ def edit_user_account(request):
         user = obj.user  # Access the related user object
 
         # Update User fields
-        if fname and user.first_name != fname:
+        if fname != 'None' and user.first_name != fname:
             did_change = True
             print("here is a debug")
             user.fname = fname
-        if lname and user.last_name != lname:
+        if lname != 'None' and user.last_name != lname:
             did_change = True
             user.lname = lname
-        if email and user.email != email:
+        if email != 'None' and user.email != email:
             did_change = True
             user.email = email
-        if phone_number and user.phone_number != phone_number:
+        if phone_number != 'None' and user.phone_number != phone_number:
             did_change = True
             user.phone_number = phone_number  # Assuming phone_number exists in your custom user model
-        if address1 or address2:
+        if address1 != 'None':
             new_address = address1 + "<TASCheduler_delimiter>" + address2
             if user.address != new_address:
                 did_change = True
                 user.address = new_address
 
         # Update Password
-        if password and not check_password(password, user.password):
+        if password != 'None' and not check_password(password, user.password):
             did_change = True
             user.password = make_password(password)
 
