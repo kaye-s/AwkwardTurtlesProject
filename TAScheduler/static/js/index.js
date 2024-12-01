@@ -22,7 +22,6 @@ const exit_btn1 = document.getElementById("remove-modal1");
 const fnameInput = document.getElementById("edit_fname")
 const lnameInput = document.getElementById("edit_lname")
 const emailInput = document.getElementById("edit_email")
-const passwordInput = document.getElementById("edit_password")
 const phone_numberInput = document.getElementById("edit_phone_number")
 const address1Input = document.getElementById("edit_address1")
 const address2Input = document.getElementById("edit_address2")
