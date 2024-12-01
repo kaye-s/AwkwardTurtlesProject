@@ -63,7 +63,7 @@ def create_user_account(request):
         messages.error(request, "Email already exists in the system") #Now passes a message if the email isn't unique
     
     elif not passes_constraint:
-        messages.error(request, "Email already exists in the system")
+        messages.error(request, "Email already exists in the system") #Now passes a message if the email isn't unique
     
     return redirect('account-management')
 
