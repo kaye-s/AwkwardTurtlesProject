@@ -45,4 +45,3 @@ class AccountManagementView(View):
             return delete_user_account(request)
         else:
             return JsonResponse({'error': 'Invalid action'}, status=400)
-
