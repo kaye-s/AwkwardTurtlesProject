@@ -24,7 +24,7 @@ def create_user_account(request):
     Handles the creation of a new user account.
     """
     context = populate_dict(request)
-    passes_constraint = not User.objects.filter(email=context['email']).exists()
+    passes_constraint = not User.objects.filter(email=context['email']).exists() #checks if the sent email is unique
 
     if passes_constraint and context['email'] != 'None' and context['password'] != 'None':
         user = User.objects.create_user(
@@ -54,7 +54,7 @@ def create_user_account(request):
         messages.error(request, "Email cannot be empty") #Pass a message if the email is empty
     
     elif not passes_constraint:
-        messages.error(request, "Email already exists in the system")
+        messages.error(request, "Email already exists in the system") #Now passes a message if the email isn't unique
     
     return redirect('account-management')
 
