@@ -92,7 +92,7 @@ class AccountManagementTests(TestCase):
             'address': '789 Duplicate Lane',
             'phone_number': '1122336677',
             'password': 'duplicatepassword123',
-            'action' : 'create'   #role field is used in our view to specify the kind of post(creating, editing, deleting).
+            'action' : 'create'   #action field is used in our view to specify the kind of post(creating, editing, deleting).
         }
 
         with self.assertRaises(IntegrityError):
