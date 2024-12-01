@@ -19,7 +19,7 @@ def create_user_account(request):
     password = escape(request.POST.get('password'))
 
 
-    if email and fname and lname and role and password and address1 and dept:
+    if email != 'None' and password != 'None':
         user = User.objects.create_user(
             email=email,
             password=password,
@@ -38,7 +38,13 @@ def create_user_account(request):
             obj = Instructor(user=user, instructor_dept=dept)
         else:
             pass
-        obj.save()
+
+        try:
+            obj.save()
+        except:
+            pass #Shouldn't fail if role is not defined, but could be changed later
+    elif email == 'None':
+        messages.error(request, "Email cannot be empty") #Pass a message if the email is empty
     
     return redirect('account-management')
 
