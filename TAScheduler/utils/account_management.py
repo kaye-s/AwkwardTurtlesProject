@@ -46,7 +46,6 @@ def create_user_account(request):
             obj = Instructor(user=user, instructor_dept=context['dept'])
         else:
             pass
-
         try:
             obj.save()
         except:
@@ -71,6 +70,7 @@ def edit_user_account(request):
 
     # Fetching form data
     context = populate_dict(request)
+
 
     # Fetch role-specific object
     obj = None
