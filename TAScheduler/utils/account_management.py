@@ -99,6 +99,7 @@ def edit_user_account(request):
                 user.address = new_address
 
         # Update Password
+
         if context['password'] != 'None' and not check_password(context['password'], user.password):
             did_change = True
             user.password = make_password(context['password'])
