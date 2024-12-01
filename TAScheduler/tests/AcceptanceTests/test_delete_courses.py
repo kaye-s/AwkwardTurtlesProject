@@ -100,4 +100,3 @@ class TestDeleteCourses(TestCase):
         response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 403)
         self.assertTemplateUsed(response, '403.html')
-
