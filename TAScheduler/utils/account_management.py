@@ -27,6 +27,7 @@ def create_user_account(request):
     passes_constraint = not User.objects.filter(email=context['email']).exists() #checks if the sent email is unique
 
     if passes_constraint and context['email'] != 'None' and context['password'] != 'None':
+
         user = User.objects.create_user(
             email=context['email'],
             password=context['password'],
@@ -45,6 +46,7 @@ def create_user_account(request):
             obj = Instructor(user=user, instructor_dept=context['dept'])
         else:
             pass
+
         try:
             obj.save()
         except:
