@@ -95,9 +95,15 @@ class AccountManagementTests(TestCase):
             'action' : 'create'   #action field is used in our view to specify the kind of post(creating, editing, deleting).
         }
 
-        with self.assertRaises(IntegrityError):
-            self.client.post("/account-management/", data)  #model raises an exception so response isn't returned
+        response = self.client.post("/account-management/", data)
+        self.assertEqual(response.status_code, 302)
 
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertTrue(
+            any("Email already exists in the system" in str(message) for message in messages),
+            "Expected message about email already being in the system.") #Model now returns a message indicating the email sent wasn't unique
+        
     def test_ta_access_account_management(self):
         self.client.login(email='ta@example.com', password='tapassword123')
 
