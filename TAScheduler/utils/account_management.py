@@ -24,14 +24,15 @@ def create_user_account(request):
     Handles the creation of a new user account.
     """
     context = populate_dict(request)
+    passes_constraint = not User.objects.filter(email=context['email']).exists()
 
-    if context['email'] != 'None' and context['password'] != 'None':
+    if passes_constraint and context['email'] != 'None' and context['password'] != 'None':
         user = User.objects.create_user(
             email=context['email'],
             password=context['password'],
             fname=context['fname'],
             lname=context['lname'],
-            address=context['address1']+context['address2'],
+            address=context['address1']+"<TASCheduler_delimiter>"+context['address2'],
             phone_number=context['phone_number']
         )
         user.save()
@@ -48,8 +49,12 @@ def create_user_account(request):
             obj.save()
         except:
             pass #Shouldn't fail if role is not defined, but could be changed later
+
     elif context['email'] == 'None':
         messages.error(request, "Email cannot be empty") #Pass a message if the email is empty
+    
+    elif not passes_constraint:
+        messages.error(request, "Email already exists in the system")
     
     return redirect('account-management')
 
@@ -63,7 +68,7 @@ def edit_user_account(request):
     did_change = False
 
     # Fetching form data
-    context = populate_dict
+    context = populate_dict(request)
 
     # Fetch role-specific object
     obj = None
@@ -84,9 +89,6 @@ def edit_user_account(request):
         if context['lname'] != 'None' and user.last_name != context['lname']:
             did_change = True
             user.lname = context['lname']
-        if context['email'] != 'None' and user.email != context['email']:
-            did_change = True
-            user.email = context['email']
         if context['phone_number'] != 'None' and user.phone_number != context['phone_number']:
             did_change = True
             user.phone_number = context['phone_number']  # Assuming phone_number exists in your custom user model
