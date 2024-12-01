@@ -249,13 +249,13 @@
             transform: scale(0.8);
             padding: 15px;
             position: relative;
-            width: 50%;
+            width: 45%;
             margin: 20px auto;
             z-index: 50;
             // text-align: center;
             border-radius: 10px;
             box-shadow: 2px 7px 12px 1px rgba(0, 0, 0, 0.119);
-            background: rgba(255, 255, 255, 0.153);
+            background: rgba(74, 72, 72, 0.237);
 
 
             h2 {
@@ -422,7 +422,7 @@
 
 @keyframes open-modal {
     0% {
-        opacity: 0;
+        opacity: 0.01;
         transform: scale(1) translateX(50vw) translateY(50vh);
         border-radius: 50%;
         height: 10vh;
@@ -431,10 +431,10 @@
     }
 
     100% {
-        opacity: 0.2;
-        transform: scale(1) translateX(38vw) translateY(30vh);
-        height: 40vh;
-        width: 40vh;
+        opacity: 0.09;
+        transform: scale(1) translateX(25vw) translateY(0vh);
+        height: 90vh;
+        width: 90vh;
         border-radius: 50%;
     }
 }
