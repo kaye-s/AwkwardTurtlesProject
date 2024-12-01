@@ -23,6 +23,11 @@
         </div>
     </header>
     <hr style="background-color: white;">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
     <h2 style="font-family: Amatic SC; color:whitesmoke;">User List</h2>
     
     <div class="table-div">
