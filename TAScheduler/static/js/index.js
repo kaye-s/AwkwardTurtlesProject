@@ -70,3 +70,33 @@ nav_btn.forEach(nav => {
 
     })
 })
+
+//DELETION CONFIRMATION MODAL
+// Get modal elements
+const modal = document.getElementById("deleteModal");
+const deleteForms = document.querySelectorAll(".delete-confirm");
+const cancelDelete = document.getElementById("cancelDelete");
+const confirmDelete = document.getElementById("confirmDelete");
+
+let current;
+// Open modal
+deleteForms.forEach((form, i) => {
+    form.addEventListener("click", (e) => {
+        e.preventDefault(); // Prevent default form submission
+        current = i;
+        modal.style.display = "block"; // Show the modal
+    });
+});
+
+// Close modal when "Cancel" is clicked
+cancelDelete.addEventListener("click", () => {
+    modal.style.display = "none";
+});
+
+// Add confirmation functionality
+confirmDelete.addEventListener("click", () => {
+    modal.style.display = "none";
+    if(current != null){
+        deleteForms[current].closest('form').submit()
+    }
+});
