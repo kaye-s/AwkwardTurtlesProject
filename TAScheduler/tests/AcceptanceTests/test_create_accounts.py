@@ -125,6 +125,12 @@ class AccountManagementCreateTests(TestCase):
             any("Email already exists in the system" in str(message) for message in messages),
             "Expected message about email already being in the system.")  # Model now returns a message indicating the email sent wasn't unique
 
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertTrue(
+            any("Email already exists in the system" in str(message) for message in messages),
+            "Expected message about email already being in the system.") #Model now returns a message indicating the email sent wasn't unique
+        
     def test_ta_access_account_management(self):
         self.client.login(email='ta@example.com', password='tapassword123')
 
