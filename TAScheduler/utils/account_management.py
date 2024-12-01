@@ -50,6 +50,7 @@ def create_user_account(request):
             obj.save()
         except:
             pass #Shouldn't fail if role is not defined, but could be changed later
+
     elif context['email'] == 'None':
         messages.error(request, "Email cannot be empty") #Pass a message if the email is empty
     elif context['password'] == 'None':
@@ -57,6 +58,9 @@ def create_user_account(request):
     
     elif not passes_constraint:
         messages.error(request, "Email already exists in the system") #Now passes a message if the email isn't unique
+    
+    elif not passes_constraint:
+        messages.error(request, "Email already exists in the system")
     
     return redirect('account-management')
 
