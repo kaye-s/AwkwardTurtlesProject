@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 
 User = get_user_model()
 
-class AccountManagementTests(TestCase):
+class AccountManagementCreateTests(TestCase):
 
     def setUp(self):
         self.supervisor_user = User.objects.create_user(
