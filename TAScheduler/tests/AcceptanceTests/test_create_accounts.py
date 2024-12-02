@@ -77,7 +77,23 @@ class AccountManagementCreateTests(TestCase):
             any("Email cannot be empty" in str(message) for message in messages),
             "Expected message about missing email not found in the session messages.") #Check if an error about no email input is in it
 
-        #self.assertFormError(response, 'form', 'email', 'This field is required.')
+    #If someone creates an account with an email but no other fields, it should work and set empty fields to null/blank string
+    def test_supervisor_create_user_empty_form(self):
+        self.client.login(email='supervisor@example.com', password='superpassword123')
+
+        response = self.client.get("/account-management/")
+        self.assertEqual(response.status_code, 200)
+
+        data = {
+            'email': 'newuser@example.com',
+            'action': 'create'
+        }
+        response = self.client.post("/account-management/", data)
+        self.assertEqual(response.status_code, 302)
+
+        new_user = User.objects.get(email='newuser@example.com')
+        self.assertIsNotNone(new_user)
+        self.assertEqual(new_user.email, 'newuser@example.com')
 
     def test_supervisor_create_user_non_unique_email(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
