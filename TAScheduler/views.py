@@ -45,3 +45,15 @@ class AccountManagementView(View):
             return delete_user_account(request)
         else:
             return JsonResponse({'error': 'Invalid action'}, status=400)
+
+class CourseSupervisor(View):
+    def get(self, request):
+        return
+    def post(self, request):
+        return
+
+class CourseOther(View):
+    def get(self, request):
+        return
+    def post(self, request):
+        return
