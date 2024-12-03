@@ -91,6 +91,39 @@ class CreateCourseTests(TestCase):
             any("Supervisor must be a valid supervisor" in str(message) for message in messages),
             "Expected message about invalid supervisor not found in the session messages.")
 
+    def test_instructor_access_course_management(self):
+        User.objects.create_user(
+            email='instructor@example.com',
+            password='instructorpassword123',
+            fname='Instructor',
+            lname='User',
+            address='789 Instructor Lane',
+            phone_number='1239874560'
+        )
+        self.client.login(email='instructor@example.com', password='instructorpassword123')
+
+        response = self.client.get("/course-supervisor/")
+
+        self.assertEqual(response, "/course/")
+
+
+    def test_ta_access_course_management(self):
+        User.objects.create_user(
+            email='ta@example.com',
+            password='tapassword123',
+            fname='TA',
+            lname='User',
+            address='789 Teaching Assistant Lane',
+            phone_number='1239874560'
+        )
+        self.client.login(email='ta@example.com', password='tapassword123')
+
+        response = self.client.get("/course-supervisor/")
+
+        self.assertEqual(response, "/course/")
+
+
+
     
 
 
