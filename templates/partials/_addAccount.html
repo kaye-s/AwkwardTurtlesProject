@@ -1,0 +1,52 @@
+<div id="modal-box-container" class="modal-box-container">
+    {% comment %} fa-regular fa-circle-xmark {% endcomment %}
+    <div class="custom-back"><p id="remove-modal" class="btn-grad">Close</p></div>
+    <div class="modal-box">
+        <div class="custom-user-icon"><i class=" fa-solid fa-user-plus"></i></div>
+        <h2 class="mb-4">Create Account</h2>
+        <form id="create-account-form" action="{% url "account-management" %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="create">
+            <div>
+                <label for="fname">First Name</label>
+                <input type="text" name="fname" id="fname" placeholder="Enter first name" required>
+            </div>
+
+            <div><label for="lname">Last Name</label>
+                <input type="text" name="lname" id="lname" placeholder="Enter last name" required></div>
+
+            <div><label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Enter email" required></div>
+
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password">
+                </div>
+
+                <div>
+                    <label for="phone_number">Phone</label>
+                    <input type="tel" name="phone_number" id="phone_number" placeholder="Enter phone number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                </div>
+                <div>
+                    <label for="address1">Address 1</label>
+                    <input type="text" name="address1" id="address1"  placeholder="Enter your address" required>
+                </div>
+                <div>
+                    <label for="address2">Address 2(Optional)</label>
+                    <input type="text" name="address2" id="address2" placeholder="Apartment, suite, unit no. etc.">
+                </div>
+
+            <div><label for="role">Role</label>
+                <select name="role" id="role" required>
+                <option value="TA">TA</option>
+                <option value="Instructor">Instructor</option>
+                <option value="Supervisor">Supervisor</option>
+                </select>
+            </div>
+
+            <div><label for="dept">Department</label>
+                <input type="text" id="dept" name="dept" placeholder="Enter Department" required></div>
+            <div class="submit-btn mx-auto"><input class="btn-grad" type="submit" value="Create"></div>
+        </form>
+    </div>
+</div>
