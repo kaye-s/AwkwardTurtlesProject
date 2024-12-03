@@ -1,6 +1,6 @@
 # from django.test import TestCase
 # from django.contrib.auth.models import Permission
-# from TAScheduler.models import User, Supervisor, Course, Sectoion, Lab, Lecture
+# from TAScheduler.models import User, TA, Instructor, Supervisor, Course, Section, Lab, Lecture
 
 # class SupervisorModelTests(TestCase):
 #     def setUp(self):
