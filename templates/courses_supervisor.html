@@ -24,7 +24,7 @@
         <td>{{ course.course_credits }}</td>
         <td>
           <!-- Edit and Delete Actions -->
-          <a href="{% url 'edit-course' course.course_id %}" class="btn-gradx1">Edit</a>
+          <button class="btn-gradx1" onclick="openModal('{{ course.course_id }}', '{{ course.course_name }}', '{{ course.course_identifier }}', '{{ course.course_dept }}', '{{ course.course_credits }}')">Edit</button>
           <form method="post" action="{% url 'delete-course' course.course_id %}" style="display:inline;">
             {% csrf_token %}
             <button type="submit" class="btn-gradx2">Delete</button>
@@ -37,5 +37,86 @@
 </div>
 
 <!-- Button to Create a New Course -->
-<a href="{% url 'create-course' %}" class="create-btn">Create New Course</a>
+<button class="create-btn" onclick="openModal()">Create New Course</button>
+
+<!-- Modal for Create/Edit Course -->
+<div id="courseModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <h2 id="modalTitle">Create/Edit Course</h2>
+    <form method="post" action="{% url 'create-course' %}" id="courseForm">
+      {% csrf_token %}
+      <input type="hidden" name="course_id" id="courseIdField" />
+      <label for="course_name">Course Name:</label>
+      <input type="text" id="courseNameField" name="course_name" required />
+      <label for="course_identifier">Course Identifier:</label>
+      <input type="text" id="courseIdentifierField" name="course_identifier" required />
+      <label for="course_dept">Department:</label>
+      <input type="text" id="courseDeptField" name="course_dept" required />
+      <label for="course_credits">Credits:</label>
+      <input type="number" id="courseCreditsField" name="course_credits" required />
+      <button type="submit" class="btn-gradx0">Save</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function openModal(courseId = "", courseName = "", courseIdentifier = "", courseDept = "", courseCredits = "") {
+    document.getElementById("modalTitle").textContent = courseId ? "Edit Course" : "Create New Course";
+    document.getElementById("courseForm").action = courseId ? `{% url 'edit-course' 0 %}`.replace('0', courseId) : "{% url 'create-course' %}";
+    document.getElementById("courseIdField").value = courseId;
+    document.getElementById("courseNameField").value = courseName;
+    document.getElementById("courseIdentifierField").value = courseIdentifier;
+    document.getElementById("courseDeptField").value = courseDept;
+    document.getElementById("courseCreditsField").value = courseCredits;
+    document.getElementById("courseModal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("courseModal").style.display = "none";
+  }
+</script>
+
+<style>
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+  }
+
+  .close-btn {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .create-btn {
+    display: block;
+    margin: 20px auto;
+    background: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .create-btn:hover {
+    background: #45a049;
+  }
+</style>
 {% endblock %}
