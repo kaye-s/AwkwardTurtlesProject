@@ -24,7 +24,7 @@ class CreateCourseTests(TestCase):
         self.supervisor_user.save()
 
 
-    def test_create_course_no_error(self):
+        def test_create_course_no_error(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
         response = self.client.get("/course-supervisor/")
@@ -41,10 +41,10 @@ class CreateCourseTests(TestCase):
         response = self.client.post("/course-supervisor/", data)
         self.assertEqual(response.status_code, 302)
 
-        messages = list(get_messages(response.wsgi_request))
 
-        self.assertEquals(len(messages), 0)
-
+        new_course = Course.objects.get(course_id=1)
+        self.assertIsNotNone(new_course)
+        self.assertEqual(new_course.course_name, 'Test Course')
 
     def test_create_course_no_supervisor(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
