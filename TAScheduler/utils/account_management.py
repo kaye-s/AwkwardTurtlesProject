@@ -52,6 +52,8 @@ def create_user_account(request):
 
     elif context['email'] == 'None':
         messages.error(request, "Email cannot be empty") #Pass a message if the email is empty
+    elif context['password'] == 'None':
+        messages.error(request, "Must create a password") #Pass a message if the email is empty
     
     elif not passes_constraint:
         messages.error(request, "Email already exists in the system") #Now passes a message if the email isn't unique

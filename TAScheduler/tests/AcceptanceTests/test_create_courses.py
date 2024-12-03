@@ -24,7 +24,7 @@ class CreateCourseTests(TestCase):
         self.supervisor_user.save()
 
 
-        def test_create_course_no_error(self):
+    def test_create_course_no_error(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
         response = self.client.get("/course-supervisor/")
