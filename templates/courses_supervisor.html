@@ -1,10 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+<h1>Manage Courses</h1>
+
+<!-- Table for Displaying Courses -->
+<div class="table-wrapper">
+  <table class="table-div">
+    <thead>
+      <tr>
+        <th>Course Name</th>
+        <th>Course Id</th>
+        <th>Department</th>
+        <th>Credits</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for course in courses %}
+      <tr>
+        <td>{{ course.course_name }}</td>
+        <td>{{ course.course_identifier }}</td>
+        <td>{{ course.course_dept }}</td>
+        <td>{{ course.course_credits }}</td>
+        <td>
+          <!-- Edit and Delete Actions -->
+          <a href="{% url 'edit-course' course.course_id %}" class="btn-gradx1">Edit</a>
+          <form method="post" action="{% url 'delete-course' course.course_id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn-gradx2">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Button to Create a New Course -->
+<a href="{% url 'create-course' %}" class="create-btn">Create New Course</a>
+{% endblock %}
