@@ -144,3 +144,33 @@ class AccountManagementCreateTests(TestCase):
         mock_message.assert_not_called()
 
 
+class AccountManagementEditTests(TestCase):
+
+    def setUp(self):
+        self.ta_user = User.objects.create_user(
+            email='ta@example.com',
+            password='tapassword123',
+            fname='TA',
+            lname='User',
+            phone_number='9876543210',
+            address='456 TA Lane'
+        )
+        self.ta_obj = TA.objects.create(user=self.ta_user, ta_dept='TADepartment')
+        self.ta_user.save()
+
+    @patch('django.contrib.messages.error')
+    def test_edit_user_change_name(self, mock_message):
+        post_data = {
+            'old_id': self.ta_user.id,
+            'old_role': 'TA',
+            'fname': 'Updated',
+        }
+
+        request = MagicMock()
+        request.POST = post_data
+
+        edit_user_account(request)
+
+        # Assert that the user's details are updated
+        self.ta_user.refresh_from_db()
+        self.assertEqual(self.ta_user.first_name, 'Updated')
