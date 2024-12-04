@@ -33,7 +33,6 @@ class AccountManagementCreateTests(TestCase):
         )
 
         self.ta_user.save()
-
     def test_supervisor_create_user_success(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
