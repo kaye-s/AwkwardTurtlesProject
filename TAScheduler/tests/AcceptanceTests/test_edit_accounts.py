@@ -3,6 +3,7 @@ from django.db.utils import IntegrityError
 from django.contrib.auth import get_user_model
 from django.contrib.messages import get_messages
 from django.contrib.auth.models import Group
+from django.contrib.auth.hashers import check_password
 from TAScheduler.models import TA, Instructor
 
 User = get_user_model()
@@ -29,12 +30,10 @@ class AccountManagementEditTests(TestCase):
             password='tapassword123',
             fname='TA',
             lname='User',
-            address='456 TA Road',
-            phone_number='0987654321'
+            phone_number='9876543210',
+            address='456 TA Lane'
         )
-
-        ta_group, _ = Group.objects.get_or_create(name='TA')
-        self.ta_user.groups.add(ta_group)
+        self.ta_user = TA.objects.create(user=self.ta_user, ta_dept='TADepartment')
         self.ta_user.save()
 
     def test_supervisor_edit_nothing(self):
@@ -60,12 +59,16 @@ class AccountManagementEditTests(TestCase):
         data = {
             'email': 'ta@example.com',
             'fname': 'John',
-            'action' : 'edit'
+            'action' : 'edit',
+            'role':'TA',
+            'old_role':'TA',
+            'user_id':self.ta_user.user.email
         }
         response = self.client.post("/account-management/", data)
         self.assertEqual(response.status_code, 302) #status is a type 3XX cause our view redirects back to itself
 
-        self.assertEqual('John', self.ta_user.fname)
+        self.ta_user.user.refresh_from_db()
+        self.assertEqual('John', self.ta_user.user.fname)
 
     def test_supervisor_edit_user_role(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
@@ -76,28 +79,34 @@ class AccountManagementEditTests(TestCase):
         data = {
             'email': 'ta@example.com',
             'role': 'Instructor',
+            'old_role':'TA',
+            'user_id':self.ta_user.user.email,
             'action' : 'edit'
         }
         response = self.client.post("/account-management/", data)
         self.assertEqual(response.status_code, 302) #status is a type 3XX cause our view redirects back to itself
 
-        self.assertEqual('Instructor', self.ta_user.role)
+        self.assertTrue(self.ta_user.user.groups.filter(name="TA").exists())
 
     def test_supervisor_edit_user_pass(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
         response = self.client.get("/account-management/")
         self.assertEqual(response.status_code, 200)
-
+        self.assertTrue(check_password('tapassword123', self.ta_user.user.password))
         data = {
             'email': 'ta@example.com',
             'password': 'tapassword456',
-            'action' : 'edit'
+            'action' : 'edit',
+            'user_id':self.ta_user.user.email,
+            'role':'TA',
+            'old_role':'TA'
         }
         response = self.client.post("/account-management/", data)
         self.assertEqual(response.status_code, 302) #status is a type 3XX cause our view redirects back to itself
 
-        self.assertEqual('tapassword456', self.ta_user.password)
+        self.ta_user.user.refresh_from_db()
+        self.assertTrue(check_password('tapassword456', self.ta_user.user.password))
 
     def test_supervisor_edit_user_email(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
