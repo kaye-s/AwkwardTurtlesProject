@@ -161,8 +161,9 @@ class AccountManagementEditTests(TestCase):
     @patch('django.contrib.messages.error')
     def test_edit_user_change_name(self, mock_message):
         post_data = {
-            'old_id': self.ta_user.id,
+            'user_id': self.ta_user.email,
             'old_role': 'TA',
+            'role':'TA',
             'fname': 'Updated',
         }
 
@@ -173,4 +174,4 @@ class AccountManagementEditTests(TestCase):
 
         # Assert that the user's details are updated
         self.ta_user.refresh_from_db()
-        self.assertEqual(self.ta_user.first_name, 'Updated')
+        self.assertEqual(self.ta_user.fname, 'Updated')
