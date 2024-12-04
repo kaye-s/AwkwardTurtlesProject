@@ -4,11 +4,12 @@ from django.contrib.auth.views import LoginView
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views import View
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from TAScheduler.utils.auth import group_required  # Import the group_required decorator
 from TAScheduler.utils.account_management import create_user_account, edit_user_account, delete_user_account  # Utility functions
 from TAScheduler.models import Supervisor, TA, Instructor
+from TAScheduler.models import Course
 
 
 User = get_user_model()
@@ -46,14 +47,83 @@ class AccountManagementView(View):
         else:
             return JsonResponse({'error': 'Invalid action'}, status=400)
 
-class CourseSupervisor(View):
-    def get(self, request):
-        return
-    def post(self, request):
-        return
+class Login(View):
+    def get(self,request):
+        return render(request, "login.html", {})
 
-class CourseOther(View):
-    def get(self, request):
-        return
+    # POST REQUEST FOR ACCOUNT MANAGEMENT FORM
     def post(self, request):
-        return
+
+        #something like this from parking lab to handle data
+        # sec = request.POST.get('section')
+        # date = request.POST.get('dateTime')
+
+        # fill in context to handle database data
+
+       return render(request, "login.html", {})
+
+@login_required
+@group_required('Supervisor')
+def courses_supervisor(request):
+    if request.method == 'POST':
+        action = request.POST.get('action')
+
+        # Handle Create, Edit, and Delete based on action
+        if action == 'create':
+            return create_course(request)
+        elif action == 'edit':
+            course_id = request.POST.get('course_id')
+            return edit_course(request, course_id)
+        elif action == 'delete':
+            course_id = request.POST.get('course_id')
+            return delete_course(request, course_id)
+        else:
+            return JsonResponse({'error': 'Invalid action'}, status=400)
+    else:
+        # Display all courses for GET requests
+        courses = Course.objects.all()
+        return render(request, 'courses_supervisor.html', {'courses': courses})
+
+
+# Create a new course
+@login_required
+@group_required('Supervisor')
+def create_course(request):
+    if request.method == 'POST':
+        course_name = request.POST.get('course_name')
+        course_identifier = request.POST.get('course_identifier')
+        course_dept = request.POST.get('course_dept')
+        course_credits = request.POST.get('course_credits')
+
+        Course.objects.create(
+            course_name=course_name,
+            course_identifier=course_identifier,
+            course_dept=course_dept,
+            course_credits=course_credits,
+            super_id=request.user.supervisor
+        )
+        return redirect('courses-supervisor')
+
+# Edit an existing course
+@login_required
+@group_required('Supervisor')
+def edit_course(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    if request.method == 'POST':
+        course.course_name = request.POST.get('course_name')
+        course.course_identifier = request.POST.get('course_identifier')
+        course.course_dept = request.POST.get('course_dept')
+        course.course_credits = request.POST.get('course_credits')
+        course.save()
+        return redirect('courses-supervisor')
+
+
+# Delete a course
+@login_required
+@group_required('Supervisor')
+def delete_course(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    if request.method == 'POST':
+        course.delete()
+        return redirect('courses-supervisor')
+    return redirect('courses-supervisor')
