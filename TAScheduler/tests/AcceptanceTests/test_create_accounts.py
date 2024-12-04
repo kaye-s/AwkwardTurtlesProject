@@ -31,6 +31,8 @@ class AccountManagementCreateTests(TestCase):
             phone_number='0987654321'
         )
 
+        self.ta_user.save()
+
 
     def test_supervisor_create_user_success(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
