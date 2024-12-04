@@ -141,5 +141,7 @@ def delete_user_account(request):
     """
     user_id = request.POST.get('user_id')
     user = get_object_or_404(User, id=user_id)
+    if user == 'None':
+        messages.error(request, "User does not exist") #Message if user does not exist
     user.delete()
     return redirect('account-management')
