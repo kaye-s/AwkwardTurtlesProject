@@ -278,8 +278,10 @@ class AccountManagementDeleteTests(TestCase):
 
     @patch('django.contrib.messages.error')
     def test_delete_user_success(self, mock_message):
+        useremail = self.ta_user.user
+        useremail = useremail.email
         post_data = {
-            'id': self.ta_user.id,
+            'email': useremail,
         }
 
         request = MagicMock()
@@ -287,9 +289,9 @@ class AccountManagementDeleteTests(TestCase):
 
         delete_user_account(request)
 
-        user = User.objects.get('ta@example.com')
+        user = User.objects.filter(email='ta@example.com').exists()
 
-        self.assertIsNone(user)
+        self.assertFalse(user)
 
         # Assert no errors in case of success
         mock_message.assert_not_called()
