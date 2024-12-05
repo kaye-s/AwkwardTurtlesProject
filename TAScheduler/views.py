@@ -95,6 +95,7 @@ def create_course(request):
         course_dept = request.POST.get('course_dept')
         course_credits = request.POST.get('course_credits')
 
+
         Course.objects.create(
             course_name=course_name,
             course_identifier=course_identifier,
@@ -102,6 +103,7 @@ def create_course(request):
             course_credits=course_credits,
             super_id=request.user.supervisor
         )
+
         return redirect('courses-supervisor')
 
 # Edit an existing course
