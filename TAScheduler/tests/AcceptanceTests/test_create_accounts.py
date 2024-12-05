@@ -6,6 +6,7 @@ from django.contrib.auth.models import Group
 
 User = get_user_model()
 
+
 class AccountManagementCreateTests(TestCase):
 
     def setUp(self):
@@ -33,7 +34,6 @@ class AccountManagementCreateTests(TestCase):
 
         self.ta_user.save()
 
-
     def test_supervisor_create_user_success(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
@@ -47,10 +47,10 @@ class AccountManagementCreateTests(TestCase):
             'address': '789 New Road',
             'phone_number': '1122334455',
             'password': 'newuserpassword123',
-            'action' : 'create'
+            'action': 'create'
         }
         response = self.client.post("/account-management/", data)
-        self.assertEqual(response.status_code, 302) #status is a type 3XX cause our view redirects back to itself
+        self.assertEqual(response.status_code, 302)  # status is a type 3XX cause our view redirects back to itself
 
         new_user = User.objects.get(email='newuser@example.com')
         self.assertIsNotNone(new_user)
@@ -68,18 +68,19 @@ class AccountManagementCreateTests(TestCase):
             'address': 'Missing Email Road',
             'phone_number': '0000000000',
             'password': 'incompletepassword123',
-            'action':'create'
+            'action': 'create'
         }
         response = self.client.post("/account-management/", data)
         self.assertEqual(response.status_code, 302)
 
-        messages = list(get_messages(response.wsgi_request)) #Retrieve all logged messages in the current request session
+        messages = list(
+            get_messages(response.wsgi_request))  # Retrieve all logged messages in the current request session
 
         self.assertTrue(
             any("Email cannot be empty" in str(message) for message in messages),
-            "Expected message about missing email not found in the session messages.") #Check if an error about no email input is in it
+            "Expected message about missing email not found in the session messages.")  # Check if an error about no email input is in it
 
-    #If someone creates an account with an email and password but no other fields, it should work and set empty fields to null/blank string
+    # If someone creates an account with an email and password but no other fields, it should work and set empty fields to null/blank string
     def test_supervisor_create_user_empty_form(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
@@ -111,7 +112,8 @@ class AccountManagementCreateTests(TestCase):
             'address': '789 Duplicate Lane',
             'phone_number': '1122336677',
             'password': 'duplicatepassword123',
-            'action' : 'create'   #action field is used in our view to specify the kind of post(creating, editing, deleting).
+            'action': 'create'
+            # action field is used in our view to specify the kind of post(creating, editing, deleting).
         }
 
         response = self.client.post("/account-management/", data)
@@ -121,17 +123,18 @@ class AccountManagementCreateTests(TestCase):
 
         self.assertTrue(
             any("Email already exists in the system" in str(message) for message in messages),
-            "Expected message about email already being in the system.") #Model now returns a message indicating the email sent wasn't unique
-        
+            "Expected message about email already being in the system.")  # Model now returns a message indicating the email sent wasn't unique
+
     def test_ta_access_account_management(self):
         self.client.login(email='ta@example.com', password='tapassword123')
 
         response = self.client.get("/account-management/")
 
         self.assertEqual(response.status_code, 403)
-        self.assertTemplateUsed(response, '403.html') #FIX := Our page renders a 403 instead of redirecting back to the home page or "/", which in our case is the login 
+        self.assertTemplateUsed(response,
+                                '403.html')  # FIX := Our page renders a 403 instead of redirecting back to the home page or "/", which in our case is the login
 
-        # self.assertRedirects(response, "/")  
+        # self.assertRedirects(response, "/")
 
     def test_instructor_access_account_management(self):
         User.objects.create_user(
@@ -148,6 +151,7 @@ class AccountManagementCreateTests(TestCase):
         response = self.client.get("/account-management/")
 
         self.assertEqual(response.status_code, 403)
-        self.assertTemplateUsed(response, '403.html') #FIX := Our page renders a 403 instead of redirecting back to the home page or "/", which in our case is the login 
+        self.assertTemplateUsed(response,
+                                '403.html')  # FIX := Our page renders a 403 instead of redirecting back to the home page or "/", which in our case is the login
 
-        # self.assertRedirects(response, "/")  
+        # self.assertRedirects(response, "/")
