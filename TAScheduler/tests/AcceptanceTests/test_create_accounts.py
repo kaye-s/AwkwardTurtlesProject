@@ -73,7 +73,6 @@
 
 #         response = self.client.get("AccountManagement/")
 #         self.assertEqual(response.status_code, 200)
-
 #         data = {
 #             'email': 'supervisor@example.com',
 #             'fname': 'Duplicate',
