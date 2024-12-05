@@ -73,7 +73,7 @@
                     <form action="{% url "account-management" %}" class="delete-from" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="action" value="delete">
-                        <input type="hidden" name="user_id" value={{t.user.id}}>
+                        <input type="hidden" name="email" value={{t.user}}>
                         <i class="input-imp fa-solid fa-delete-left delete-confirm"></i>
                     </form>
                 </div>
