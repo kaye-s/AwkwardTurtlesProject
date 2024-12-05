@@ -64,13 +64,11 @@ class CreateCourseTests(TestCase):
             'action': 'create',
         }
         response = self.client.post("/courses_supervisor/", data)
+        new_course = Course.objects.get(course_name='Test Course')
+        self.assertEqual(new_course.course_name, 'Test Course')
+        self.assertEqual(new_course.course_identifier, '600')
+        self.assertEqual(new_course.course_dept, 'Computer Science')
 
-        # Check for failure due to missing supervisor
-        messages = list(response.wsgi_request._messages)
-        self.assertTrue(
-            any("Supervisor cannot be empty" in str(message) for message in messages),
-            "Expected message about missing supervisor not found."
-        )
 
     def test_instructor_access_course_management(self):
         # Create Instructor User
