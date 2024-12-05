@@ -82,7 +82,7 @@ def courses_supervisor(request):
     else:
         # Display all courses for GET requests
         courses = Course.objects.all()
-        return render(request, 'courses_supervisor.html', {'courses': courses})
+        return render(request, 'courses_supervisor.html', {'courses': courses, 'role':'Supervisor'})
 
 
 # Create a new course
