@@ -10,7 +10,7 @@ from TAScheduler.utils.auth import group_required  # Import the group_required d
 from TAScheduler.utils.account_management import create_user_account, edit_user_account, delete_user_account  # Utility functions
 from TAScheduler.models import Supervisor, TA, Instructor
 from TAScheduler.models import Course
-
+from django.contrib import messages
 
 User = get_user_model()
 
@@ -95,6 +95,7 @@ def create_course(request):
         course_dept = request.POST.get('course_dept')
         course_credits = request.POST.get('course_credits')
 
+
         Course.objects.create(
             course_name=course_name,
             course_identifier=course_identifier,
@@ -102,6 +103,7 @@ def create_course(request):
             course_credits=course_credits,
             super_id=request.user.supervisor
         )
+
         return redirect('courses-supervisor')
 
 # Edit an existing course
