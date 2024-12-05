@@ -3,7 +3,7 @@ from django.db.utils import IntegrityError
 from django.contrib.auth import get_user_model
 from django.contrib.messages import get_messages
 from django.contrib.auth.models import Group
-from TAScheduler.models import Course, Supervisor, Section, Lab, Lecture
+from TAScheduler.models import Course, Supervisor, Section
 
 User = get_user_model()
 
@@ -26,52 +26,55 @@ class TestDeleteCourses(TestCase):
         self.testCourse.save()
 
         self.testSection = Section(section_num=300, section_course=self.testCourse)
+        self.testSection.save()
 
     def test_delete_course_success(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
-        response = self.client.get("/course/delete_course/" + self.testCourse.course_id.__str__() + "/")
+        response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 200)
+
 
         data = {
             'course_id': self.testCourse.course_id,
             'action': 'delete'
         }
-        response = self.client.post("/course-supervisor/", data)
+        response = self.client.post("/courses_supervisor/", data)
         self.assertEqual(response.status_code, 302)  # status is a type 3XX cause our view redirects back to itself
 
-        checkCourse = Course.objects.get(course_id=self.testCourse.course_id)
-        self.assertIsNone(checkCourse)
+        checkCourse = Course.objects.filter(course_id=self.testCourse.course_id).exists()
+        self.assertFalse(checkCourse)
 
     def test_delete_course_cascade(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
-        response = self.client.get("/course/delete_course/" + self.testCourse.course_id.__str__() + "/")
+        response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 200)
 
         data = {
             'course_id': self.testCourse.course_id,
             'action': 'delete'
         }
-        response = self.client.post("/course/delete_course/" + self.testCourse.course_id.__str__() + "/", data)
+        response = self.client.post("/courses_supervisor/", data)
         self.assertEqual(response.status_code, 302)  # status is a type 3XX cause our view redirects back to itself
 
-        checkCourse = Course.objects.get(course_id=self.testCourse.course_id)
-        self.assertIsNone(checkCourse)
+        checkCourse = Course.objects.filter(course_id=self.testCourse.course_id).exists()
+        self.assertFalse(checkCourse)
 
-        self.assertIsNone(self.testSection)
+        checkSection = Section.objects.filter(section_num=300).exists()
+        self.assertFalse(checkSection)
 
     def test_delete_course_invalid_course(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
-        response = self.client.get("/course/delete_course/" + self.testCourse.course_id.__str__() + "/")
+        response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 200)
 
         data = {
             'course_id': 12445,
             'action': 'delete'
         }
-        response = self.client.post("/course/delete_course/" + self.testCourse.course_id.__str__() + "/", data)
+        response = self.client.post("/courses_supervisor/", data)
         self.assertEqual(response.status_code, 302)  # status is a type 3XX cause our view redirects back to itself
 
         checkCourse = Course.objects.get(course_id=self.testCourse.course_id)
@@ -87,14 +90,14 @@ class TestDeleteCourses(TestCase):
     def test_delete_course_as_TA(self):
         self.client.login(email='ta@uwm.edu', password='tapassword123')
 
-        response = self.client.get("/course/delete_course/" + self.testCourse.course_id.__str__() + "/")
+        response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 403)
         self.assertTemplateUsed(response, '403.html')
 
     def test_delete_course_as_Instructor(self):
         self.client.login(email='instructor@uwm.edu', password='instructorpassword123')
 
-        response = self.client.get("/course/delete_course/" + self.testCourse.course_id.__str__() + "/")
+        response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 403)
         self.assertTemplateUsed(response, '403.html')
 
