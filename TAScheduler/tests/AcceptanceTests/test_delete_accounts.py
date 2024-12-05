@@ -71,8 +71,8 @@ class AccountManagementEditTests(TestCase):
         response = self.client.post("/account-management/", data)
         self.assertEqual(response.status_code, 302)  # status is a type 3XX cause our view redirects back to itself
 
-        new_user = User.objects.get(email='ta@example.com')
-        self.assertIsNone(new_user)
+        new_user = User.objects.filter(email='ta@example.com').exists()
+        self.assertFalse(new_user)
 
     def test_supervisor_delete_super(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
