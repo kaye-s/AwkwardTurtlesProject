@@ -63,6 +63,8 @@ nav_btn.forEach(nav => {
     })
 })
 
+
+
 try{
 
     open_btn.addEventListener("click", (e) => {
@@ -103,3 +105,18 @@ try{
 } catch(e){
     console.log(e)
 }
+
+function openModal(courseId = "", courseName = "", courseIdentifier = "", courseDept = "", courseCredits = "") {
+    document.getElementById("modalTitle").textContent = courseId ? "Edit Course" : "Create New Course";
+    document.getElementById("courseForm").action = courseId ? `/edit_course/${courseId}/` : "/create_course/";
+    document.getElementById("courseIdField").value = courseId;
+    document.getElementById("courseNameField").value = courseName;
+    document.getElementById("courseIdentifierField").value = courseIdentifier;
+    document.getElementById("courseDeptField").value = courseDept;
+    document.getElementById("courseCreditsField").value = courseCredits;
+    document.getElementById("courseModal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("courseModal").style.display = "none";
+  }

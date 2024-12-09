@@ -5,3 +5,4 @@ Pipfile.lock
 Pipfile
 **/*.scss
 **/*.css.map
+**/__pycache__

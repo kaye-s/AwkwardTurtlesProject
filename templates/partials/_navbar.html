@@ -1,13 +1,22 @@
-<nav class="custom-nav d-flex justify-content-between align-items-end">
-    <div class="nav">
+<nav class="custom-nav">
+    <div class=" menu-navbar">
         <div class="app-title text-white mx-4"><a href="/">TAScheduler</a></div>
         <div class="nav-g">
             <a href="/notifications" class="nav-btn {% if request.resolver_match.url_name == 'notifications' %}btn-grad4{% endif %}">Notifications</a>
-            <a href="/courses" class="nav-btn {% if request.resolver_match.url_name == 'courses' %}btn-grad4{% endif %}">Courses</i></a>
+            <a href="/courses" class="nav-btn {% if request.resolver_match.url_name == 'courses-supervisor' or request.resolver_match.url_name == 'courses' %}btn-grad4{% endif %}">Courses</i></a>
             <a href="/assignments" class="nav-btn {% if request.resolver_match.url_name == 'assignments' %}btn-grad4{% endif %}">Assignments</a>
             <a href="/contact-info" class="nav-btn {% if request.resolver_match.url_name == 'contact-info' %}btn-grad4{% endif %}">{{user.email}}</a>
             {% if role and role == "Supervisor" %}
                 <a href="{% url 'account-management' %}" class="nav-btn {% if request.resolver_match.url_name == 'account-management' %}btn-grad4{% endif %}">Manage</a>
+            {% endif %}
+        </div>
+        <div class="nav-x">
+            <a href="/notifications" class="nav-x-btn">Notifications</a>
+            <a href="/courses" class="nav-x-btn" >Courses</a>
+            <a href="/assignments" class="nav-x-btn">Assignments</a>
+            <a href="/contact-info" class="nav-x-btn">{{user.email}}</a>
+            {% if role and role == "Supervisor" %}
+                <a href="{% url 'account-management' %}" class="nav-x-btn">Manage</a>
             {% endif %}
         </div>
     </div>

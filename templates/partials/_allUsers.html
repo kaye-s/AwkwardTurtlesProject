@@ -7,17 +7,17 @@
         {% for s in supervisors  %}
         <div class="tr-div btn-gradx0">
             <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
+            <div class="edit-group">
+                <i class="input-edit fa-solid fa-pen-to-square" onclick="editUser('Supervisor', '{{ s.user.email }}','{{ s.user.fname }}','{{ s.user.lname }}','{{ s.user.email }}','{{ s.user.phone_number }}','{{ s.user.address }}','{{ s.admin_dept }}')"></i>
+                {% comment %} Only Uncomment the proceeding comment if we want supervisors to be able to delete other supervisors {% endcomment %}
+                {% comment %} <form action="{% url "account-management" %}" class="delete-from" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete"> 
+                    <input type="hidden" name="email value={{s.user}}>
+                    <i  class="input-imp fa-solid  fa-delete-left delete-confirm"></i>
+                </form> {% endcomment %}
+            </div>
             <div>
-                <div class="edit-group">
-                    <i class="input-edit fa-solid fa-pen-to-square" onclick="editUser('Supervisor', '{{ s.user.email }}','{{ s.user.fname }}','{{ s.user.lname }}','{{ s.user.email }}','{{ s.user.phone_number }}','{{ s.user.address }}','{{ s.admin_dept }}')"></i>
-                    {% comment %} Only Uncomment the proceeding comment if we want supervisors to be able to delete other supervisors {% endcomment %}
-                    {% comment %} <form action="{% url "account-management" %}" class="delete-from" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="action" value="delete"> 
-                        <input type="hidden" name="email value={{s.user}}>
-                        <i  class="input-imp fa-solid  fa-delete-left delete-confirm"></i>
-                    </form> {% endcomment %}
-                </div>
                 <div>
                     <div class="td-item text-capitalize">{{s.user.fname}} {{s.user.lname}}</div>
                     <div class="td-item text-lowercase">{{s.user.email}}</div>

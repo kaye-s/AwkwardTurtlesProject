@@ -1,31 +1,47 @@
 .custom-nav {
+  display: flex;
+  align-items: end;
   z-index: 10;
-  padding: 0;
   position: sticky;
   top: 10px;
   left: 0px;
   margin: 20px 10px 20px 0px;
 }
-.custom-nav .nav {
-  margin: auto 0;
-  align-items: end;
+@media screen and (max-width: 965px) {
+  .custom-nav {
+    background-color: rgba(0, 0, 0, 0.559);
+    top: 0;
+    margin: 0 0 0 5px;
+  }
+}
+.custom-nav .menu-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .custom-nav .app-title {
   font-family: "Sofia";
   font-size: 34px;
-  padding: 0;
-  margin: 0;
   max-height: 45px;
 }
 .custom-nav .app-title a {
   text-decoration: none;
   color: inherit;
 }
+@media screen and (max-width: 1025px) {
+  .custom-nav .app-title {
+    font-size: 25px;
+  }
+}
 .custom-nav .nav-g {
-  margin: 0;
   padding: 10px 0;
   border-radius: 12px;
   background: rgba(0, 0, 0, 0.672);
+}
+@media screen and (max-width: 960px) {
+  .custom-nav .nav-g {
+    display: none;
+  }
 }
 .custom-nav .nav-g .nav-btn {
   color: white;
@@ -59,10 +75,54 @@
   color: #fff;
   text-decoration: none;
 }
-.custom-nav .logout-component form {
-  padding: 0;
-  margin: 0 10px 0 0;
+.custom-nav .nav-x {
+  display: none;
+  color: #000;
+  font-size: 12px;
+}
+@media screen and (max-width: 960px) {
+  .custom-nav .nav-x {
+    display: block;
+  }
+}
+.custom-nav .nav-x .nav-x-btn {
+  position: relative;
+  color: rgba(224, 212, 212, 0.881);
+  font-family: "Sofia";
+  transition: all 0.5s ease;
+  border-right: 2px solid rgba(255, 246, 246, 0.353);
+  padding: 5px;
+}
+.custom-nav .nav-x .nav-x-btn::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: -4px;
+  width: 0%;
+  transition: ease-out 0.2s all;
+  height: 2px;
+  background-color: rgb(64, 62, 62);
+}
+.custom-nav .nav-x .nav-x-btn:hover::after {
+  width: 110%;
+}
+.custom-nav .nav-x .nav-x-btn:hover::after {
+  width: 100%;
+  margin-left: 2px;
+}
+.custom-nav .nav-x .nav-x-btn:hover {
+  text-decoration: none;
+  color: white;
+}
+.custom-nav .nav-x .nav-x-btn:last-child {
   border: none;
+}
+.custom-nav .logout-component form {
+  margin: 0 10px 0 0px;
+  border: none;
+  position: absolute;
+  right: 0px;
+  top: 0;
 }
 .custom-nav .logout-component form button {
   background: transparent;
@@ -71,6 +131,11 @@
   font-size: 27px;
   font-family: "Sofia";
   position: relative;
+}
+@media screen and (max-width: 960px) {
+  .custom-nav .logout-component form button {
+    font-size: 22px;
+  }
 }
 .custom-nav .logout-component form button::after {
   content: "";
@@ -268,24 +333,10 @@
   display: flex;
   align-items: center;
 }
-.content .acct-mgmt-header .header-title .btn-grad3 {
-  background-image: linear-gradient(to right, #1D976C 0%, #93F9B9 51%, #1D976C 100%);
-}
-.content .acct-mgmt-header .header-title .btn-grad3 {
-  margin: 10px;
-  padding: 10px 20px;
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: white;
-  border-radius: 10px;
-  display: block;
-}
-.content .acct-mgmt-header .header-title .btn-grad3:hover {
-  background-position: right center;
-  color: #fff;
-  text-decoration: none;
+@media screen and (max-width: 600px) {
+  .content .acct-mgmt-header .header-title h1 {
+    font-size: 30px;
+  }
 }
 .content .acct-mgmt-header #add-modal {
   margin-left: 20px;
@@ -309,13 +360,14 @@
 .content .table-div .role-group {
   display: grid;
   width: 80%;
-  max-height: 170px;
+  max-height: 190px;
   overflow-y: auto;
+  overflow-x: hidden;
   margin: auto;
   border: 2px solid rgba(227, 109, 109, 0.065);
-  background: rgba(50, 1, 1, 0.42);
+  background: rgba(255, 125, 125, 0.055);
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 60px;
+  grid-gap: 30px;
 }
 .content .table-div .role-group::-webkit-scrollbar {
   width: 8px;
@@ -330,36 +382,45 @@
 .content .table-div .role-group::-webkit-scrollbar-track {
   background-color: rgba(239, 77, 8, 0.174);
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1200px) {
+  .content .table-div .role-group {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (max-width: 600px) {
   .content .table-div .role-group {
     display: block;
-    width: 100%;
+    width: 320px;
+    margin: 0;
+    max-height: none;
+    height: 50vh;
+    padding: 10px;
   }
 }
 .content .table-div .role-group .tr-div {
-  display: flex;
   padding: 10px;
+  margin: 30px;
   position: relative;
-  justify-content: space-between;
-  align-items: start;
   line-height: 0.9rem;
   transition: 0.5s;
   border-radius: 22px;
   border: 2px solid rgba(255, 255, 255, 0.235);
-  color: rgba(3, 3, 3, 0.629);
+  color: rgba(235, 227, 227, 0.629);
 }
 .content .table-div .role-group .tr-div:hover {
   border-color: transparent;
   color: #fff;
 }
 .content .table-div .role-group .tr-div .profile-img {
-  margin: 0 10px;
-  text-align: center;
+  text-align: start;
 }
 .content .table-div .role-group .tr-div .profile-img .fa-id-card-clip {
   font-size: 4pc;
 }
 .content .table-div .role-group .tr-div .edit-group {
+  position: absolute;
+  top: 10px;
+  right: 10px;
   display: flex;
   align-items: start;
   margin: 0 0 20px 0;
@@ -432,7 +493,7 @@
   color: #f4f4f4;
   z-index: 10;
   animation-name: open-modal;
-  animation-duration: 1s;
+  animation-duration: 0.7s;
   animation-timing-function: ease-out;
   animation-iteration-count: 1;
 }
@@ -450,23 +511,6 @@
   border-radius: 50%;
   transition: all 0.5s;
   cursor: pointer;
-}
-.content .modal-box-container .custom-back .btn-grad {
-  background-image: linear-gradient(to right, #757F9A 0%, #D7DDE8 51%, #757F9A 100%);
-  margin: 10px;
-  padding: 1px 4px;
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: white;
-  display: block;
-}
-.content .modal-box-container .custom-back .btn-grad:hover {
-  background-position: right center;
-  /* change the direction of the change here */
-  color: #fff;
-  text-decoration: none;
 }
 .content .modal-box-container .modal-box {
   transform: scale(0.8);
@@ -551,6 +595,44 @@
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+.btn-grad {
+  background-image: linear-gradient(to right, #757F9A 0%, #D7DDE8 51%, #757F9A 100%);
+  margin: 10px;
+  padding: 1px 4px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  display: block;
+}
+.btn-grad:hover {
+  background-position: right center;
+  /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-grad3 {
+  background-image: linear-gradient(to right, #1D976C 0%, #93F9B9 51%, #1D976C 100%);
+  margin: 10px;
+  padding: 10px 20px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s all ease;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.371);
+  display: block;
+}
+.btn-grad3:hover {
+  background-position: right center;
+  color: #fff;
+  border-color: transparent;
+  text-decoration: none;
+}
+
 .btn-gradx0 {
   background-image: linear-gradient(to right, #7b4397 0%, #dc2430 51%, #7b4397 100%);
   margin: 10px;
@@ -623,7 +705,7 @@
   background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
   z-index: 1000;
   animation-name: open-modal;
-  animation-duration: 1s;
+  animation-duration: 0.7s;
   animation-timing-function: ease-out;
   animation-iteration-count: 1;
 }
@@ -687,6 +769,111 @@
     border-radius: 50%;
   }
 }
+.course-page-container {
+  padding: 30px;
+}
+.course-page-container h1 {
+  font-family: "Chango";
+  color: white;
+}
+.course-page-container .table-wrapper {
+  width: 70%;
+  margin: auto;
+  height: 60vh;
+  overflow-y: scroll;
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid rgba(0, 0, 0, 0.546);
+  background-color: rgba(255, 255, 255, 0.915);
+}
+.course-page-container .table-wrapper::-webkit-scrollbar {
+  width: 6px;
+  cursor: pointer;
+}
+.course-page-container .table-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(71, 2, 2, 0.544);
+}
+.course-page-container .table-wrapper::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(78, 3, 3, 0.805);
+}
+.course-page-container .table-wrapper::-webkit-scrollbar-track {
+  background-color: rgba(239, 77, 8, 0.174);
+}
+.course-page-container .table-wrapper .table-content {
+  font-family: "Amatic SC";
+  font-weight: 400;
+}
+.course-page-container .table-wrapper .table-content div {
+  text-align: center;
+}
+.course-page-container .table-wrapper .table-content .heading {
+  font-size: 25px;
+  padding-right: 20px;
+  border-right: 1px solid black;
+}
+.course-page-container .table-wrapper .table-content .heading:last-child {
+  border-right: none;
+}
+.course-page-container .table-wrapper .table-content .custom-card {
+  margin: 20px 0px;
+  padding: 10px 4px;
+  transform: scale(0.95);
+  transition: all ease 0.5s;
+  font-size: 17px;
+  background-color: rgba(0, 0, 0, 0.786);
+  color: white;
+  border: 1px solid rgba(13, 1, 29, 0.879);
+}
+.course-page-container .table-wrapper .table-content .custom-card:hover {
+  transform: scale(1.02);
+}
+.course-page-container #courseModal {
+  color: white;
+}
+.course-page-container #courseModal .modal-content {
+  height: 100%;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(39, 35, 35, 0.799);
+}
+.course-page-container #courseModal .modal-content .close-btn {
+  color: rgba(0, 0, 0, 0.91);
+  font-size: 4pc;
+  position: absolute;
+  top: 10px;
+  right: 52px;
+  cursor: pointer;
+  transition: 0.4s all ease;
+}
+.course-page-container #courseModal .modal-content .close-btn:hover {
+  color: white;
+}
+.course-page-container #courseModal .modal-content #courseForm {
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 2px 7px 40px rgba(0, 0, 0, 0.7);
+}
+.course-page-container #courseModal .modal-content #courseForm div {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+.course-page-container #courseModal .modal-content #courseForm div input {
+  margin: 0px 10px;
+  width: 270px;
+}
+
+.blue-btn {
+  margin: auto;
+  border: 1px solid rgba(255, 255, 255, 0.213);
+  background-image: linear-gradient(to right, #005C97 0%, #363795 51%, #005C97 100%);
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -757,6 +944,12 @@ select {
   background-size: cover;
   box-shadow: 2px 18px 13px rgba(16, 15, 15, 0.348);
   border: 1px solid rgba(236, 231, 231, 0.255);
+}
+@media screen and (max-width: 1070px) {
+  .custom-container .for-some-stuff .special-jumbotron {
+    background: none;
+    background-position: center right;
+  }
 }
 .custom-container .for-some-stuff .special-jumbotron .mask {
   height: 100%;
