@@ -6,4 +6,3 @@ Pipfile
 **/*.scss
 **/*.css.map
 **/__pycache__
-scripts
