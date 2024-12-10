@@ -101,14 +101,23 @@ def create_course(request):
         course_dept = request.POST.get('course_dept')
         course_credits = request.POST.get('course_credits')
 
+        # Check if a course with the same identifier already exists
+        if Course.objects.filter(course_identifier=course_identifier).exists():
+            messages.error(request, f"A course with the identifier '{course_identifier}' already exists.")
+            return redirect('courses-supervisor')
 
-        Course.objects.create(
-            course_name=course_name,
-            course_identifier=course_identifier,
-            course_dept=course_dept,
-            course_credits=course_credits,
-            super_id=request.user.supervisor
-        )
+        # Create the course if no duplicate is found
+        try:
+            Course.objects.create(
+                course_name=course_name,
+                course_identifier=course_identifier,
+                course_dept=course_dept,
+                course_credits=course_credits,
+                super_id=request.user.supervisor
+            )
+            messages.success(request, "Course created successfully.")
+        except IntegrityError:
+            messages.error(request, "An error occurred while creating the course.")
 
         return redirect('courses-supervisor')
 
