@@ -2,7 +2,16 @@
 
 {% block content %}
 <h1>Manage Courses</h1>
-
+    
+    <!-- Display Messages -->
+{% if messages %}
+  <div>
+    {% for message in messages %}
+      <p class="{{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+    
 <!-- Table for Displaying Courses -->
 <div class="table-wrapper">
   <table class="table-div">
