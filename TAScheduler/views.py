@@ -54,6 +54,7 @@ class Login(View):
 
     # POST REQUEST FOR ACCOUNT MANAGEMENT FORM
     def post(self, request):
+<<<<<<< HEAD
 
         #something like this from parking lab to handle data
         # sec = request.POST.get('section')
@@ -139,3 +140,35 @@ def delete_course(request, course_id):
         course.delete()
         return redirect('courses-supervisor')
     return redirect('courses-supervisor')
+=======
+        return
+    
+
+@method_decorator([group_required('Supervisor'), login_required], name='dispatch')
+class CourseView(View):
+    """
+    Handles course management tasks accessible only to Supervisors.
+    """
+
+    def get(self, request):
+        """
+        Renders the course management page with a list of all courses.
+        """
+        courses = Course.objects.all()  # Replace `Course` with your actual model name
+        return render(request, 'CourseManagement.html', {'courses': courses})
+
+    def post(self, request):
+        """
+        Handles course management actions: create, edit, or delete a course.
+        """
+        action = request.POST.get('action')
+
+        if action == 'create':
+            return create_course(request)
+        elif action == 'edit':
+            return edit_course(request)
+        elif action == 'delete':
+            return delete_course(request)
+        else:
+            return JsonResponse({'error': 'Invalid action'}, status=400)
+>>>>>>> origin/abe2
