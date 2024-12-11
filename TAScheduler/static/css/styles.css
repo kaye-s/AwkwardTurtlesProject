@@ -401,12 +401,7 @@
   line-height: 0.9rem;
   transition: 0.5s;
   border-radius: 22px;
-  border: 2px solid rgba(255, 255, 255, 0.235);
   color: rgba(235, 227, 227, 0.629);
-}
-.content .table-div .role-group .tr-div:hover {
-  border-color: transparent;
-  color: #fff;
 }
 .content .table-div .role-group .tr-div .profile-img {
   text-align: start;
@@ -642,11 +637,12 @@
   box-shadow: 9px 12px 10px rgba(9, 9, 9, 0.2431372549);
   border-radius: 10px;
   display: block;
+  border: 2px solid rgba(255, 255, 255, 0.235);
 }
 .btn-gradx0:hover {
+  border-color: transparent;
   background-position: right center;
   /* change the direction of the change here */
-  color: #fff;
   text-decoration: none;
 }
 
@@ -666,7 +662,6 @@
 .btn-gradx1:hover {
   background-position: right center;
   /* change the direction of the change here */
-  color: #fff;
   text-decoration: none;
 }
 
@@ -676,14 +671,18 @@
   padding: 15px 45px;
   text-align: center;
   text-transform: uppercase;
-  transition: 0.5s;
   background-size: 200% auto;
-  color: white;
   box-shadow: 9px 12px 10px rgba(9, 9, 9, 0.2431372549);
   border-radius: 10px;
   display: block;
+  border: 2px solid rgba(19, 19, 19, 0.741);
+}
+.btn-gradx2 * {
+  color: rgb(112, 112, 112);
+  transition: 0.5s all ease;
 }
 .btn-gradx2:hover {
+  border-color: transparent;
   background-position: right center;
   /* change the direction of the change here */
   text-decoration: none;
@@ -737,10 +736,10 @@
 }
 
 .delete-btn {
-  background-color: #f1726e;
+  background-color: #f3b3b0;
 }
 .delete-btn:hover {
-  background-color: rgb(231, 18, 11);
+  background-color: rgb(141, 11, 7);
 }
 
 .cancel-btn {
