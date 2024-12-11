@@ -9,7 +9,7 @@
 }
 @media screen and (max-width: 965px) {
   .custom-nav {
-    background-color: rgba(0, 0, 0, 0.559);
+    background-color: rgba(57, 57, 57, 0.76);
     top: 0;
     margin: 0 0 0 5px;
   }
@@ -888,7 +888,7 @@ body {
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: sans-serif, "Lucida Sans";
   background: #c31432; /* fallback for old browsers */ /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #240b36, #c31432); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   background-repeat: no-repeat;
