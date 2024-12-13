@@ -178,24 +178,11 @@ class Course(models.Model):
 
 class Section(models.Model):
     section_id = models.AutoField(primary_key=True)
+    section_type = models.CharField(max_length=15, blank=False)
     section_num = models.IntegerField()
     section_course = models.ForeignKey(Course, to_field='course_id', on_delete=models.CASCADE, related_name="Sections_course")
-
-class Lab(models.Model):
-    lab_id = models.AutoField(primary_key=True)
-    lab_section = models.ForeignKey(Section, to_field='section_id', on_delete=models.CASCADE, related_name="lab_section")
-    # Uncomment line below once TA entity is implemented.
-    lab_ta = models.ForeignKey(TA, to_field='id', on_delete=models.CASCADE, related_name="Lab_TA" )
     days_of_week = models.CharField(max_length=7)
-    lab_startTime = models.DateTimeField()
-    lab_endTime = models.DateTimeField()
-
-class Lecture(models.Model):
-    lecture_id = models.AutoField(primary_key=True)
-    lecture_section = models.ForeignKey(Section, to_field='section_id', on_delete=models.CASCADE, related_name="lecture_section")
-    #Uncomment line below once Instructor entity is implemented.
-    lecture_instructor = models.ForeignKey(Instructor, to_field='id', on_delete=models.CASCADE, related_name="Lecture_Instructor" )
-    days_of_week = models.CharField(max_length=8)
-    lecture_startTime = models.DateTimeField()
-    lecture_endTime = models.DateTimeField()
-
+    section_startTime = models.DateTimeField()
+    section_endTime = models.DateTimeField()
+    section_ta = models.ForeignKey(TA, to_field='id', on_delete=models.CASCADE, related_name="Section_TA", null=True, blank=True)
+    lecture_instructor = models.ForeignKey(Instructor, to_field='id', on_delete=models.CASCADE, related_name="Lecture_Instructor", null=True, blank=True)
