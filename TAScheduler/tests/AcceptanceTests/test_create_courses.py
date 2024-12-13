@@ -99,3 +99,29 @@ class CreateCourseTests(TestCase):
 
         response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 403)
+
+    def test_course_identifier_must_be_unique(self):
+        self.client.login(email='supervisor@example.com', password='superpassword123')
+
+        data1 = {
+            'course_name': 'Test Course',
+            'course_identifier': '600',
+            'course_dept': 'Computer Science',
+            'course_credits': 3,
+            'action': 'create',
+        }
+
+        response1 = self.client.post("/courses_supervisor/", data1)
+
+        data2 = {
+            'course_name': 'Other Test Course',
+            'course_identifier': '600',
+            'course_dept': 'Computer Science',
+            'course_credits': 3,
+            'action': 'create',
+        }
+        response2 = self.client.post("/courses_supervisor/", data2)
+
+        courses = Course.objects.filter(course_identifier='600')
+        self.assertEqual(courses.count(), 1)
+
