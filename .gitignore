@@ -7,4 +7,3 @@ Pipfile
 **/*.scss
 **/*.css.map
 DO_NOT_CHECKOUT_OTHER_BRANCH
-.env
