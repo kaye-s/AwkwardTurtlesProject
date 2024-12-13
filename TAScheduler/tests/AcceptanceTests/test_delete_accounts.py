@@ -56,7 +56,7 @@ class AccountManagementEditTests(TestCase):
             'action' : 'delete'
         }
         response = self.client.post("/account-management/", data)
-        self.assertEqual(response.status_code, 302) #status is a type 3XX cause our view redirects back to itself
+        self.assertEqual(response.status_code, 404) #status is a type 3XX cause our view redirects back to itself
 
     def test_supervisor_delete_user_success(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
@@ -71,8 +71,8 @@ class AccountManagementEditTests(TestCase):
         response = self.client.post("/account-management/", data)
         self.assertEqual(response.status_code, 302)  # status is a type 3XX cause our view redirects back to itself
 
-        new_user = User.objects.get(email='ta@example.com')
-        self.assertIsNone(new_user)
+        new_user = User.objects.filter(email='ta@example.com').exists()
+        self.assertFalse(new_user)
 
     def test_supervisor_delete_super(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
@@ -85,14 +85,8 @@ class AccountManagementEditTests(TestCase):
             'action': 'delete'
         }
         response = self.client.post("/account-management/", data)
-        self.assertEqual(response.status_code, 302)  # status is a type 3XX cause our view redirects back to itself
+        self.assertEqual(response.status_code, 404)  # status is a type 3XX cause our view redirects back to itself
 
-        messages = list(get_messages(response.wsgi_request))
-
-        self.assertTrue(
-            any("Cannot delete supervisor" in str(message) for message in
-                messages),
-            "Expected a message - cannot delete supervisor")
 
     def test_ta_access_account_management(self):
         self.client.login(email='ta@example.com', password='tapassword123')

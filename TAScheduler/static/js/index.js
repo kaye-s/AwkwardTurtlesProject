@@ -7,13 +7,18 @@ const addModal = document.getElementById("modal-box-container");
 const open_btn =   document.getElementById("add-modal");
 const exit_btn = document.getElementById("remove-modal");
 
-open_btn.addEventListener("click", (e) => {
-    addModal.style.display = "block";
-})
+if(open_btn !== null){
+    open_btn.addEventListener("click", (e) => {
+        addModal.style.display = "block";
+    })
+}
 
-exit_btn.addEventListener("click", (e) => {
-    addModal.style.display = "none";
-})
+
+if(exit_btn !== null){
+    exit_btn.addEventListener("click", (e) => {
+        addModal.style.display = "none";
+    })
+}
 
 //EDIT USER MODAL OPENING FUNCTIIONALITY
 const editModal = document.getElementById("modal-box-container1");
@@ -30,9 +35,11 @@ const deptInput = document.getElementById("edit_dept")
 const userIdInput = document.getElementById("custom_id_edit")
 const oldRole = document.getElementById("old_role_data")
 
-exit_btn1.addEventListener("click", (e) => {
-    editModal.style.display = "none";
-})
+if(exit_btn1 !== null){
+    exit_btn1.addEventListener("click", (e) => {
+        editModal.style.display = "none";
+    })
+}
 
 const editUser = (role, id, fname, lname, email, phone, address, dept) => {
     editModal.style.display = "block";
@@ -89,14 +96,18 @@ deleteForms.forEach((form, i) => {
 });
 
 // Close modal when "Cancel" is clicked
-cancelDelete.addEventListener("click", () => {
-    modal.style.display = "none";
-});
+if(cancelDelete !== null){
+    cancelDelete.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+}
 
 // Add confirmation functionality
-confirmDelete.addEventListener("click", () => {
-    modal.style.display = "none";
-    if(current != null){
-        deleteForms[current].closest('form').submit()
-    }
-});
+if(confirmDelete !== null){
+    confirmDelete.addEventListener("click", () => {
+        modal.style.display = "none";
+        if(current != null){
+            deleteForms[current].closest('form').submit()
+        }
+    });
+}

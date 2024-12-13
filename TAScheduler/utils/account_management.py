@@ -136,8 +136,8 @@ def delete_user_account(request):
     """
     Handles deletion of an existing user account.
     """
-    user_id = request.POST.get('user_id')
-    user = get_object_or_404(User, id=user_id)
+    user_id = request.POST.get('email')
+    user = get_object_or_404(User, email=user_id)
     if user == 'None':
         messages.error(request, "User does not exist") #Message if user does not exist
     user.delete()
