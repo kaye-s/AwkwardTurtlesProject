@@ -32,8 +32,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    "AkwardTurtlesTascheduler.onrender.com",
-    "127.0.0.1"
+    "awkwardturtlesproject.onrender.com"
 ]
 
 
