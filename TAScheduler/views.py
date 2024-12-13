@@ -48,22 +48,6 @@ class AccountManagementView(View):
         else:
             return JsonResponse({'error': 'Invalid action'}, status=400)
 
-class Login(View):
-    def get(self,request):
-        return render(request, "login.html", {})
-
-    # POST REQUEST FOR ACCOUNT MANAGEMENT FORM
-    def post(self, request):
-<<<<<<< HEAD
-
-        #something like this from parking lab to handle data
-        # sec = request.POST.get('section')
-        # date = request.POST.get('dateTime')
-
-        # fill in context to handle database data
-
-       return render(request, "login.html", {})
-
 @login_required
 @group_required('Supervisor')
 def courses_supervisor(request):
@@ -140,8 +124,7 @@ def delete_course(request, course_id):
         course.delete()
         return redirect('courses-supervisor')
     return redirect('courses-supervisor')
-=======
-        return
+
     
 
 @method_decorator([group_required('Supervisor'), login_required], name='dispatch')
@@ -171,4 +154,4 @@ class CourseView(View):
             return delete_course(request)
         else:
             return JsonResponse({'error': 'Invalid action'}, status=400)
->>>>>>> origin/abe2
+
