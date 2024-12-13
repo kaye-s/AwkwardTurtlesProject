@@ -1,5 +1,4 @@
 from django.test import TestCase
-<<<<<<< HEAD
 from unittest.mock import MagicMock, patch
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -310,7 +309,7 @@ class AccountManagementDeleteTests(TestCase):
 
         # Assert that an error message is generated when attempting to change email
         mock_message.assert_called_with(request, "User does not exist")
-=======
+
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
@@ -403,4 +402,3 @@ class AccountManagementTests(TestCase):
         response = self.client.post(reverse('account-management'), data)
         self.assertEqual(response.status_code, 400)
         self.assertJSONEqual(response.content, {'error': 'Invalid action'})
->>>>>>> origin/abe2

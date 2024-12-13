@@ -119,7 +119,11 @@ def edit_course(request, course_id):
 @login_required
 @group_required('Supervisor')
 def delete_course(request, course_id):
-    course = get_object_or_404(Course, pk=course_id)
+    try:
+        course = Course.objects.get(pk=course_id)
+    except Course.DoesNotExist:
+        messages.error(request, "Cannot delete course, as course does not exist")
+        return redirect('courses-supervisor')
     if request.method == 'POST':
         course.delete()
         return redirect('courses-supervisor')
