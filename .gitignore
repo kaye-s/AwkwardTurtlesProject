@@ -6,3 +6,4 @@ Pipfile
 **/__pycache__
 **/*.scss
 **/*.css.map
+DO_NOT_CHECKOUT_OTHER_BRANCH
