@@ -103,7 +103,7 @@ class CreateCourseTests(TestCase):
     def test_course_identifier_must_be_unique(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
-        #test1
+        #test2
         data1 = {
             'course_name': 'Test Course',
             'course_identifier': '600',
