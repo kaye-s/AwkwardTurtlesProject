@@ -53,13 +53,83 @@ class AccountManagementView(View):
         else:
             return JsonResponse({'error': 'Invalid action'}, status=400)
 
-class Login(View):
-    def get(self,request):
-        return render(request, "login.html", {})
+@login_required
+@group_required('Supervisor')
+def courses_supervisor(request):
+    if request.method == 'POST':
+        action = request.POST.get('action')
 
-    # POST REQUEST FOR ACCOUNT MANAGEMENT FORM
-    def post(self, request):
-        return
+        # Handle Create, Edit, and Delete based on action
+        if action == 'create':
+            return create_course(request)
+        elif action == 'edit':
+            course_id = request.POST.get('course_id')
+            return edit_course(request, course_id)
+        elif action == 'delete':
+            course_id = request.POST.get('course_id')
+            return delete_course(request, course_id)
+        else:
+            return JsonResponse({'error': 'Invalid action'}, status=400)
+    else:
+        # Display all courses for GET requests
+        courses = Course.objects.all()
+        return render(request, 'courses_supervisor.html', {'courses': courses, 'role':'Supervisor'})
+
+
+# Create a new course
+@login_required
+@group_required('Supervisor')
+def create_course(request):
+    if request.method == 'POST':
+        course_name = request.POST.get('course_name')
+        course_identifier = request.POST.get('course_identifier')
+        course_dept = request.POST.get('course_dept')
+        course_credits = request.POST.get('course_credits')
+
+        # Check if a course with the same identifier already exists
+        if Course.objects.filter(course_identifier=course_identifier).exists():
+            messages.error(request, f"A course with the identifier '{course_identifier}' already exists.")
+            return redirect('courses-supervisor')
+
+        # Create the course if no duplicate is found
+        try:
+            Course.objects.create(
+                course_name=course_name,
+                course_identifier=course_identifier,
+                course_dept=course_dept,
+                course_credits=course_credits,
+                super_id=request.user.supervisor
+            )
+            messages.success(request, "Course created successfully.")
+        except IntegrityError:
+            messages.error(request, "An error occurred while creating the course.")
+
+        return redirect('courses-supervisor')
+
+# Edit an existing course
+@login_required
+@group_required('Supervisor')
+def edit_course(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    if request.method == 'POST':
+        course.course_name = request.POST.get('course_name')
+        course.course_identifier = request.POST.get('course_identifier')
+        course.course_dept = request.POST.get('course_dept')
+        course.course_credits = request.POST.get('course_credits')
+        course.save()
+        return redirect('courses-supervisor')
+
+
+# Delete a course
+@login_required
+@group_required('Supervisor')
+def delete_course(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    if request.method == 'POST':
+        course.delete()
+        return redirect('courses-supervisor')
+    return redirect('courses-supervisor')
+
     
 
 @method_decorator([group_required('Supervisor'), login_required], name='dispatch')
