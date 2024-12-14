@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
-from TAScheduler.utils.auth import group_required  # Import the group_required decorator
+from TAScheduler.utils.auth import group_required, method_group_required  # Import the group_required decorators
 from TAScheduler.utils.account_management import create_user_account, edit_user_account, delete_user_account  # Utility functions
 from TAScheduler.models import Supervisor, TA, Instructor
 from TAScheduler.models import Course
@@ -25,15 +25,17 @@ class CustomLoginView(LoginView):
 
 
 #Handles account management tasks accessible only to Supervisors.
-@method_decorator([login_required(login_url="/"), group_required('Supervisor')], name='dispatch')
+@method_decorator([login_required(login_url="/")], name='dispatch')
 class AccountManagementView(View):
    
     #Renders the account management page with users who are not superusers.
     def get(self, request):
         s,i,t = Supervisor.objects.all(), Instructor.objects.all(), TA.objects.all()
-        return render(request, 'AccountManagement.html', {'supervisors': s, "tas":t, "instructors":i, "role":"Supervisor"})
+        role = str(request.user.groups.all()[0])
+        return render(request, 'AccountManagement.html', {'supervisors': s, "tas":t, "instructors":i, "role":role})
     
     #Handles account management actions: create, edit, or delete a user account.
+    @method_group_required("Supervisor")
     def post(self, request):
         action = request.POST.get('action')
        

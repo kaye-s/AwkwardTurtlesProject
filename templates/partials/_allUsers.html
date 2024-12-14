@@ -1,3 +1,4 @@
+{% if role == "Supervisor" %}
 <div class="custom-group">
     <h3>Supervisors</h3>
     <div class="role-group">
@@ -29,6 +30,8 @@
     </div>
 </div>
 <br><br>
+{% endif %}
+{% if role == "Supervisor" or role == "Instructor" %}
 <div>
     <h3>Instructors</h3>
     <div class="role-group">
@@ -40,15 +43,17 @@
         <div class="tr-div btn-gradx1">
             <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
            <div>
-                <div class="edit-group">
-                    <div><i class="input-edit fa-solid fa-pen-to-square" onclick="editUser('Instructor', '{{ i.user.email}}','{{ i.user.fname }}','{{ i.user.lname }}','{{ i.user.email }}','{{ i.user.phone_number }}','{{ i.user.address }}','{{ i.instructor_dept }}')"></i></div>
-                    <form action="{% url "account-management" %}" class="delete-from" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="action" value="delete">
-                        <input type="hidden" name="email" value={{i.user}}>
-                        <i  class="input-imp fa-solid fa-delete-left delete-confirm"></i>
-                    </form>
-                </div>
+            {% if role == "Supervisor" %}
+            <div class="edit-group">
+                <div><i class="input-edit fa-solid fa-pen-to-square" onclick="editUser('Instructor', '{{ i.user.email}}','{{ i.user.fname }}','{{ i.user.lname }}','{{ i.user.email }}','{{ i.user.phone_number }}','{{ i.user.address }}','{{ i.instructor_dept }}')"></i></div>
+                <form action="{% url "account-management" %}" class="delete-from" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="email" value={{i.user}}>
+                    <i  class="input-imp fa-solid fa-delete-left delete-confirm"></i>
+                </form>
+            </div>
+            {% endif %}
                 <div class="td-item text-capitalize">{{i.user.fname}} {{i.user.lname}}</div>
                 <div class="td-item text-lowercase">{{i.user.email}}</div>
                 <div class="td-item text-capitalize">{{i.instructor_dept}}</div>
@@ -58,6 +63,7 @@
     </div>
 </div>
 <br><br>
+{% endif %}
 <div>
     <h3>TAs</h3>
     <div class="role-group">
@@ -68,6 +74,7 @@
         <div class="tr-div btn-gradx2">
             <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
             <div>
+                {% if role == "Supervisor" %}
                 <div class="edit-group">
                     <div><i class="input-edit fa-solid fa-pen-to-square" onclick="editUser('TA', '{{ t.user.email }}','{{ t.user.fname }}','{{ t.user.lname }}','{{ t.user.email }}','{{ t.user.phone_number }}','{{ t.user.address }}','{{ t.ta_dept }}')"></i></div>
                     <form action="{% url "account-management" %}" class="delete-from" method="POST">
@@ -77,6 +84,7 @@
                         <i class="input-imp fa-solid fa-delete-left delete-confirm"></i>
                     </form>
                 </div>
+                {% endif %}
                 <div class="td-item text-capitalize">{{t.user.fname}} {{t.user.lname}}</div>
                 <div class="td-item text-lowercase">{{t.user.email}}</div>
                 <div class="td-item text-capitalize">{{t.ta_dept}}</div>
