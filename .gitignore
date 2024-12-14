@@ -4,6 +4,6 @@
 Pipfile.lock
 Pipfile
 **/__pycache__
+DO_NOT_CHECKOUT_OTHER_BRANCH
 **/*.scss
 **/*.css.map
-DO_NOT_CHECKOUT_OTHER_BRANCH
