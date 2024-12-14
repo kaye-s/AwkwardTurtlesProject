@@ -31,7 +31,10 @@ class AccountManagementView(View):
     #Renders the account management page with users who are not superusers.
     def get(self, request):
         s,i,t = Supervisor.objects.all(), Instructor.objects.all(), TA.objects.all()
-        role = str(request.user.groups.all()[0])
+        if(request.user.groups.all().exists()):
+            role = str(request.user.groups.all()[0])
+        else:
+            role = "Supervisor" #Workaround
         return render(request, 'AccountManagement.html', {'supervisors': s, "tas":t, "instructors":i, "role":role})
     
     #Handles account management actions: create, edit, or delete a user account.
