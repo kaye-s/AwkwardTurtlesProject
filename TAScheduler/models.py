@@ -172,7 +172,7 @@ class Course(models.Model):
     course_id = models.AutoField(primary_key=True)
     super_id = models.ForeignKey(Supervisor, to_field='id',on_delete=models.CASCADE, related_name='course_supervisor')
     course_name = models.CharField(max_length=100)
-    course_identifier = models.CharField(max_length=10)
+    course_identifier = models.CharField(max_length=10, unique=True)
     course_dept = models.CharField(max_length=100)
     course_credits = models.IntegerField()
     course_ta = models.ManyToManyField(TA)
