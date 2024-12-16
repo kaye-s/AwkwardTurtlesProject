@@ -175,6 +175,11 @@ class Course(models.Model):
     course_identifier = models.CharField(max_length=10)
     course_dept = models.CharField(max_length=100)
     course_credits = models.IntegerField()
+    course_ta = models.ManyToManyField(TA)
+    # User Course.course_ta.add(*TA OBJECT*) in order to add a TA to the course
+    # *COURSE OBJECT*.course_ta.all() to get a queryset of all TAs in the course
+    # Course.objects.filter(course_ta=*TA OBJECT*) to see all courses a ta is in
+    course_instructor = models.ForeignKey(Instructor, to_field='id', on_delete=models.CASCADE, related_name="Course_Instructor", null=True, blank=True)
 
 class Section(models.Model):
     section_id = models.AutoField(primary_key=True)
