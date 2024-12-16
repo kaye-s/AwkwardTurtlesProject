@@ -184,7 +184,7 @@ class Course(models.Model):
 class Section(models.Model):
     section_id = models.AutoField(primary_key=True)
     section_type = models.CharField(max_length=15, blank=False)
-    section_num = models.IntegerField()
+    section_num = models.IntegerField(unique=True)
     section_course = models.ForeignKey(Course, to_field='course_id', on_delete=models.CASCADE, related_name="Sections_course")
     days_of_week = models.CharField(max_length=7)
     section_startTime = models.TimeField(auto_now=False, auto_now_add=False)
