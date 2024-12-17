@@ -1,10 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+<h1>Assigned Courses</h1>
+    
+<!-- Display Messages -->
+{% if messages %}
+  <div>
+    {% for message in messages %}
+      <p class="{{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+    
+<!-- Table for Displaying Courses -->
+<div class="table-wrapper">
+  <table class="table-div">
+    <thead>
+      <tr>
+        <th>Course Name</th>
+        <th>Course Id</th>
+        <th>Department</th>
+        <th>Credits</th>
+        <th>Instructor</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for course in courses %}
+      <tr>
+        <td>{{ course.course_name }}</td>
+        <td>{{ course.course_identifier }}</td>
+        <td>{{ course.course_dept }}</td>
+        <td>{{ course.course_credits }}</td>
+        <td>
+          {% if course.instructor %}
+            {{ course.instructor.user.fname }} {{ course.instructor.user.lname }}
+          {% else %}
+            None
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+    
+<script>
+  function openModal(courseId = "", courseName = "", courseIdentifier = "", courseDept = "", courseCredits = "", instructorId = "") {
+    document.getElementById("modalTitle").textContent = courseId ? "Edit Course" : "Create New Course";
+    document.getElementById("courseForm").action = courseId ? `{% url 'edit-course' 0 %}`.replace('0', courseId) : "{% url 'create-course' %}";
+    document.getElementById("courseIdField").value = courseId;
+    document.getElementById("courseNameField").value = courseName;
+    document.getElementById("courseIdentifierField").value = courseIdentifier;
+    document.getElementById("courseDeptField").value = courseDept;
+    document.getElementById("courseCreditsField").value = courseCredits;
+    
+    // Set the instructor dropdown
+    const instructorSelect = document.getElementById("instructorIdField");
+    instructorSelect.value = instructorId;
+    
+    document.getElementById("courseModal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("courseModal").style.display = "none";
+  }
+</script>
+
+<style>
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+  }
+
+  .close-btn {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .create-btn {
+    display: block;
+    margin: 20px auto;
+    background: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .create-btn:hover {
+    background: #45a049;
+  }
+</style>
+{% endblock %}
