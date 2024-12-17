@@ -5,8 +5,7 @@
             <a href="/notifications" class="nav-btn {% if request.resolver_match.url_name == 'notifications' %}btn-grad4{% endif %}">Notifications</a>
             {% if role and role == "Supervisor" %}
                 <a href="/courses_supervisor" class="nav-btn {% if request.resolver_match.url_name == 'courses' %}btn-grad4{% endif %}">Courses</a>
-            {% endif %}
-            {% if role and role == "Instructor" or role == "TA" %}
+            {% else %}
                 <a href="/courses_other" class="nav-btn {% if request.resolver_match.url_name == 'courses' %}btn-grad4{% endif %}">Courses</a>
             {% endif %}
             <a href="/assignments" class="nav-btn {% if request.resolver_match.url_name == 'assignments' %}btn-grad4{% endif %}">Assignments</a>

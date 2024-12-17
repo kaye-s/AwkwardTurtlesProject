@@ -9,7 +9,7 @@ urlpatterns = [
     path("account-management/", AccountManagementView.as_view(), name="account-management"),
     path("logout/",LogoutView.as_view(), name="logout"),
 
-    path('courses/', courses_supervisor, name='courses'),  # Add this line
+    #path('courses/', courses_supervisor, name='courses'),  # Add this line
     path('courses_supervisor/', courses_supervisor, name='courses-supervisor'),
     path('create_course/', create_course, name='create-course'),
     path('edit_course/<int:course_id>/', edit_course, name='edit-course'),
