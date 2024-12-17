@@ -43,6 +43,8 @@
           <button class="btn-gradx1" onclick="openModal('{{ course.course_id }}', '{{ course.course_name }}', '{{ course.course_identifier }}', '{{ course.course_dept }}', '{{ course.course_credits }}', '{{ course.instructor.id|default:'' }}')">Edit</button>
           <form method="post" action="{% url 'courses-supervisor' %}" style="display:inline;">
             {% csrf_token %}
+              <input type="hidden" name="action" value="delete">
+              <input type="hidden" name="course_id" value={{ course.course_id }}>
             <button type="submit" class="btn-gradx2">Delete</button>
           </form>
         </td>
@@ -180,7 +182,7 @@
     
 <script>
   function openModal(courseId = "", courseName = "", courseIdentifier = "", courseDept = "", courseCredits = "", instructorId = "") {
-    document.getElementById("modalTitle").textContent = courseId ? "Edit Course" : "Create New Course";
+    document.getElementById("modalTitle").textContent = courseId ? "create" : "edit";
     const formAction = courseId ? `{% url 'courses-supervisor' %}`.replace('0', courseId) : "{% url 'courses-supervisor' %}";
     document.getElementById("courseForm").action = formAction;
     document.getElementById("formAction").value = courseId ? 'edit' : 'create';
