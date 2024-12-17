@@ -1,7 +1,7 @@
 from django.urls import path
 from TAScheduler.views import AccountManagementView, CustomLoginView, courses_other, AccountOtherView
 from django.contrib.auth.views import LogoutView
-from TAScheduler.views import Courses_Supervisor
+from TAScheduler.views import Courses_Supervisor, create_course, edit_course, delete_course
 
 
 urlpatterns = [
