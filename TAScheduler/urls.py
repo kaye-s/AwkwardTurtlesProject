@@ -1,5 +1,5 @@
 from django.urls import path
-from TAScheduler.views import AccountManagementView, CustomLoginView, courses_other
+from TAScheduler.views import AccountManagementView, CustomLoginView, courses_other, AccountOtherView
 from django.contrib.auth.views import LogoutView
 from TAScheduler.views import Courses_Supervisor
 
@@ -7,7 +7,9 @@ from TAScheduler.views import Courses_Supervisor
 urlpatterns = [
     path("", CustomLoginView.as_view(), name="login"),
     path("account-management/", AccountManagementView.as_view(), name="account-management"),
-    path("logout/", LogoutView.as_view(), name="logout"),
+
+    path("account_other/", AccountOtherView.as_view(), name="account-other"),
+    path("logout/",LogoutView.as_view(), name="logout"),
 
     #path('courses/', courses_supervisor, name='courses'),  # Add this line
     path('courses_supervisor/', Courses_Supervisor.as_view(), name='courses-supervisor'),
