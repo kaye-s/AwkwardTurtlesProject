@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Manage Courses</h1>
     
-    <!-- Display Messages -->
+<!-- Display Messages -->
 {% if messages %}
   <div>
     {% for message in messages %}
@@ -21,6 +21,7 @@
         <th>Course Id</th>
         <th>Department</th>
         <th>Credits</th>
+        <th>Instructor</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -32,8 +33,15 @@
         <td>{{ course.course_dept }}</td>
         <td>{{ course.course_credits }}</td>
         <td>
+          {% if course.instructor %}
+            {{ course.instructor.user.fname }} {{ course.instructor.user.lname }}
+          {% else %}
+            None
+          {% endif %}
+        </td>
+        <td>
           <!-- Edit and Delete Actions -->
-          <button class="btn-gradx1" onclick="openModal('{{ course.course_id }}', '{{ course.course_name }}', '{{ course.course_identifier }}', '{{ course.course_dept }}', '{{ course.course_credits }}')">Edit</button>
+          <button class="btn-gradx1" onclick="openModal('{{ course.course_id }}', '{{ course.course_name }}', '{{ course.course_identifier }}', '{{ course.course_dept }}', '{{ course.course_credits }}', '{{ course.instructor.id|default:'' }}')">Edit</button>
           <form method="post" action="{% url 'delete-course' course.course_id %}" style="display:inline;">
             {% csrf_token %}
             <button type="submit" class="btn-gradx2">Delete</button>
@@ -56,21 +64,34 @@
     <form method="post" action="{% url 'create-course' %}" id="courseForm">
       {% csrf_token %}
       <input type="hidden" name="course_id" id="courseIdField" />
+      
       <label for="course_name">Course Name:</label>
       <input type="text" id="courseNameField" name="course_name" required />
+      
       <label for="course_identifier">Course Identifier:</label>
       <input type="text" id="courseIdentifierField" name="course_identifier" required />
+      
       <label for="course_dept">Department:</label>
       <input type="text" id="courseDeptField" name="course_dept" required />
+      
       <label for="course_credits">Credits:</label>
       <input type="number" id="courseCreditsField" name="course_credits" required />
+      
+      <label for="instructor_id">Assign Instructor:</label>
+      <select id="instructorIdField" name="instructor_id">
+        <option value="" selected disabled>Select Instructor</option>
+        {% for instructor in instructors %}
+          <option value="{{ instructor.id }}">{{ instructor.user.fname }} {{ instructor.user.lname }}</option>
+        {% endfor %}
+      </select>
+      
       <button type="submit" class="btn-gradx0">Save</button>
     </form>
   </div>
 </div>
 
 <script>
-  function openModal(courseId = "", courseName = "", courseIdentifier = "", courseDept = "", courseCredits = "") {
+  function openModal(courseId = "", courseName = "", courseIdentifier = "", courseDept = "", courseCredits = "", instructorId = "") {
     document.getElementById("modalTitle").textContent = courseId ? "Edit Course" : "Create New Course";
     document.getElementById("courseForm").action = courseId ? `{% url 'edit-course' 0 %}`.replace('0', courseId) : "{% url 'create-course' %}";
     document.getElementById("courseIdField").value = courseId;
@@ -78,6 +99,11 @@
     document.getElementById("courseIdentifierField").value = courseIdentifier;
     document.getElementById("courseDeptField").value = courseDept;
     document.getElementById("courseCreditsField").value = courseCredits;
+    
+    // Set the instructor dropdown
+    const instructorSelect = document.getElementById("instructorIdField");
+    instructorSelect.value = instructorId;
+    
     document.getElementById("courseModal").style.display = "block";
   }
 
