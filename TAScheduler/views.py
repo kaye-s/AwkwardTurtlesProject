@@ -67,8 +67,7 @@ class Login(View):
         return render(request, "login.html", {})
 
 
-@login_required
-@group_required('Supervisor')
+@method_decorator([login_required(login_url="/"), group_required('Supervisor')], name='dispatch')
 class Courses_Supervisor(View):
     def get(self, request):
         courses = Course.objects.all()
