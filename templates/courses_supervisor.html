@@ -41,7 +41,7 @@
         </td>
         <td>
           <button class="btn-gradx1" onclick="openModal('{{ course.course_id }}', '{{ course.course_name }}', '{{ course.course_identifier }}', '{{ course.course_dept }}', '{{ course.course_credits }}', '{{ course.instructor.id|default:'' }}')">Edit</button>
-          <form method="post" action="{% url 'delete-course' course.course_id %}" style="display:inline;">
+          <form method="post" action="{% url 'courses_supervisor' course.course_id %}" style="display:inline;">
             {% csrf_token %}
             <button type="submit" class="btn-gradx2">Delete</button>
           </form>
@@ -60,7 +60,7 @@
   <div class="modal-content">
     <span class="close-btn" onclick="closeModal()">&times;</span>
     <h2 id="modalTitle">Create/Edit Course</h2>
-    <form method="post" action="{% url 'create-course' %}" id="courseForm">
+    <form method="post" action="{% url 'courses-supervisor' %}" id="courseForm">
       {% csrf_token %}
       <input type="hidden" name="course_id" id="courseIdField" />
       
@@ -142,7 +142,7 @@
 <script>
   function openModal(courseId = "", courseName = "", courseIdentifier = "", courseDept = "", courseCredits = "", instructorId = "") {
     document.getElementById("modalTitle").textContent = courseId ? "Edit Course" : "Create New Course";
-    document.getElementById("courseForm").action = courseId ? `{% url 'edit-course' 0 %}`.replace('0', courseId) : "{% url 'create-course' %}";
+    document.getElementById("courseForm").action = courseId ? `{% url 'courses-supervisor' %}`.replace('0', courseId) : "{% url 'courses-supervisor' %}";
     document.getElementById("courseIdField").value = courseId;
     document.getElementById("courseNameField").value = courseName;
     document.getElementById("courseIdentifierField").value = courseIdentifier;
