@@ -276,7 +276,7 @@ def delete_section(request, section_id):
 
 class courses_other(View):
     def get(self, request):
-        courses = Course.objects.all()
+        courses = Course.objects.filter(instructor=request.user.id)
         instructors = Instructor.objects.all()
-        return render(request, 'courses_supervisor.html',
+        return render(request, 'courses_other.html',
                   {'courses': courses, 'instructors': instructors, 'role': 'Supervisor'})
