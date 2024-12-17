@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>Manage Courses</h1>
-    
+
 <!-- Display Messages -->
 {% if messages %}
   <div>
@@ -11,7 +11,7 @@
     {% endfor %}
   </div>
 {% endif %}
-    
+
 <!-- Table for Displaying Courses -->
 <div class="table-wrapper">
   <table class="table-div">
@@ -40,7 +40,6 @@
           {% endif %}
         </td>
         <td>
-          <!-- Edit and Delete Actions -->
           <button class="btn-gradx1" onclick="openModal('{{ course.course_id }}', '{{ course.course_name }}', '{{ course.course_identifier }}', '{{ course.course_dept }}', '{{ course.course_credits }}', '{{ course.instructor.id|default:'' }}')">Edit</button>
           <form method="post" action="{% url 'delete-course' course.course_id %}" style="display:inline;">
             {% csrf_token %}
@@ -88,6 +87,56 @@
       <button type="submit" class="btn-gradx0">Save</button>
     </form>
   </div>
+</div>
+
+<hr>
+
+<h1>Manage Sections</h1>
+
+<!-- Sections -->
+<div class="table-wrapper">
+  <table class="table-div">
+    <thead>
+      <tr>
+        <th>Section ID</th>
+        <th>Type</th>
+        <th>Number</th>
+        <th>Course</th>
+        <th>Days</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>TA</th>
+        <th>Instructor</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for section in sections %}
+      <tr>
+        <td>{{ section.section_id }}</td>
+        <td>{{ section.section_type }}</td>
+        <td>{{ section.section_num }}</td>
+        <td>{{ section.section_course.course_name }}</td>
+        <td>{{ section.days_of_week }}</td>
+        <td>{{ section.section_startTime }}</td>
+        <td>{{ section.section_endTime }}</td>
+        <td>
+          {% if section.section_ta %}
+            {{ section.section_ta.user.fname }} {{ section.section_ta.user.lname }}
+          {% else %}
+            None
+          {% endif %}
+        </td>
+        <td>
+          {% if section.lecture_instructor %}
+            {{ section.lecture_instructor.user.fname }} {{ section.lecture_instructor.user.lname }}
+          {% else %}
+            None
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 <script>
