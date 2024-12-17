@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from TAScheduler.utils.auth import group_required  # Import the group_required decorator
 from TAScheduler.utils.account_management import create_user_account, edit_user_account, \
     delete_user_account  # Utility functions
+from TAScheduler.utils.courses import create_course, edit_course, delete_course
 from TAScheduler.models import Supervisor, TA, Instructor
 from TAScheduler.models import Course, Section
 from django.contrib import messages
@@ -68,8 +69,14 @@ class Login(View):
 
 @login_required
 @group_required('Supervisor')
-def courses_supervisor(request):
-    if request.method == 'POST':
+class courses_supervisor(View):
+    def get(self, request):
+        courses = Course.objects.all()
+        instructors = Instructor.objects.all()
+        return render(request, 'courses_supervisor.html',
+                      {'courses': courses, 'instructors': instructors, 'role': 'Supervisor'})
+
+    def post(self, request):
         action = request.POST.get('action')
 
         # Handle Create, Edit, and Delete based on action
@@ -83,82 +90,9 @@ def courses_supervisor(request):
             return delete_course(request, course_id)
         else:
             return JsonResponse({'error': 'Invalid action'}, status=400)
-    else:
-        # Display all courses for GET requests
-        courses = Course.objects.all()
-        instructors = Instructor.objects.all()
-        return render(request, 'courses_supervisor.html',
-                      {'courses': courses, 'instructors': instructors, 'role': 'Supervisor'})
 
 
-# Create a new course
-@login_required
-@group_required('Supervisor')
-def create_course(request):
-    instructors = Instructor.objects.all()
-    # retrieve all instructors
 
-    if request.method == 'POST':
-        course_name = request.POST.get('course_name')
-        course_identifier = request.POST.get('course_identifier')
-        course_dept = request.POST.get('course_dept')
-        course_credits = request.POST.get('course_credits')
-        instructor_id = request.POST.get('instructor_id')
-
-        instructor = Instructor.objects.filter(id=instructor_id).first()
-
-        # Check if a course with the same identifier already exists
-        if Course.objects.filter(course_identifier=course_identifier).exists():
-            messages.error(request, f"A course with the identifier '{course_identifier}' already exists.")
-            return redirect('courses-supervisor')
-
-        # Create the course if no duplicate is found
-        try:
-            Course.objects.create(
-                course_name=course_name,
-                course_identifier=course_identifier,
-                course_dept=course_dept,
-                course_credits=course_credits,
-                instructor=instructor,
-                super_id=request.user.supervisor
-            )
-            messages.success(request, "Course created successfully.")
-        except IntegrityError:
-            messages.error(request, "An error occurred while creating the course.")
-
-        return redirect('courses-supervisor')
-
-
-# Edit an existing course
-@login_required
-@group_required('Supervisor')
-def edit_course(request, course_id):
-    course = get_object_or_404(Course, pk=course_id)
-    instructors = Instructor.objects.all()
-
-    if request.method == 'POST':
-        course.course_name = request.POST.get('course_name')
-        course.course_identifier = request.POST.get('course_identifier')
-        course.course_dept = request.POST.get('course_dept')
-        course.course_credits = request.POST.get('course_credits')
-        instructor_id = request.POST.get('instructor_id')
-
-        instructor = Instructor.objects.filter(id=instructor_id).first()
-        course.instructor = instructor
-
-        course.save()
-        return redirect('courses-supervisor')
-
-
-# Delete a course
-@login_required
-@group_required('Supervisor')
-def delete_course(request, course_id):
-    course = get_object_or_404(Course, pk=course_id)
-    if request.method == 'POST':
-        course.delete()
-        return redirect('courses-supervisor')
-    return redirect('courses-supervisor')
 
 @login_required
 @group_required('Supervisor')
@@ -257,6 +191,7 @@ def delete_section(request, section_id):
 class courses_other(View):
     def get(self, request):
         courses = Course.objects.filter(instructor=request.user.id)
+
         instructors = Instructor.objects.all()
         return render(request, 'courses_other.html',
                   {'courses': courses, 'instructors': instructors, 'role': 'Supervisor'})
