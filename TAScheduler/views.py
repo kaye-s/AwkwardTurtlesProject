@@ -59,7 +59,7 @@ class AccountManagementView(View):
 
 @login_required
 @group_required('Supervisor')
-class courses_supervisor(View):
+class Courses_Supervisor(View):
     def get(self, request):
         courses = Course.objects.all()
         instructors = Instructor.objects.all()
@@ -140,73 +140,73 @@ def sections_supervisor(request):
 
 
 # Create a new course
-@login_required
-@group_required('Supervisor')
-def create_section(request):
-    instructors = Instructor.objects.all()
-    # retrieve all instructors
-
-    if request.method == 'POST':
-        section_name = request.POST.get('section_name')
-        section_identifier = request.POST.get('section_identifier')
-        section_dept = request.POST.get('section_dept')
-        section_credits = request.POST.get('section_credits')
-        instructor_id = request.POST.get('instructor_id')
-
-        instructor = Instructor.objects.filter(id=instructor_id).first()
-
-        # Check if a course with the same identifier already exists
-        if Section.objects.filter(course_identifier=section_identifier).exists():
-            messages.error(request, f"A section with the identifier '{section_identifier}' already exists.")
-            return redirect('courses-supervisor')
-
-        # Create the course if no duplicate is found
-        try:
-            Section.objects.create(
-                section_name=section_name,
-                section_identifier=section_identifier,
-                section_dept=section_dept,
-                section_credits=section_credits,
-                instructor=instructor,
-                super_id=request.user.supervisor
-            )
-            messages.success(request, "Section created successfully.")
-        except IntegrityError:
-            messages.error(request, "An error occurred while creating the section.")
-
-        return redirect('courses-supervisor')
-
-
-# Edit an existing course
-@login_required
-@group_required('Supervisor')
-def edit_section(request, section_id):
-    section = get_object_or_404(Course, pk=section_id)
-    instructors = Instructor.objects.all()
-
-    if request.method == 'POST':
-        section.course_name = request.POST.get('section_name')
-        section.course_identifier = request.POST.get('section_identifier')
-        section.course_dept = request.POST.get('section_dept')
-        section.course_credits = request.POST.get('section_credits')
-        instructor_id = request.POST.get('instructor_id')
-
-        instructor = Instructor.objects.filter(id=instructor_id).first()
-        section.instructor = instructor
-
-        section.save()
-        return redirect('courses-supervisor')
-
-
-# Delete a course
-@login_required
-@group_required('Supervisor')
-def delete_section(request, section_id):
-    section = get_object_or_404(Course, pk=section_id)
-    if request.method == 'POST':
-        section.delete()
-        return redirect('courses-supervisor')
-    return redirect('courses-supervisor')
+# @login_required
+# @group_required('Supervisor')
+# def create_section(request):
+#     instructors = Instructor.objects.all()
+#     # retrieve all instructors
+#
+#     if request.method == 'POST':
+#         section_name = request.POST.get('section_name')
+#         section_identifier = request.POST.get('section_identifier')
+#         section_dept = request.POST.get('section_dept')
+#         section_credits = request.POST.get('section_credits')
+#         instructor_id = request.POST.get('instructor_id')
+#
+#         instructor = Instructor.objects.filter(id=instructor_id).first()
+#
+#         # Check if a course with the same identifier already exists
+#         if Section.objects.filter(course_identifier=section_identifier).exists():
+#             messages.error(request, f"A section with the identifier '{section_identifier}' already exists.")
+#             return redirect('courses-supervisor')
+#
+#         # Create the course if no duplicate is found
+#         try:
+#             Section.objects.create(
+#                 section_name=section_name,
+#                 section_identifier=section_identifier,
+#                 section_dept=section_dept,
+#                 section_credits=section_credits,
+#                 instructor=instructor,
+#                 super_id=request.user.supervisor
+#             )
+#             messages.success(request, "Section created successfully.")
+#         except IntegrityError:
+#             messages.error(request, "An error occurred while creating the section.")
+#
+#         return redirect('courses-supervisor')
+#
+#
+# # Edit an existing course
+# @login_required
+# @group_required('Supervisor')
+# def edit_section(request, section_id):
+#     section = get_object_or_404(Course, pk=section_id)
+#     instructors = Instructor.objects.all()
+#
+#     if request.method == 'POST':
+#         section.course_name = request.POST.get('section_name')
+#         section.course_identifier = request.POST.get('section_identifier')
+#         section.course_dept = request.POST.get('section_dept')
+#         section.course_credits = request.POST.get('section_credits')
+#         instructor_id = request.POST.get('instructor_id')
+#
+#         instructor = Instructor.objects.filter(id=instructor_id).first()
+#         section.instructor = instructor
+#
+#         section.save()
+#         return redirect('courses-supervisor')
+#
+#
+# # Delete a course
+# @login_required
+# @group_required('Supervisor')
+# def delete_section(request, section_id):
+#     section = get_object_or_404(Course, pk=section_id)
+#     if request.method == 'POST':
+#         section.delete()
+#         return redirect('courses-supervisor')
+#     return redirect('courses-supervisor')
 
 class courses_other(View):
     def get(self, request):
