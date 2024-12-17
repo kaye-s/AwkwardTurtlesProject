@@ -209,7 +209,7 @@ def sections_supervisor(request):
 
 class courses_other(View):
     def get(self, request):
-        courses = Course.objects.filter(instructor=request.user.id)
+        courses = Course.objects.all()
 
         instructors = Instructor.objects.all()
         return render(request, 'courses_other.html',
