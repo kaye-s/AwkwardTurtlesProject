@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Assigned Courses</h1>
+<h1>Courses</h1>
     
 <!-- Display Messages -->
 {% if messages %}
@@ -47,7 +47,6 @@
 <script>
   function openModal(courseId = "", courseName = "", courseIdentifier = "", courseDept = "", courseCredits = "", instructorId = "") {
     document.getElementById("modalTitle").textContent = courseId ? "Edit Course" : "Create New Course";
-    document.getElementById("courseForm").action = courseId ? `{% url 'edit-course' 0 %}`.replace('0', courseId) : "{% url 'create-course' %}";
     document.getElementById("courseIdField").value = courseId;
     document.getElementById("courseNameField").value = courseName;
     document.getElementById("courseIdentifierField").value = courseIdentifier;
