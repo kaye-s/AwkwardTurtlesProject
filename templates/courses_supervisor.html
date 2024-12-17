@@ -62,7 +62,7 @@
     <h2 id="modalTitle">Create/Edit Course</h2>
     <form method="post" action="{% url 'courses-supervisor' %}" id="courseForm">
       {% csrf_token %}
-      <input type="hidden" name="action" value="create">
+      <input type="hidden" name="action" value='create'>
       <input type="hidden" name="course_id" id="courseIdField" />
       
       <label for="course_name">Course Name:</label>
@@ -76,7 +76,7 @@
       
       <label for="course_credits">Credits:</label>
       <input type="number" id="courseCreditsField" name="course_credits" required />
-      
+
       <label for="instructor_id">Assign Instructor:</label>
       <select id="instructorIdField" name="instructor_id">
         <option value="" selected disabled>Select Instructor</option>
