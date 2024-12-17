@@ -93,9 +93,9 @@ def edit_course(request, course_id):
 
 # Delete a course
 def delete_course(request, course_id):
-    course = get_object_or_404(Course, course_id=course_id)
-    if course != 'None':
-        course.delete()
+    course = Course.objects.filter(course_id=course_id).exists()
+    if course:
+        Course.objects.get(course_id=course_id).delete()
         return redirect('courses-supervisor')
     else:
         messages.error(request, "Course does not exist")
