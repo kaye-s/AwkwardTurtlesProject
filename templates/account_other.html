@@ -1,0 +1,96 @@
+{% extends "base.html" %} {% block title %} View Accounts {% endblock %}
+{% block content %}
+<div class="for-some-stuff">
+    <div class="special-jumbotron my-3 ml-2 text-center bg-image rounded-3" style="
+        background-image: url('https://i.postimg.cc/Y01b6znb/undraw-Online-organizer-re-156n.png');
+        height: 600px;">
+        <div class="mask">
+            <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="text-white">
+                <h1 class="mb-3 text-capitalize">Hello, {{ user.fname }}</h1>
+                <h4 class="mb-3">We're delighted to have you back.</h4>
+                <a data-mdb-ripple-init class="btn btn-outline-light btn-lg" href="#!" role="button">View Dashboard</a>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<main class="content">
+    <header class="acct-mgmt-header">
+        <div class="header-title">
+            <h1>Veiw Accounts</h1>
+        </div>
+    </header>
+    <hr style="background-color: white;">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <h2 style="font-family: Amatic SC; color:whitesmoke;">User List</h2>
+    
+    <div class="table-div">
+        <div class="tbody-div">
+            <div class="custom-group">
+    <h3>Supervisors</h3>
+    <div class="role-group">
+        {% if supervisors|length == 0 %}
+        <p>Nothing to show here.</p>
+       {% endif %}
+        {% for s in supervisors  %}
+        <div class="tr-div btn-gradx0">
+            <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
+            <div>
+                <div>
+                    <div class="td-item text-capitalize">{{s.user.fname}} {{s.user.lname}}</div>
+                    <div class="td-item text-lowercase">{{s.user.email}}</div>
+                    <div class="td-item text-capitalize">{{s.admin_dept}}</div>
+                </div>
+            </div>
+        </div>
+         {% endfor %}
+    </div>
+</div>
+<br><br>
+<div>
+    <h3>Instructors</h3>
+    <div class="role-group">
+        {% if instructors|length == 0 %}
+        <p>Nothing to show here.</p>
+       {% endif %}
+        {% for i in instructors %}
+        {% comment %} Silly bug {% endcomment %}
+        <div class="tr-div btn-gradx1">
+            <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
+           <div>
+                <div class="td-item text-capitalize">{{i.user.fname}} {{i.user.lname}}</div>
+                <div class="td-item text-lowercase">{{i.user.email}}</div>
+                <div class="td-item text-capitalize">{{i.instructor_dept}}</div>
+           </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<br><br>
+<div>
+    <h3>TAs</h3>
+    <div class="role-group">
+       {% if tas|length == 0 %}
+        <p>Nothing to show here.</p>
+       {% endif %}
+        {% for t in tas  %}
+        <div class="tr-div btn-gradx2">
+            <div class="profile-img"><i class="fa-solid fa-id-card-clip"></i></div>
+            <div>
+                <div class="td-item text-capitalize">{{t.user.fname}} {{t.user.lname}}</div>
+                <div class="td-item text-lowercase">{{t.user.email}}</div>
+                <div class="td-item text-capitalize">{{t.ta_dept}}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+        </div>
+    </div>
+</main>
+{% endblock %}

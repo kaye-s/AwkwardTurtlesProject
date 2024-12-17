@@ -12,6 +12,8 @@
             <a href="/contact-info" class="nav-btn {% if request.resolver_match.url_name == 'contact-info' %}btn-grad4{% endif %}">{{user.email}}</a>
             {% if role and role == "Supervisor" %}
                 <a href="{% url 'account-management' %}" class="nav-btn {% if request.resolver_match.url_name == 'account-management' %}btn-grad4{% endif %}">Manage</a>
+            {% else %}
+                <a href="/account_other" class="nav-btn {% if request.resolver_match.url_name == 'account-management' %}btn-grad4{% endif %}">ViewAccounts</a>
             {% endif %}
         </div>
     </div>
