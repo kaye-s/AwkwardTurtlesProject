@@ -15,21 +15,24 @@ from django.db import IntegrityError
 
 User = get_user_model()
 
+
 class CustomLoginView(LoginView):
     template_name = 'login.html'  # Login page template
     redirect_authenticated_user = True  # Redirect if already logged in
 
     # Redirect all users to a single page after login
     def get_success_url(self):
-        return reverse_lazy('account-management') 
+        return reverse_lazy('account-management')
+
+    # Handles account management tasks accessible only to Supervisors.
 
 
 
 #Handles account management tasks accessible only to Supervisors.
 @method_decorator([login_required(login_url="/")], name='dispatch')
 class AccountManagementView(View):
-   
-    #Renders the account management page with users who are not superusers.
+
+    # Renders the account management page with users who are not superusers.
     def get(self, request):
         s,i,t,alr = Supervisor.objects.all(), Instructor.objects.all(), TA.objects.all(), User.objects.all().order_by("-date_joined")[:4]
         if(request.user.groups.all().exists()):
@@ -42,7 +45,6 @@ class AccountManagementView(View):
     @method_group_required("Supervisor")
     def post(self, request):
         action = request.POST.get('action')
-       
 
         if action == 'create':
             return create_user_account(request)
@@ -52,6 +54,7 @@ class AccountManagementView(View):
             return delete_user_account(request)
         else:
             return JsonResponse({'error': 'Invalid action'}, status=400)
+
 
 @login_required
 @group_required('Supervisor')
@@ -73,18 +76,26 @@ def courses_supervisor(request):
     else:
         # Display all courses for GET requests
         courses = Course.objects.all()
-        return render(request, 'courses_supervisor.html', {'courses': courses, 'role':'Supervisor'})
+        instructors = Instructor.objects.all()
+        return render(request, 'courses_supervisor.html',
+                      {'courses': courses, 'instructors': instructors, 'role': 'Supervisor'})
 
 
 # Create a new course
 @login_required
 @group_required('Supervisor')
 def create_course(request):
+    instructors = Instructor.objects.all()
+    # retrieve all instructors
+
     if request.method == 'POST':
         course_name = request.POST.get('course_name')
         course_identifier = request.POST.get('course_identifier')
         course_dept = request.POST.get('course_dept')
         course_credits = request.POST.get('course_credits')
+        instructor_id = request.POST.get('instructor_id')
+
+        instructor = Instructor.objects.filter(id=instructor_id).first()
 
         # Check if a course with the same identifier already exists
         if Course.objects.filter(course_identifier=course_identifier).exists():
@@ -98,6 +109,7 @@ def create_course(request):
                 course_identifier=course_identifier,
                 course_dept=course_dept,
                 course_credits=course_credits,
+                instructor=instructor,
                 super_id=request.user.supervisor
             )
             messages.success(request, "Course created successfully.")
@@ -106,16 +118,24 @@ def create_course(request):
 
         return redirect('courses-supervisor')
 
+
 # Edit an existing course
 @login_required
 @group_required('Supervisor')
 def edit_course(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
+    instructors = Instructor.objects.all()
+
     if request.method == 'POST':
         course.course_name = request.POST.get('course_name')
         course.course_identifier = request.POST.get('course_identifier')
         course.course_dept = request.POST.get('course_dept')
         course.course_credits = request.POST.get('course_credits')
+        instructor_id = request.POST.get('instructor_id')
+
+        instructor = Instructor.objects.filter(id=instructor_id).first()
+        course.instructor = instructor
+
         course.save()
         return redirect('courses-supervisor')
 
@@ -124,11 +144,7 @@ def edit_course(request, course_id):
 @login_required
 @group_required('Supervisor')
 def delete_course(request, course_id):
-    try:
-        course = Course.objects.get(pk=course_id)
-    except Course.DoesNotExist:
-        messages.error(request, "Cannot delete course, as course does not exist")
-        return redirect('courses-supervisor')
+    course = get_object_or_404(Course, pk=course_id)
     if request.method == 'POST':
         course.delete()
         return redirect('courses-supervisor')
