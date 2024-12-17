@@ -33,18 +33,25 @@ def create_course(request):
         return redirect('courses-supervisor')
 
     # Create the course if no duplicate is found
-    try:
+    if context['instructor'] == 'None':
+        Course.objects.create(
+            course_name=context['course_name'],
+            course_identifier=context['course_identifier'],
+            course_dept=context['course_dept'],
+            course_credits=context['course_credits'],
+            super_id=Supervisor.objects.get(user=request.user),
+        )
+        messages.success(request, "Course created successfully.")
+    else:
         Course.objects.create(
             course_name=context['course_name'],
             course_identifier=context['course_identifier'],
             course_dept=context['course_dept'],
             course_credits=context['course_credits'],
             instructor=context['instructor'],
-            super_id=context['super_id'],
+            super_id=Supervisor.objects.get(user=request.user),
         )
-        messages.success(request, "Course created successfully.")
-    except IntegrityError:
-        messages.error(request, "An error occurred while creating the course.")
+
 
     return redirect('courses-supervisor')
 
