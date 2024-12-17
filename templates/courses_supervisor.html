@@ -62,7 +62,7 @@
     <h2 id="modalTitle">Create/Edit Course</h2>
     <form method="post" action="{% url 'courses-supervisor' %}" id="courseForm">
       {% csrf_token %}
-      <input type="hidden" name="action" value='create'>
+      <input type="hidden" name="action" id="formAction" value="create">
       <input type="hidden" name="course_id" id="courseIdField" />
       
       <label for="course_name">Course Name:</label>
@@ -139,27 +139,64 @@
     </tbody>
   </table>
 </div>
-
+    
+<!-- Button to Create a New Section -->
+<button class="create-btn" onclick="openModal()">Create New Section</button>
+    
+<!-- Modal for Create/Edit Section -->
+<div id="sectionModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <h2 id="modalTitle">Create/Edit Section</h2>
+    <form method="post" action="{% url 'courses-supervisor' %}" id="sectionForm">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="create">
+      <input type="hidden" name="section_id" id="sectionIdField" />
+      
+      <label for="section_name">Section Name:</label>
+      <input type="text" id="sectionNameField" name="section_name" required />
+      
+      <label for="section_identifier">Section Identifier:</label>
+      <input type="text" id="sectionIdentifierField" name="section_identifier" required />
+      
+      <label for="section_dept">Department:</label>
+      <input type="text" id="sectionDeptField" name="section_dept" required />
+      
+      <label for="section_credits">Credits:</label>
+      <input type="number" id="sectionCreditsField" name="section_credits" required />
+      
+      <label for="instructor_id">Assign Instructor:</label>
+      <select id="instructorIdField" name="instructor_id">
+        <option value="" selected disabled>Select Instructor</option>
+        {% for instructor in instructors %}
+          <option value="{{ instructor.id }}">{{ instructor.user.fname }} {{ instructor.user.lname }}</option>
+        {% endfor %}
+      </select>
+      
+      <button type="submit" class="btn-gradx0">Save</button>
+    </form>
+  </div>
+</div>    
+    
 <script>
   function openModal(courseId = "", courseName = "", courseIdentifier = "", courseDept = "", courseCredits = "", instructorId = "") {
     document.getElementById("modalTitle").textContent = courseId ? "Edit Course" : "Create New Course";
-    document.getElementById("courseForm").action = courseId ? `{% url 'courses-supervisor' %}`.replace('0', courseId) : "{% url 'courses-supervisor' %}";
+    const formAction = courseId ? `{% url 'courses-supervisor' %}`.replace('0', courseId) : "{% url 'courses-supervisor' %}";
+    document.getElementById("courseForm").action = formAction;
+    document.getElementById("formAction").value = courseId ? 'edit' : 'create';
     document.getElementById("courseIdField").value = courseId;
     document.getElementById("courseNameField").value = courseName;
     document.getElementById("courseIdentifierField").value = courseIdentifier;
     document.getElementById("courseDeptField").value = courseDept;
     document.getElementById("courseCreditsField").value = courseCredits;
     
-    // Set the instructor dropdown
+    // Set the instructor dropdown value if editing
     const instructorSelect = document.getElementById("instructorIdField");
     instructorSelect.value = instructorId;
     
+    // Show the modal
     document.getElementById("courseModal").style.display = "block";
-  }
-
-  function closeModal() {
-    document.getElementById("courseModal").style.display = "none";
-  }
+}
 </script>
 
 <style>

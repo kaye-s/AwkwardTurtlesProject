@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.utils.html import escape
 from django.db import IntegrityError
+from django.utils.translation.template import blankout
+
 from TAScheduler.models import *
 
 
@@ -58,7 +60,7 @@ def create_course(request):
 
 # Edit an existing course
 def edit_course(request, course_id):
-    course = Course.objects.filter(course_id=course_id)
+    course = Course.objects.get(course_id=course_id)
 
     context = populate_dict(request)
 
@@ -77,10 +79,10 @@ def edit_course(request, course_id):
     if context['instructor'] != 'None' and course.instructor != context['instructor']:
         did_change = True
         course.instructor = context['instructor']
-    if context['new_course_ta'] != 'None':
-        alreadyExists = 'None'
-        if not Course.objects.filter(course_ta=context['new_course_ta']).exists():
-            Course.objects.add(course_ta=context['new_course_ta'])
+    #if context['new_course_ta'] != 'None':
+    #    alreadyExists = 'None'
+    #    if not Course.objects.filter(course_ta=context['new_course_ta']).exists():
+    #        Course.objects.add(course_ta=context['new_course_ta'])
 
     if did_change:
         course.save()
