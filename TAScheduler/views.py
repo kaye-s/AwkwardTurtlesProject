@@ -195,3 +195,11 @@ class courses_other(View):
         instructors = Instructor.objects.all()
         return render(request, 'courses_other.html',
                   {'courses': courses, 'instructors': instructors, 'role': 'Supervisor'})
+
+class AccountOtherView(View):
+
+    # Renders the account management page with users who are not superusers.
+    def get(self, request):
+        s, i, t = Supervisor.objects.all(), Instructor.objects.all(), TA.objects.all()
+        return render(request, 'Account_other.html',
+                      {'supervisors': s, "tas": t, "instructors": i, "role": "Supervisor"})
