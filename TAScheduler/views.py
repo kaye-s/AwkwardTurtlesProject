@@ -57,8 +57,7 @@ class AccountManagementView(View):
             return JsonResponse({'error': 'Invalid action'}, status=400)
 
 
-@login_required
-@group_required('Supervisor')
+@method_decorator([login_required(login_url="/"), group_required('Supervisor')], name='dispatch')
 class Courses_Supervisor(View):
     def get(self, request):
         courses = Course.objects.all()
