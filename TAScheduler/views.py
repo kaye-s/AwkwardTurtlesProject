@@ -51,22 +51,6 @@ class AccountManagementView(View):
         else:
             return JsonResponse({'error': 'Invalid action'}, status=400)
 
-
-class Login(View):
-    def get(self, request):
-        return render(request, "login.html", {})
-
-    # POST REQUEST FOR ACCOUNT MANAGEMENT FORM
-    def post(self, request):
-        # something like this from parking lab to handle data
-        # sec = request.POST.get('section')
-        # date = request.POST.get('dateTime')
-
-        # fill in context to handle database data
-
-        return render(request, "login.html", {})
-
-
 @method_decorator([login_required(login_url="/"), group_required('Supervisor')], name='dispatch')
 class Courses_Supervisor(View):
     def get(self, request):
