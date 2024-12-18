@@ -187,7 +187,7 @@ class Courses_Supervisor(View):
 #         return redirect('courses-supervisor')
 #     return redirect('courses-supervisor')
 
-#this is my commit ahhhh
+
 class courses_other(View):
     def get(self, request):
         courses = Course.objects.all()
@@ -237,7 +237,7 @@ class ContactInfoView(View):
         })
 
     def post(self, request):
-        # Allow users to update their contact information
+
         user = request.user
         fname = request.POST.get('fname')
         lname = request.POST.get('lname')
@@ -245,7 +245,7 @@ class ContactInfoView(View):
         address = request.POST.get('address')
         phone_number = request.POST.get('phone_number')
 
-        # Update only the fields provided
+
         if fname:
             user.fname = fname
         if lname:
@@ -260,4 +260,4 @@ class ContactInfoView(View):
         user.save()
 
         messages.success(request, "Your contact information has been updated.")
-        return redirect('contact-info')  # Adjust the URL name to match your project
+        return redirect('contact-info')
