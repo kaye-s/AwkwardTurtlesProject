@@ -26,7 +26,7 @@ def create_user_account(request):
     context = populate_dict(request)
     passes_constraint = not User.objects.filter(email=context['email']).exists() #checks if the sent email is unique
 
-    if passes_constraint and context['email'] != 'None' and context['password'] != 'None':
+    if passes_constraint and context['email'] != '' and context['password'] != '':
 
         user = User.objects.create_user(
             email=context['email'],
@@ -51,17 +51,15 @@ def create_user_account(request):
         except:
             pass #Shouldn't fail if role is not defined, but could be changed later
 
-    elif context['email'] == 'None':
+    elif context['email'] == '':
         messages.error(request, "Email cannot be empty") #Pass a message if the email is empty
-    elif context['password'] == 'None':
+    elif context['password'] == '':
         messages.error(request, "Must create a password") #Pass a message if the email is empty
     
     elif not passes_constraint:
         messages.error(request, "Email already exists in the system") #Now passes a message if the email isn't unique
-    
-    elif not passes_constraint:
-        messages.error(request, "Email already exists in the system") #Now passes a message if the email isn't unique
-    
+
+    messages.success(request, "Account created successfully")
     return redirect('account-management')
 
 
@@ -89,42 +87,47 @@ def edit_user_account(request):
         user = obj.user  # Access the related user object
 
         # Update User fields
-        if context['fname'] != 'None' and user.first_name != context['fname']:
+        if context['fname'] != '' and user.fname != context['fname']:
             did_change = True
             user.fname = context['fname']
-        if context['lname'] != 'None' and user.last_name != context['lname']:
+        
+        if context['lname'] != '' and user.lname != context['lname']:
             did_change = True
             user.lname = context['lname']
-        if context['phone_number'] != 'None' and user.phone_number != context['phone_number']:
+        if context['phone_number'] != '' and user.phone_number != context['phone_number']:
             did_change = True
             user.phone_number = context['phone_number']  # Assuming phone_number exists in your custom user model
-        if context['address1'] != 'None':
+        if context['address1'] != '':
             new_address = context['address1'] + "<TASCheduler_delimiter>" + context['address2']
             if user.address != new_address:
                 did_change = True
                 user.address = new_address
+        
 
         # Update Password
-
-        if context['password'] != 'None' and not check_password(context['password'], user.password):
-            did_change = True
-            user.password = make_password(context['password'])
-        # Save User changes
-        if did_change:
-            user.save()
-
+        check = check_password(context['password'], user.password)
+        if context['password'] != '':
+            if not check:
+                did_change = True
+                user.password = make_password(context['password'])
+            else:
+                messages.warning(request, "New password cannot be identical to the old one")
         # Update role-specific fields
         if user_role == context['role']:  # Same role, update department only
             if user_role == "Supervisor" and obj.admin_dept != context['dept']:
                 obj.admin_dept = context['dept']
                 obj.save()
+                did_change = True
             elif user_role == "Instructor" and obj.instructor_dept != context['dept']:
                 obj.instructor_dept = context['dept']
                 obj.save()
+                did_change = True
             elif user_role == "TA" and obj.ta_dept != context['dept']:
                 obj.ta_dept = context['dept']
                 obj.save()
+                did_change = True
         else:
+            did_change = True
             obj.delete()  # Delete the current role-specific object
             if context['role'] == "Supervisor":
                 Supervisor.objects.create(user=user, admin_dept=context['dept'])
@@ -132,6 +135,11 @@ def edit_user_account(request):
                 Instructor.objects.create(user=user, instructor_dept=context['dept'])
             elif context['role'] == "TA":
                 TA.objects.create(user=user, ta_dept=context['dept'])
+
+        # Save User changes
+        if did_change:
+            user.save()
+            messages.success(request, "User info updated successfully")
 
     return redirect('account-management')
 
@@ -142,7 +150,8 @@ def delete_user_account(request):
     """
     user_id = request.POST.get('email')
     user = get_object_or_404(User, email=user_id)
-    if user == 'None':
+    if user == '':
         messages.error(request, "User does not exist") #Message if user does not exist
     user.delete()
+    messages.success(request, "Account successfully deleted")
     return redirect('account-management')

@@ -96,6 +96,7 @@ def delete_course(request, course_id):
     course = Course.objects.filter(course_id=course_id).exists()
     if course:
         Course.objects.get(course_id=course_id).delete()
+        messages.success(request, "A course has been successfully deleted")
         return redirect('courses-supervisor')
     else:
         messages.error(request, "Course does not exist")
