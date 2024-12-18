@@ -1,0 +1,31 @@
+<div id="aside-0">
+    <article>
+        <section>
+            <h2>Current Users</h2>
+            <hr class="bg-light">
+            <p class="badge badge-danger mx-3">
+                Supervisors: <em>{{ supervisors|length }}</em>
+            </p>
+            <p class="badge badge-primary mx-3">
+                Instructors: <em>{{ instructors|length }}</em>
+            </p>
+            <p class="badge badge-secondary mx-3">
+                TAs: <em>{{ tas|length }}</em>
+            </p>
+        </section>
+        {% if role == "Supervisor" %}
+        <br><hr>
+        <section>
+            <h2>Recents</h2>
+            <hr class="bg-light w-50">
+            <ul class="container-fluid">
+                {% for u in allUsers %}
+                    <li>
+                        <p class=" p-2 w-75 text-secondary">{{ u.email }} was created on {{ u.date_joined }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
+    </article>
+</div>
