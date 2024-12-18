@@ -3,5 +3,7 @@
 .vscode/launch.json
 Pipfile.lock
 Pipfile
-TAScheduler/static/css/components/_courses_supervisor.scss
-**/__Pycache__
+**/__pycache__
+makefile
+**/*.scss
+**/*.css.map
