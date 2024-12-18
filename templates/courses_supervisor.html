@@ -64,7 +64,7 @@
     <h2 id="modalTitle">Create/Edit Course</h2>
     <form method="post" action="{% url 'courses-supervisor' %}" id="courseForm">
       {% csrf_token %}
-      <input type="hidden" name="action" id="formAction" value="create">
+      <input type="hidden" name="action" id="formAction" value="createCourse">
       <input type="hidden" name="course_id" id="courseIdField" />
       
       <label for="course_name">Course Name:</label>
@@ -152,7 +152,7 @@
     <h2 id="modalTitle">Create/Edit Section</h2>
     <form method="post" action="{% url 'courses-supervisor' %}" id="sectionForm">
       {% csrf_token %}
-      <input type="hidden" name="action" value="create">
+      <input type="hidden" name="action" value="createSection">
       <input type="hidden" name="section_id" id="sectionIdField" />
       
       <label for="section_name">Section Name:</label>
@@ -182,10 +182,10 @@
     
 <script>
   function openModal(courseId = "", courseName = "", courseIdentifier = "", courseDept = "", courseCredits = "", instructorId = "") {
-    document.getElementById("modalTitle").textContent = courseId ? "create" : "edit";
+    document.getElementById("modalTitle").textContent = courseId ? "createCourse" : "editCourse";
     const formAction = courseId ? `{% url 'courses-supervisor' %}`.replace('0', courseId) : "{% url 'courses-supervisor' %}";
     document.getElementById("courseForm").action = formAction;
-    document.getElementById("formAction").value = courseId ? 'edit' : 'create';
+    document.getElementById("formAction").value = courseId ? 'editCourse' : 'createCourse';
     document.getElementById("courseIdField").value = courseId;
     document.getElementById("courseNameField").value = courseName;
     document.getElementById("courseIdentifierField").value = courseIdentifier;
