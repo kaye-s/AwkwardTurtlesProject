@@ -49,13 +49,13 @@
           </form>  
           <form method="post" action="{% url 'courses-supervisor' %}" style="display:inline;">
             {% csrf_token %}
-                <input type="hidden" name="action" value="add_ta_course">
+                <input type="hidden" name="action" value="addTACourse">
                 <input type="hidden" name="course_id" value="{{ course.course_id }}">
               <button type="submit" class="btn-gradx2">Add TA</button>
           </form>
           <form method="post" action="{% url 'courses-supervisor' %}" style="display:inline;">
             {% csrf_token %}
-                <input type="hidden" name="action" value="delete_ta_course">
+                <input type="hidden" name="action" value="deleteTACourse">
                 <input type="hidden" name="course_id" value="{{ course.course_id }}">
                <button type="submit" class="btn-gradx2">Remove TA</button>
           </form>  
@@ -201,7 +201,7 @@
           <option value="{{ instructor.id }}">{{ instructor.user.fname }} {{ instructor.user.lname }}</option>
         {% endfor %}
       </select>
-      
+
       <label for="ta_id">Assign TA:</label>
       <select id="taIdField" name="ta_id">
         <option value="" selected disabled>Select TA</option>
