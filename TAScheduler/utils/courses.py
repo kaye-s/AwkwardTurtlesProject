@@ -116,3 +116,20 @@ def removeTA_course(request, course_id):
     if Course.objects.filter(course_id=course_id, course_ta=context['course_ta']).exists():
         course.course_ta.remove(context['course_ta'])
         course.save()
+
+def removeTA_section(request, section_id):
+    pass
+
+def assignTA_section(request, section_id):
+    pass
+
+def create_section(request, section_id):
+    pass
+
+def delete_section(request, section_id):
+    pass
+
+def edit_section(request, section_id):
+    pass
+
+

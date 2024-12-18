@@ -9,12 +9,12 @@ from django.http import JsonResponse
 from TAScheduler.utils.auth import group_required  # Import the group_required decorator
 from TAScheduler.utils.account_management import create_user_account, edit_user_account, \
     delete_user_account  # Utility functions
-from TAScheduler.utils.courses import create_course, edit_course, delete_course, assignTA_course, removeTA_course, assignTA_section, createSection, deleteSection, deleteTA_section
+from TAScheduler.utils.courses import create_course, edit_course, delete_course, assignTA_course, removeTA_course, assignTA_section, create_section, delete_section, removeTA_section
 from TAScheduler.models import Supervisor, TA, Instructor
 from TAScheduler.models import Course, Section
 from django.contrib import messages
 from django.db import IntegrityError
-
+#
 User = get_user_model()
 
 
