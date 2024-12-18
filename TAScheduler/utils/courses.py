@@ -114,8 +114,7 @@ def assignTA_course(request, course_id):
         course.course_ta.add(context['course_ta'])
         course.save()
         messages.success(request, "TA successfully added to course.")
-
-    if course.course_ta.filter(context['course_ta']).exists():
+    else:
         messages.error(request, "TA already assigned to this course")
     return redirect('courses-supervisor')
 
