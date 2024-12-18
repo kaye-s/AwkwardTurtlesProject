@@ -127,7 +127,6 @@ def edit_user_account(request):
                 obj.save()
                 did_change = True
         else:
-            did_change = True
             obj.delete()  # Delete the current role-specific object
             if context['role'] == "Supervisor":
                 Supervisor.objects.create(user=user, admin_dept=context['dept'])
@@ -135,6 +134,7 @@ def edit_user_account(request):
                 Instructor.objects.create(user=user, instructor_dept=context['dept'])
             elif context['role'] == "TA":
                 TA.objects.create(user=user, ta_dept=context['dept'])
+            messages.success(request, "Successfully updated the user's role")
 
         # Save User changes
         if did_change:
