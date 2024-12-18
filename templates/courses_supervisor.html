@@ -19,6 +19,15 @@
       <button class="btn-grad3 mx-2" onclick="openModal()"><i class="fa-solid fa-folder-plus"></i></button>
     </div>
 
+        <!-- Display Messages -->
+  {% if messages %}
+  <div>
+    {% for message in messages %}
+      <p class="{{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+
   <!-- Table for Displaying Courses -->
   <div class="table-wrapper">
     <div class="table-content">
