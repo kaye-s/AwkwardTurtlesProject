@@ -109,6 +109,55 @@ class AssignUserToCourseTests(TestCase):
 
         self.assertEqual(response.status_code, 302)
 
+    def test_remove_ta_from_course(self):
+        self.client.login(email='supervisor@example.com', password='superpassword123')
+        data = {
+            'course_id': self.course_test.course_id,
+            'course_ta': self.ta_user.id,
+            'action': 'addTACourse'
+        }
+        response = self.client.post("/courses_supervisor/", data)
+        self.course_test.refresh_from_db()
+        self.assertIn(self.ta_user, self.course_test.course_ta.all())
+
+        data = {
+            'course_id': self.course_test.course_id,
+            'course_ta': self.ta_user.id,
+            'action': 'deleteTACourse'
+        }
+        response = self.client.post("/courses_supervisor/", data)
+        self.course_test.refresh_from_db()
+        self.assertNotIn(self.ta_user, self.course_test.course_ta.all())
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_ta_already_assigned(self):
+        self.client.login(email='supervisor@example.com', password='superpassword123')
+        data = {
+            'course_id': self.course_test.course_id,
+            'course_ta': self.ta_user.id,
+            'action': 'addTACourse'
+        }
+        response = self.client.post("/courses_supervisor/", data)
+        self.course_test.refresh_from_db()
+        self.assertIn(self.ta_user, self.course_test.course_ta.all())
+
+        data = {
+            'course_id': self.course_test.course_id,
+            'course_ta': self.ta_user.id,
+            'action': 'addTACourse'
+        }
+        response = self.client.post("/courses_supervisor/", data)
+
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertTrue(
+            any("TA already assigned to this course" in str(message) for message in
+                messages),
+            "Expected a message - TA already assigned")
+
+        self.assertEqual(response.status_code, 302)
+
     def test_instructor_access_course_management(self):
         self.client.login(email='instructor@example.com', password='instructorpassword123')
 
