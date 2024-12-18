@@ -50,44 +50,44 @@ class CreateSectionsTests(TestCase):
 
         self.assertEquals(len(messages), 0)
 
-    # def test_create_section_no_course(self):
-    #     self.client.login(email='supervisor@example.com', password='superpassword123')
+    def test_create_section_no_course(self):
+        self.client.login(email='supervisor@example.com', password='superpassword123')
 
-    #     response = self.client.get("/course-supervisor/")
-    #     self.assertEqual(response.status_code, 200)
+        response = self.client.get("/course-supervisor/")
+        self.assertEqual(response.status_code, 200)
 
-    #     data = {
-    #         'section_num': '733',
-    #         'action': 'create',
-    #     }
-    #     response = self.client.post("/course-supervisor/", data)
-    #     self.assertEqual(response.status_code, 302)
+        data = {
+            'section_num': '733',
+            'action': 'create',
+        }
+        response = self.client.post("/course-supervisor/", data)
+        self.assertEqual(response.status_code, 302)
 
-    #     messages = list(get_messages(response.wsgi_request))
+        messages = list(get_messages(response.wsgi_request))
 
-    #     self.assertTrue(
-    #         any("Parent course cannot be empty" in str(message) for message in messages),
-    #         "Expected message about parent course not found in the session messages.")
+        self.assertTrue(
+            any("Parent course cannot be empty" in str(message) for message in messages),
+            "Expected message about parent course not found in the session messages.")
 
-    # def test_create_section_invalid_course(self):
-    #     self.client.login(email='supervisor@example.com', password='superpassword123')
+    def test_create_section_invalid_course(self):
+        self.client.login(email='supervisor@example.com', password='superpassword123')
 
-    #     response = self.client.get("/course-supervisor/")
-    #     self.assertEqual(response.status_code, 200)
+        response = self.client.get("/course-supervisor/")
+        self.assertEqual(response.status_code, 200)
 
-    #     data = {
-    #         'section_num': '733',
-    #         'section_course': self.test_course_invalid,
-    #         'action': 'create',
-    #     }
-    #     response = self.client.post("/course-supervisor/", data)
-    #     self.assertEqual(response.status_code, 302)
+        data = {
+            'section_num': '733',
+            'section_course': self.test_course_invalid,
+            'action': 'create',
+        }
+        response = self.client.post("/course-supervisor/", data)
+        self.assertEqual(response.status_code, 302)
 
-    #     messages = list(get_messages(response.wsgi_request))
+        messages = list(get_messages(response.wsgi_request))
 
-    #     self.assertTrue(
-    #         any("Course must be a valid course within the database" in str(message) for message in messages),
-    #         "Expected message about course not found not found in the session messages.")
+        self.assertTrue(
+            any("Course must be a valid course within the database" in str(message) for message in messages),
+            "Expected message about course not found not found in the session messages.")
 
     def test_create_section_duplicate_course_same_section(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
