@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Your Contact Information</h2>
+<table>
+    <tr><th>Name</th><th>Email</th><th>Address</th><th>Phone Number</th></tr>
+    <tr>
+        <td>{{ current_user.fname }} {{ current_user.lname }}</td>
+        <td>{{ current_user.email }}</td>
+        <td>{{ current_user.address }}</td>
+        <td>{{ current_user.phone_number }}</td>
+    </tr>
+</table>
+
+<h2>Search Contacts</h2>
+<form method="GET">
+    <input type="text" name="search" placeholder="Search by name or email" value="{{ search_query }}">
+    <button type="submit">Search</button>
+</form>
+
+{% if search_query %}
+    <h3>Results for "{{ search_query }}":</h3>
+{% endif %}
+
+<h2>Supervisors</h2>
+<ul>
+    {% for supervisor in supervisors %}
+        <li>{{ supervisor.user.fname }} {{ supervisor.user.lname }} ({{ supervisor.user.email }})</li>
+    {% empty %}
+        <li>No supervisors found.</li>
+    {% endfor %}
+</ul>
+
+<h2>Instructors</h2>
+<ul>
+    {% for instructor in instructors %}
+        <li>{{ instructor.user.fname }} {{ instructor.user.lname }} ({{ instructor.user.email }})</li>
+    {% empty %}
+        <li>No instructors found.</li>
+    {% endfor %}
+</ul>
+
+<h2>TAs</h2>
+<ul>
+    {% for ta in tas %}
+        <li>{{ ta.user.fname }} {{ ta.user.lname }} ({{ ta.user.email }})</li>
+    {% empty %}
+        <li>No TAs found.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -14,6 +14,7 @@ from TAScheduler.models import Supervisor, TA, Instructor
 from TAScheduler.models import Course, Section
 from django.contrib import messages
 from django.db import IntegrityError
+from django.db.models import Q
 #
 User = get_user_model()
 
@@ -206,3 +207,37 @@ class AccountOtherView(View):
         s, i, t = Supervisor.objects.all(), Instructor.objects.all(), TA.objects.all()
         return render(request, 'Account_other.html',
                       {'supervisors': s, "tas": t, "instructors": i, "role": "Supervisor"})
+
+
+class ContactInfoView(View):
+    def get(self, request):
+
+        current_user = request.user
+        search_query = request.GET.get('search', '').strip()
+
+        def search_users(model):
+            if ' ' in search_query:
+                first_name, last_name = search_query.split(' ', 1)
+                return model.objects.filter(
+                    Q(user__fname__icontains=first_name) &
+                    Q(user__lname__icontains=last_name)
+                )
+            else:
+                return model.objects.filter(
+                    Q(user__fname__icontains=search_query) |
+                    Q(user__lname__icontains=search_query) |
+                    Q(user__email__icontains=search_query)
+                )
+
+
+        supervisors = search_users(Supervisor)
+        instructors = search_users(Instructor)
+        tas = search_users(TA)
+
+        return render(request, 'contact_info_page.html', {
+            'current_user': current_user,
+            'supervisors': supervisors,
+            'instructors': instructors,
+            'tas': tas,
+            'search_query': search_query,
+        })

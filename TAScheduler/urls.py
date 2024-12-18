@@ -2,6 +2,7 @@ from django.urls import path
 from TAScheduler.views import AccountManagementView, CustomLoginView, courses_other, AccountOtherView
 from django.contrib.auth.views import LogoutView
 from TAScheduler.views import Courses_Supervisor, create_course, edit_course, delete_course
+from TAScheduler.views import ContactInfoView
 
 
 urlpatterns = [
@@ -18,5 +19,7 @@ urlpatterns = [
     # path('delete_course/<int:course_id>/', delete_course, name='delete-course'),
 
     path('courses_other/', courses_other.as_view(), name='courses-other'),
+
+    path("contact-info/", ContactInfoView.as_view(), name="contact-info"),
 
 ]
