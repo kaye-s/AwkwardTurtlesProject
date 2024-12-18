@@ -90,7 +90,6 @@ def edit_user_account(request):
         if context['fname'] != '' and user.fname != context['fname']:
             did_change = True
             user.fname = context['fname']
-        
         if context['lname'] != '' and user.lname != context['lname']:
             did_change = True
             user.lname = context['lname']
@@ -98,12 +97,12 @@ def edit_user_account(request):
             did_change = True
             user.phone_number = context['phone_number']  # Assuming phone_number exists in your custom user model
         if context['address1'] != '':
+            print(user.address)
             new_address = context['address1'] + "<TASCheduler_delimiter>" + context['address2']
             if user.address != new_address:
                 did_change = True
                 user.address = new_address
         
-
         # Update Password
         check = check_password(context['password'], user.password)
         if context['password'] != '':

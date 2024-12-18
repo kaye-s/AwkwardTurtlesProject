@@ -29,7 +29,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     fname = models.CharField(max_length=50, verbose_name="First Name")
     lname = models.CharField(max_length=50, verbose_name="Last Name")
-    address = models.CharField(max_length=50)
+    address = models.CharField(max_length=300)
     phone_number = models.CharField(max_length=15, blank=True, null=True, verbose_name="Phone Number")
 
     # Remove the username field
