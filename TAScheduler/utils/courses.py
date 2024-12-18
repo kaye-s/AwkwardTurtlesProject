@@ -61,7 +61,7 @@ def create_course(request):
 # Edit an existing course
 def edit_course(request, course_id):
     course = Course.objects.get(course_id=course_id)
-
+    did_change = False
     context = populate_dict(request)
 
     if context['course_name'] != 'None' and course.course_name != context['course_name']:
@@ -79,11 +79,6 @@ def edit_course(request, course_id):
     if context['instructor'] != 'None' and course.instructor != context['instructor']:
         did_change = True
         course.instructor = context['instructor']
-    #if context['new_course_ta'] != 'None':
-    #    alreadyExists = 'None'
-    #    if not Course.objects.filter(course_ta=context['new_course_ta']).exists():
-    #        Course.objects.add(course_ta=context['new_course_ta'])
-
     if did_change:
         course.save()
 
@@ -102,5 +97,21 @@ def delete_course(request, course_id):
         return redirect('courses-supervisor')
 
 
-def assignTA_course(request):
+def assignTA_course(request, course_id):
     context = populate_dict(request)
+    course = Course.objects.filter(course_id=course_id).exists()
+    if course:
+        course = Course.objects.get(course_id=course_id)
+    if not Course.objects.filter(course_id=course_id, course_ta=context['course_ta']).exists():
+        course.course_ta.add(context['course_ta'])
+        course.save()
+
+
+def removeTA_course(request, course_id):
+    context = populate_dict(request)
+    course = Course.objects.filter(course_id=course_id).exists()
+    if course:
+        course = Course.objects.get(course_id=course_id)
+    if Course.objects.filter(course_id=course_id, course_ta=context['course_ta']).exists():
+        course.course_ta.remove(context['course_ta'])
+        course.save()

@@ -63,14 +63,18 @@ class Courses_Supervisor(View):
         action = request.POST.get('action')
 
         # Handle Create, Edit, and Delete based on action
-        if action == 'create':
+        if action == 'createCourse':
             return create_course(request)
-        elif action == 'edit':
+        elif action == 'editCourse':
             course_id = request.POST.get('course_id')
             return edit_course(request, course_id)
-        elif action == 'delete':
+        elif action == 'deleteCourse':
             course_id = request.POST.get('course_id')
             return delete_course(request, course_id)
+        elif action == 'addTACourse':
+            pass  #ADD
+        elif action == 'addTACourse':
+            pass  #ADD
         else:
             return JsonResponse({'error': 'Invalid action'}, status=400)
 
