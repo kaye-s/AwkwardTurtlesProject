@@ -191,10 +191,10 @@ class Courses_Supervisor(View):
 class courses_other(View):
     def get(self, request):
         courses = Course.objects.all()
-
+        tas = TA.objects.all()
         instructors = Instructor.objects.all()
         return render(request, 'courses_other.html',
-                  {'courses': courses, 'instructors': instructors, 'role': 'Supervisor'})
+                      {'courses': courses, 'instructors': instructors, 'tas': tas, 'role': 'Supervisor'})
 
 class AccountOtherView(View):
 

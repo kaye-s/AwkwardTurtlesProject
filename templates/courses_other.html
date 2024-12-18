@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>Courses</h1>
-    
+
 <!-- Display Messages -->
 {% if messages %}
   <div>
@@ -11,7 +11,7 @@
     {% endfor %}
   </div>
 {% endif %}
-    
+
 <!-- Table for Displaying Courses -->
 <div class="table-wrapper">
   <table class="table-div">
@@ -22,6 +22,7 @@
         <th>Department</th>
         <th>Credits</th>
         <th>Instructor</th>
+        <th>TAs</th>
       </tr>
     </thead>
     <tbody>
@@ -38,32 +39,69 @@
             None
           {% endif %}
         </td>
+        <td>
+        {% if course.course_ta.all %}
+            {% for ta in course.course_ta.all %}
+            {{ ta.user.fname }} {{ ta.user.lname }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+        {% else %}
+            None
+        {% endif %}
+        </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
     
-<script>
-  function openModal(courseId = "", courseName = "", courseIdentifier = "", courseDept = "", courseCredits = "", instructorId = "") {
-    document.getElementById("modalTitle").textContent = courseId ? "Edit Course" : "Create New Course";
-    document.getElementById("courseIdField").value = courseId;
-    document.getElementById("courseNameField").value = courseName;
-    document.getElementById("courseIdentifierField").value = courseIdentifier;
-    document.getElementById("courseDeptField").value = courseDept;
-    document.getElementById("courseCreditsField").value = courseCredits;
-    
-    // Set the instructor dropdown
-    const instructorSelect = document.getElementById("instructorIdField");
-    instructorSelect.value = instructorId;
-    
-    document.getElementById("courseModal").style.display = "block";
-  }
 
-  function closeModal() {
-    document.getElementById("courseModal").style.display = "none";
-  }
-</script>
+<h1>Sections</h1>
+
+<!-- Table for Displaying Sections -->
+<div class="table-wrapper">
+  <table class="table-div">
+    <thead>
+      <tr>
+        <th>Section ID</th>
+        <th>Type</th>
+        <th>Number</th>
+        <th>Course</th>
+        <th>Days</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Instructor</th>
+        <th>TAs</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for section in sections %}
+      <tr>
+        <td>{{ section.section_id }}</td>
+        <td>{{ section.section_type }}</td>
+        <td>{{ section.section_num }}</td>
+        <td>{{ section.section_course.course_name }}</td>
+        <td>{{ section.days_of_week }}</td>
+        <td>{{ section.section_startTime }}</td>
+        <td>{{ section.section_endTime }}</td>
+        <td>
+          {% if section.lecture_instructor %}
+            {{ section.lecture_instructor.user.fname }} {{ section.lecture_instructor.user.lname }}
+          {% else %}
+            None
+          {% endif %}
+        </td>
+        <td>
+          {% if section.section_ta %}
+            {{ section.section_ta.user.fname }} {{ section.section_ta.user.lname }}
+          {% else %}
+            None
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 <style>
   .modal {
