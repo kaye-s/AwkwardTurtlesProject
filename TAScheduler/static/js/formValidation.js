@@ -1,13 +1,8 @@
 const phoneInput1 = document.getElementById('phone_number');
 const phoneInput2 = document.getElementById('edit_phone_number');
 
-try{
-  phoneInput1.addEventListener('input', validated_phone);
-  phoneInput2.addEventListener('input', validated_phone);
-} catch(e){
-  console.log(e)
-}
-
+if(phoneInput1) phoneInput1.addEventListener('input', validated_phone);
+if(phoneInput2) phoneInput2.addEventListener('input', validated_phone);
 
 function initializeAutocomplete (){
     const address1Input = document.getElementById("address1");
