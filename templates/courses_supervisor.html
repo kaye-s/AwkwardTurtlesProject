@@ -121,10 +121,10 @@
       <input type="number" id="courseCreditsField" name="course_credits" required />
 
       <label for="instructor_id">Assign Instructor:</label>
-      <select id="instructorIdField" name="instructor_id">
+      <select id="instructorIdField" name="instructor">
         <option value="" selected disabled>Select Instructor</option>
         {% for instructor in instructors %}
-          <option value="{{ instructor.id }}">{{ instructor.user.fname }} {{ instructor.user.lname }}</option>
+          <option value="{{ instructor.user }}">{{ instructor.user.fname }} {{ instructor.user.lname }}</option>
         {% endfor %}
       </select>
       
@@ -205,6 +205,14 @@
       {% csrf_token %}
       <input type="hidden" name="action" id="formAction" value="createSection">
       <input type="hidden" name="section_id" id="sectionIdField" />
+        
+      <label for="section_type">Course section belongs to:</label>
+      <select id="courseIdField" name="course_id">
+        <option value="" selected disabled>Select Course</option>
+        {% for course in courses %}
+          <option value="{{ course.course_id }}">{{ course.course_name }} </option>
+        {% endfor %}
+      </select>
       
       <label for="section_type">Section Type:</label>
       <input type="text" id="sectionTypeField" name="section_type" required />
