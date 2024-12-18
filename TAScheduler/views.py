@@ -60,9 +60,8 @@ class AccountManagementView(View):
 class Courses_Supervisor(View):
     def get(self, request):
         courses = Course.objects.all()
-        instructors = Instructor.objects.all()
         return render(request, 'courses_supervisor.html',
-                      {'courses': courses, 'instructors': instructors, 'role': 'Supervisor'})
+                      {'courses': courses, 'role': 'Supervisor'})
 
     def post(self, request):
         action = request.POST.get('action')
