@@ -31,6 +31,13 @@
   <!-- Table for Displaying Courses -->
   <div class="table-wrapper">
     <div class="table-content">
+      <div class="table-header">
+        <p class="d-inline-block">Title</p>
+        <p class="d-inline-block">Course Code</p>
+        <p class="d-inline-block">Department</p>
+        <p class="d-inline-block">Credits</p>
+        <p class="d-inline-block">Actions</p>
+      </div>
         {% for course in courses %}
             <div class="custom-card">
               <p>{{ course.course_name }}</p>
@@ -38,9 +45,9 @@
               <p>{{ course.course_dept }}</p>
               <p>{{ course.course_credits }}</p>
               <!-- Edit and Delete Actions -->
-              <div class="d-flex justify-content-center">
+              <div class="d-inline justify-content-center ml-4">
                 <button class="btn btn-outline-dark mr-3 text-white" onclick="openModal('{{ course.course_id }}', '{{ course.course_name }}', '{{ course.course_identifier }}', '{{ course.course_dept }}', '{{ course.course_credits }}')"><i class="fa-solid fa-pen-nib"></i></button>
-                <form method="post" action="{% url 'courses-supervisor' %}">
+                <form method="post" action="{% url 'courses-supervisor' %}" class="d-inline">
                   {% csrf_token %}
                   <input type="hidden" name="course_id" value="{{ course.course_id }}">
                   <input type="hidden" name="action" value="delete">
