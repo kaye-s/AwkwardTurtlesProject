@@ -22,6 +22,7 @@
         <th>Department</th>
         <th>Credits</th>
         <th>Instructor</th>
+        <th>TAs</th>  
         <th>Actions</th>
       </tr>
     </thead>
@@ -40,7 +41,18 @@
           {% endif %}
         </td>
         <td>
-          <button class="btn-gradx1" onclick="openModal('{{ course.course_id }}', '{{ course.course_name }}', '{{ course.course_identifier }}', '{{ course.course_dept }}', '{{ course.course_credits }}', '{{ course.instructor.id|default:'' }}')">Edit</button>
+        {% if course.course_ta.all %}
+            {% for ta in course.course_ta.all %}
+            {{ ta.user.fname }} {{ ta.user.lname }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+        {% else %}
+            None
+        {% endif %}
+        </td>
+        <td>
+          <!--
+            <button class="btn-gradx1" onclick="openModal('{{ course.course_id }}', '{{ course.course_name }}', '{{ course.course_identifier }}', '{{ course.course_dept }}', '{{ course.course_credits }}', '{{ course.instructor.id|default:'' }}')">Edit</button>
+          -->
           <form method="post" action="{% url 'courses-supervisor' %}" style="display:inline;">
             {% csrf_token %}
               <input type="hidden" name="action" value="deleteCourse">
