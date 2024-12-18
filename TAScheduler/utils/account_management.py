@@ -90,6 +90,7 @@ def edit_user_account(request):
         if context['fname'] != '' and user.fname != context['fname']:
             did_change = True
             user.fname = context['fname']
+        
         if context['lname'] != '' and user.lname != context['lname']:
             did_change = True
             user.lname = context['lname']
@@ -97,12 +98,12 @@ def edit_user_account(request):
             did_change = True
             user.phone_number = context['phone_number']  # Assuming phone_number exists in your custom user model
         if context['address1'] != '':
-            print(user.address)
             new_address = context['address1'] + "<TASCheduler_delimiter>" + context['address2']
             if user.address != new_address:
                 did_change = True
                 user.address = new_address
         
+
         # Update Password
         check = check_password(context['password'], user.password)
         if context['password'] != '':
@@ -126,7 +127,6 @@ def edit_user_account(request):
                 obj.save()
                 did_change = True
         else:
-            did_change = True
             obj.delete()  # Delete the current role-specific object
             if context['role'] == "Supervisor":
                 Supervisor.objects.create(user=user, admin_dept=context['dept'])
@@ -134,6 +134,7 @@ def edit_user_account(request):
                 Instructor.objects.create(user=user, instructor_dept=context['dept'])
             elif context['role'] == "TA":
                 TA.objects.create(user=user, ta_dept=context['dept'])
+            messages.success(request, "Successfully updated the user's role")
 
         # Save User changes
         if did_change:
