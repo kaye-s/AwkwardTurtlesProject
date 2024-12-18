@@ -1,3 +1,5 @@
+#Changed from error to failing
+
 from django.test import TestCase
 from django.db.utils import IntegrityError
 from django.contrib.auth import get_user_model
