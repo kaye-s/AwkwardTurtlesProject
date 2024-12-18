@@ -8,7 +8,7 @@ User = get_user_model()
 
 class ContactInfoUpdateTests(TestCase):
     def setUp(self):
-
+#test
         self.user = User.objects.create_user(
             email="testuser@example.com",
             password="password123",
