@@ -56,6 +56,8 @@
                   <option value="{{ ta.id }}">{{ ta.user.fname }} {{ ta.user.lname }}</option>
                 {% endfor %}
                 </select>
+            <input type="hidden" name="action" value="addTACourse">
+            <button type="submit" class="btn-gradx2">ADD TA</button>
           </form>
           <form method="post" action="{% url 'courses-supervisor' %}" style="display:inline;">
             {% csrf_token %}

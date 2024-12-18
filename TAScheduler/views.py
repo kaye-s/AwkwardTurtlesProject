@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from TAScheduler.utils.auth import group_required  # Import the group_required decorator
 from TAScheduler.utils.account_management import create_user_account, edit_user_account, \
     delete_user_account  # Utility functions
-from TAScheduler.utils.courses import create_course, edit_course, delete_course, assignTA_course, removeTA_course, assignTA_section, create_section, delete_section, removeTA_section
+from TAScheduler.utils.courses import create_course, edit_course, delete_course, assignTA_course, removeTA_course, create_section, delete_section, edit_section
 from TAScheduler.models import Supervisor, TA, Instructor
 from TAScheduler.models import Course, Section
 from django.contrib import messages
@@ -56,9 +56,10 @@ class AccountManagementView(View):
 class Courses_Supervisor(View):
     def get(self, request):
         courses = Course.objects.all()
+        tas = TA.objects.all()
         instructors = Instructor.objects.all()
         return render(request, 'courses_supervisor.html',
-                      {'courses': courses, 'instructors': instructors, 'role': 'Supervisor'})
+                      {'courses': courses, 'instructors': instructors, 'tas': tas, 'role': 'Supervisor'})
 
     def post(self, request):
         action = request.POST.get('action')
@@ -75,7 +76,7 @@ class Courses_Supervisor(View):
         elif action == 'addTACourse':
             course_ta = request.POST.get('course_ta')
             return assignTA_course(request, course_ta)
-        elif action == 'addTACourse':
+        elif action == 'deleteTACourse':
             course_ta = request.POST.get('course_ta')
             return removeTA_course(request, course_ta)
         elif action == 'createSection':
@@ -86,41 +87,35 @@ class Courses_Supervisor(View):
         elif action == 'deleteSection':
             section_id = request.POST.get('section_id')
             return delete_section(request, section_id)
-        elif action == 'addTASection':
-            section_ta = request.POST.get('section_ta')
-            return assignTA_section(request, section_ta)
-        elif action == 'addTASection':
-            section_ta = request.POST.get('section_ta')
-            return removeTA_section(request, section_ta)
         else:
             return JsonResponse({'error': 'Invalid action'}, status=400)
 
 
 
 
-@login_required
-@group_required('Supervisor')
-def sections_supervisor(request):
-    if request.method == 'POST':
-        action = request.POST.get('action')
-
-        # Handle Create, Edit, and Delete based on action
-        if action == 'create':
-            return create_section(request)
-        elif action == 'edit':
-            section_id = request.POST.get('section_id')
-            return edit_section(request, section_id)
-        elif action == 'delete':
-            section_id = request.POST.get('section_id')
-            return delete_course(request, section_id)
-        else:
-            return JsonResponse({'error': 'Invalid action'}, status=400)
-    else:
-        # Display all courses for GET requests
-        sections = Section.objects.all()
-        instructors = Instructor.objects.all()
-        return render(request, 'courses_supervisor.html',
-                      {'sections': sections, 'instructors': instructors, 'role': 'Supervisor'})
+# @login_required
+# @group_required('Supervisor')
+# def sections_supervisor(request):
+#     if request.method == 'POST':
+#         action = request.POST.get('action')
+#
+#         # Handle Create, Edit, and Delete based on action
+#         if action == 'create':
+#             return create_section(request)
+#         elif action == 'edit':
+#             section_id = request.POST.get('section_id')
+#             return edit_section(request, section_id)
+#         elif action == 'delete':
+#             section_id = request.POST.get('section_id')
+#             return delete_course(request, section_id)
+#         else:
+#             return JsonResponse({'error': 'Invalid action'}, status=400)
+#     else:
+#         # Display all courses for GET requests
+#         sections = Section.objects.all()
+#         instructors = Instructor.objects.all()
+#         return render(request, 'courses_supervisor.html',
+#                       {'sections': sections, 'instructors': instructors, 'role': 'Supervisor'})
 
 
 # Create a new course

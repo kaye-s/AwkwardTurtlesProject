@@ -20,6 +20,14 @@ def populate_dict(request):
         'course_ta': escape(request.POST.get("course_ta")),
         'instructor': escape(request.POST.get("instructor")),
         'action': escape(request.POST.get('action')),
+        'section_type': escape(request.POST.get('section_type')),
+        'section_num': escape(request.POST.get('section_num')),
+        'section_course': escape(request.POST.get('section_course')),
+        'days_of_week': escape(request.POST.get('days_of_week')),
+        'section_startTime': escape(request.POST.get('section_startTime')),
+        'section_endTime': escape(request.POST.get('section_endTime')),
+        'section_ta': escape(request.POST.get('section_ta')),
+        'lecture_instructor': escape(request.POST.get('lecture_instructor')),
     }
 
 
@@ -100,6 +108,7 @@ def delete_course(request, course_id):
         return redirect('courses-supervisor')
 
 def assignTA_course(request, course_id):
+    tas = TA.objects.all()
     context = populate_dict(request)
     course = Course.objects.filter(course_id=course_id).exists()
     if course:
@@ -117,17 +126,37 @@ def removeTA_course(request, course_id):
         course.course_ta.remove(context['course_ta'])
         course.save()
 
-def removeTA_section(request, section_id):
-    pass
+def create_section(request):
+    context = populate_dict(request)
 
-def assignTA_section(request, section_id):
-    pass
+    # Check if a course with the same identifier already exists
+    if Section.objects.filter(section_num=context['section_num']).exists():
+        messages.error(request, f"A section with the identifier '{context['section_num']}' already exists.")
+        return redirect('courses-supervisor')
 
-def create_section(request, section_id):
-    pass
+    # Create the course if no duplicate is found
+    Section.objects.create(
+        section_type=context['section_type'],
+        section_num=context['section_num'],
+        section_course=context['section_course'],
+        days_of_week=context['days_of_week'],
+        section_startTime=context['section_startTime'],
+        section_endTime=context['section_endTime'],
+        section_ta=context['section_ta'],
+        lecture_instructor=context['lecture_instructor'],
+    )
+    messages.success(request, "Section created successfully.")
+
+    return redirect('courses-supervisor')
 
 def delete_section(request, section_id):
-    pass
+    section = Section.objects.filter(section_id=section_id).exists()
+    if section:
+        Section.objects.get(section_id=section_id).delete()
+        return redirect('courses-supervisor')
+    else:
+        messages.error(request, "Section does not exist")
+        return redirect('courses-supervisor')
 
 def edit_section(request, section_id):
     pass
