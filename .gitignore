@@ -8,3 +8,4 @@ Pipfile
 **/*.css.map
 DO_NOT_CHECKOUT_OTHER_BRANCH
 .env
+makefile
