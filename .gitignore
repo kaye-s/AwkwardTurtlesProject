@@ -4,3 +4,4 @@
 Pipfile.lock
 Pipfile
 TAScheduler/static/css/components/_courses_supervisor.scss
+**/__Pycache__
