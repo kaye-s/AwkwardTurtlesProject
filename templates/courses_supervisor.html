@@ -43,7 +43,7 @@
           <button class="btn-gradx1" onclick="openModal('{{ course.course_id }}', '{{ course.course_name }}', '{{ course.course_identifier }}', '{{ course.course_dept }}', '{{ course.course_credits }}', '{{ course.instructor.id|default:'' }}')">Edit</button>
           <form method="post" action="{% url 'courses-supervisor' %}" style="display:inline;">
             {% csrf_token %}
-              <input type="hidden" name="action" value="delete">
+              <input type="hidden" name="action" value="deleteCourse">
               <input type="hidden" name="course_id" value={{ course.course_id }}>
             <button type="submit" class="btn-gradx2">Delete</button>
           </form>

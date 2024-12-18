@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from TAScheduler.utils.auth import group_required  # Import the group_required decorator
 from TAScheduler.utils.account_management import create_user_account, edit_user_account, \
     delete_user_account  # Utility functions
-from TAScheduler.utils.courses import create_course, edit_course, delete_course
+from TAScheduler.utils.courses import create_course, edit_course, delete_course, assignTA_course, removeTA_course, assignTA_section, createSection, deleteSection, deleteTA_section
 from TAScheduler.models import Supervisor, TA, Instructor
 from TAScheduler.models import Course, Section
 from django.contrib import messages
@@ -72,9 +72,25 @@ class Courses_Supervisor(View):
             course_id = request.POST.get('course_id')
             return delete_course(request, course_id)
         elif action == 'addTACourse':
-            pass  #ADD
+            course_ta = request.POST.get('course_ta')
+            return assignTA_course(request, course_ta)
         elif action == 'addTACourse':
-            pass  #ADD
+            course_ta = request.POST.get('course_ta')
+            return removeTA_course(request, course_ta)
+        elif action == 'createSection':
+            return create_section(request)
+        elif action == 'editSection':
+            section_id = request.POST.get('section_id')
+            return edit_section(request, section_id)
+        elif action == 'deleteSection':
+            section_id = request.POST.get('section_id')
+            return delete_section(request, section_id)
+        elif action == 'addTASection':
+            section_ta = request.POST.get('section_ta')
+            return assignTA_section(request, section_ta)
+        elif action == 'addTASection':
+            section_ta = request.POST.get('section_ta')
+            return removeTA_section(request, section_ta)
         else:
             return JsonResponse({'error': 'Invalid action'}, status=400)
 
