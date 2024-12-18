@@ -137,6 +137,24 @@ def create_section(request):
         messages.error(request, f"A section with the identifier '{context['section_num']}' already exists.")
         return redirect('courses-supervisor')
 
+    if context['lecture_instructor'] == 'None':
+        context['lecture_instructor'] = None
+    else:
+        context['lecture_instructor'] = Instructor.objects.get(id=context['lecture_instructor'])
+    if context['section_ta'] == 'None':
+        context['section_ta'] = None
+    else:
+        context['section_ta'] = TA.objects.get(id=context['section_ta'])
+
+
+    course = Course.objects.get(course_id=context['course_id'])
+    if course.instructor != context['lecture_instructor'] and context['lecture_instructor'] != None:
+        messages.error(request, f"This instructor isn't a part of that course. Please be sure to only select instructors that are assigned to the course.")
+        return redirect('courses-supervisor')
+    if context['section_ta'] not in course.course_ta.all() and context['section_ta'] != None:
+        messages.error(request, f"This TA isn't a part of that course. Please be sure to only select TAs that are assigned to the course.")
+        return redirect('courses-supervisor')
+
     # Create the course if no duplicate is found
     Section.objects.create(
         section_type=context['section_type'],

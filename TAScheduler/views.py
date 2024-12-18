@@ -56,10 +56,11 @@ class AccountManagementView(View):
 class Courses_Supervisor(View):
     def get(self, request):
         courses = Course.objects.all()
+        sections = Section.objects.all()
         tas = TA.objects.all()
         instructors = Instructor.objects.all()
         return render(request, 'courses_supervisor.html',
-                      {'courses': courses, 'instructors': instructors, 'tas': tas, 'role': 'Supervisor'})
+                      {'courses': courses, 'instructors': instructors, 'tas': tas, 'sections': sections, 'role': 'Supervisor'})
 
     def post(self, request):
         action = request.POST.get('action')

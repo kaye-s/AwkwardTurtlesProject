@@ -142,9 +142,8 @@
   <table class="table-div">
     <thead>
       <tr>
-        <th>Section ID</th>
-        <th>Type</th>
         <th>Number</th>
+        <th>Type</th>
         <th>Course</th>
         <th>Days</th>
         <th>Start Time</th>
@@ -157,9 +156,8 @@
     <tbody>
       {% for section in sections %}
       <tr>
-        <td>{{ section.section_id }}</td>
-        <td>{{ section.section_type }}</td>
         <td>{{ section.section_num }}</td>
+        <td>{{ section.section_type }}</td>
         <td>{{ section.section_course.course_name }}</td>
         <td>{{ section.days_of_week }}</td>
         <td>{{ section.section_startTime }}</td>
@@ -221,7 +219,7 @@
       <input type="text" id="sectionNumField" name="section_num" required />
       
       <label for="section_days">Days of Week:</label>
-      <input type="text" id="sectionDaysField" name="section_days" required />
+      <input type="text" id="sectionDaysField" name="days_of_week" required />
       
       <label for="section_startTime">Start Time:</label>
       <input type="text" id="sectionStartTimeField" name="section_startTime" required />
@@ -231,7 +229,7 @@
 
 
       <label for="instructor_id">Assign Instructor:</label>
-      <select id="instructorIdField" name="instructor_id">
+      <select id="instructorIdField" name="lecture_instructor">
         <option value="" selected disabled>Select Instructor</option>
         {% for instructor in instructors %}
           <option value="{{ instructor.id }}">{{ instructor.user.fname }} {{ instructor.user.lname }}</option>
@@ -239,7 +237,7 @@
       </select>
 
       <label for="ta_id">Assign TA:</label>
-      <select id="taIdField" name="ta_id">
+      <select id="taIdField" name="section_ta">
         <option value="" selected disabled>Select TA</option>
         {% for ta in tas %}
           <option value="{{ ta.id }}">{{ ta.user.fname }} {{ ta.user.lname }}</option>
