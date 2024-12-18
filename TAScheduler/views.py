@@ -187,6 +187,7 @@ class Courses_Supervisor(View):
 #         return redirect('courses-supervisor')
 #     return redirect('courses-supervisor')
 
+#this is my commit ahhhh
 class courses_other(View):
     def get(self, request):
         courses = Course.objects.all()
