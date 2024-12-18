@@ -187,6 +187,7 @@ class Courses_Supervisor(View):
 #         return redirect('courses-supervisor')
 #     return redirect('courses-supervisor')
 
+#this is my commit ahhhh
 class courses_other(View):
     def get(self, request):
         courses = Course.objects.all()
@@ -206,7 +207,6 @@ class AccountOtherView(View):
 
 class ContactInfoView(View):
     def get(self, request):
-
         current_user = request.user
         search_query = request.GET.get('search', '').strip()
 
@@ -224,7 +224,6 @@ class ContactInfoView(View):
                     Q(user__email__icontains=search_query)
                 )
 
-
         supervisors = search_users(Supervisor)
         instructors = search_users(Instructor)
         tas = search_users(TA)
@@ -236,3 +235,29 @@ class ContactInfoView(View):
             'tas': tas,
             'search_query': search_query,
         })
+
+    def post(self, request):
+        # Allow users to update their contact information
+        user = request.user
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        email = request.POST.get('email')
+        address = request.POST.get('address')
+        phone_number = request.POST.get('phone_number')
+
+        # Update only the fields provided
+        if fname:
+            user.fname = fname
+        if lname:
+            user.lname = lname
+        if email:
+            user.email = email
+        if address:
+            user.address = address
+        if phone_number:
+            user.phone_number = phone_number
+
+        user.save()
+
+        messages.success(request, "Your contact information has been updated.")
+        return redirect('contact-info')  # Adjust the URL name to match your project

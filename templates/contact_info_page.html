@@ -12,6 +12,31 @@
     </tr>
 </table>
 
+<button id="showUpdateFormBtn">Update</button>
+
+<!-- Hidden form for updating contact information -->
+<form method="POST" id="updateForm" style="display: none; margin-top: 20px;">
+    {% csrf_token %}
+    <label for="fname">First Name:</label>
+    <input type="text" id="fname" name="fname" value="{{ current_user.fname }}"><br>
+
+    <label for="lname">Last Name:</label>
+    <input type="text" id="lname" name="lname" value="{{ current_user.lname }}"><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" value="{{ current_user.email }}"><br>
+
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address" value="{{ current_user.address }}"><br>
+
+    <label for="phone_number">Phone Number:</label>
+    <input type="text" id="phone_number" name="phone_number" value="{{ current_user.phone_number }}"><br>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+<hr>
+
 <h2>Search Contacts</h2>
 <form method="GET">
     <input type="text" name="search" placeholder="Search by name or email" value="{{ search_query }}">
@@ -48,4 +73,12 @@
         <li>No TAs found.</li>
     {% endfor %}
 </ul>
+
+<script>
+    // JavaScript to toggle the visibility of the update form
+    document.getElementById('showUpdateFormBtn').addEventListener('click', function () {
+        const form = document.getElementById('updateForm');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    });
+</script>
 {% endblock %}
