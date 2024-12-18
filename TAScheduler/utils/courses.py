@@ -116,6 +116,7 @@ def assignTA_course(request, course_id):
     if not Course.objects.filter(course_id=course_id, course_ta=context['course_ta']).exists():
         course.course_ta.add(context['course_ta'])
         course.save()
+    return redirect('courses-supervisor')
 
 def removeTA_course(request, course_id):
     context = populate_dict(request)
@@ -125,6 +126,7 @@ def removeTA_course(request, course_id):
     if Course.objects.filter(course_id=course_id, course_ta=context['course_ta']).exists():
         course.course_ta.remove(context['course_ta'])
         course.save()
+    return redirect('courses-supervisor')
 
 def create_section(request):
     context = populate_dict(request)

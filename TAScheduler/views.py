@@ -74,11 +74,11 @@ class Courses_Supervisor(View):
             course_id = request.POST.get('course_id')
             return delete_course(request, course_id)
         elif action == 'addTACourse':
-            course_ta = request.POST.get('course_ta')
-            return assignTA_course(request, course_ta)
+            course_id = request.POST.get('course_id')
+            return assignTA_course(request, course_id)
         elif action == 'deleteTACourse':
-            course_ta = request.POST.get('course_ta')
-            return removeTA_course(request, course_ta)
+            course_id = request.POST.get('course_id')
+            return removeTA_course(request, course_id)
         elif action == 'createSection':
             return create_section(request)
         elif action == 'editSection':
