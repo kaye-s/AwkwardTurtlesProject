@@ -29,10 +29,13 @@
                     </div>
                 </header>
                 <hr style="background-color: white;">
+                        <!-- Display Messages -->
                 {% if messages %}
+                <div class="w-50">
                     {% for message in messages %}
-                        <div class="alert alert-warning">{{ message }}</div>
+                    <p class="alert alert-{% if message.tags == "error" %}danger{% else %}{{message.tags}}{% endif %}">{{ message }}</p>
                     {% endfor %}
+                </div>
                 {% endif %}
                 <h2 style="font-family: Amatic SC; color:whitesmoke;">User List</h2>
                 

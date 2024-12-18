@@ -59,7 +59,8 @@ class AccountManagementView(View):
 @method_decorator([login_required(login_url="/"), group_required('Supervisor')], name='dispatch')
 class Courses_Supervisor(View):
     def get(self, request):
-        courses = Course.objects.all()
+        u = Supervisor.objects.get(user=request.user.email)
+        courses = Course.objects.filter(super_id=u.id)
         return render(request, 'courses_supervisor.html',
                       {'courses': courses, 'role': 'Supervisor'})
 

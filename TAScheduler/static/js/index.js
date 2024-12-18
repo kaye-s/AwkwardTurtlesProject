@@ -179,7 +179,7 @@ if(ta_group){
 
 const openModal = (courseId = "", courseName = "", courseIdentifier = "", courseDept = "", courseCredits = "") => {
     document.getElementById("modalTitle").textContent = courseId ? "Edit Course" : "Create New Course";
-    document.getElementById("courseForm").action = courseId ? `/edit_course/${courseId}/` : "/create_course/";
+    document.getElementById("courseFormAction").value = courseId  ? "edit" : "create";
     document.getElementById("courseIdField").value = courseId;
     document.getElementById("courseNameField").value = courseName;
     document.getElementById("courseIdentifierField").value = courseIdentifier;
