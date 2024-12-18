@@ -3,3 +3,4 @@
 .vscode/launch.json
 Pipfile.lock
 Pipfile
+**/__pycache__
