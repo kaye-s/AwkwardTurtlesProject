@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <div class="container-fluid my-4 text-white">
     <h2>Your Contact Information</h2>
     <table class="table text-white w-50">
@@ -24,7 +25,7 @@
 
 <button id="showUpdateFormBtn" class="btn btn-outline-danger">Update</button>
 
-<!-- Hidden form for updating contact information -->
+<!-- Hidden form for updating contact information. -->
 <form method="POST" id="updateForm" style="display: none; margin-top: 20px; width: 200px;">
     {% csrf_token %}
     <label for="fname">First Name:</label>
