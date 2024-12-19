@@ -43,7 +43,9 @@ class AccountManagementEditTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
         data = {
-            'action' : 'edit'
+            'user_id': 'supervisor@example.com',
+            'old_role': 'Supervisor',
+            'action': 'edit'
         }
         response = self.client.post("/account-management/", data)
         self.assertEqual(response.status_code, 302) #status is a type 3XX cause our view redirects back to itself
