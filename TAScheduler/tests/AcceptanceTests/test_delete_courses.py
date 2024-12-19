@@ -3,12 +3,13 @@ from django.db.utils import IntegrityError
 from django.contrib.auth import get_user_model
 from django.contrib.messages import get_messages
 from django.contrib.auth.models import Group
-from TAScheduler.models import Course, Supervisor, Section
+from TAScheduler.models import Course, Supervisor, Section, Instructor, TA
 
 User = get_user_model()
 
 class TestDeleteCourses(TestCase):
     def setUp(self):
+        # Create Supervisor User
         self.supervisor_user = User.objects.create_user(
             email='supervisor@example.com',
             password='superpassword123',
@@ -17,16 +18,47 @@ class TestDeleteCourses(TestCase):
             address='123 Supervisor Lane',
             phone_number='1234567890'
         )
+
         supervisor_group, _ = Group.objects.get_or_create(name='Supervisor')
         self.supervisor_user.groups.add(supervisor_group)
-        self.supervisor_user = Supervisor(user=self.supervisor_user, admin_dept="Supervisor Dept")
+        self.supervisor_user.save()
+        self.supervisor_user = Supervisor(user=self.supervisor_user, admin_dept="dept")
         self.supervisor_user.save()
 
-        self.testCourse = Course(super_id=self.supervisor_user, course_name='Test Course', course_identifier="601", course_dept="Testing Dept", course_credits=3)
-        self.testCourse.save()
+        self.ta_user = User.objects.create_user(
+            email='ta@example.com',
+            password='tapassword123',
+            fname='TA',
+            lname='User',
+            address='456 TA Road',
+            phone_number='0987654321'
+        )
 
-        self.testSection = Section(section_num=300, section_course=self.testCourse)
-        self.testSection.save()
+        self.ta_user.save()
+        self.ta_user = TA(user=self.ta_user, ta_dept="dept")
+        self.ta_user.save()
+
+        self.instructor_user = User.objects.create_user(
+            email='instructor@example.com',
+            password='instructorpassword123',
+            fname='Instructor',
+            lname='User',
+            address='456 TA Road',
+            phone_number='0987654321'
+        )
+
+        self.instructor_user.save()
+        self.instructor_user = Instructor(user=self.instructor_user, instructor_dept="dept")
+        self.instructor_user.save()
+
+        self.course_test = Course.objects.create(
+            super_id=self.supervisor_user,
+            course_name='CS150',
+            course_identifier='150',
+            course_dept='Computer Science',
+            course_credits=3,
+        )
+        self.course_test.save()
 
     def test_delete_course_success(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')

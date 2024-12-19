@@ -38,29 +38,29 @@ def create_course(request):
     if Course.objects.filter(course_identifier=context['course_identifier']).exists():
         messages.error(request, f"A course with the identifier '{context['course_identifier']}' already exists.")
         return redirect('courses-supervisor')
-
-    # Create the course if no duplicate is found
-    if context['instructor'] == 'None':
-        Course.objects.create(
-            course_name=context['course_name'],
-            course_identifier=context['course_identifier'],
-            course_dept=context['course_dept'],
-            course_credits=context['course_credits'],
-            super_id=Supervisor.objects.get(user=request.user),
-        )
-        messages.success(request, "Course created successfully.")
     else:
-        instructorPass = Instructor.objects.get(user=context['instructor'])
-        Course.objects.create(
-            course_name=context['course_name'],
-            course_identifier=context['course_identifier'],
-            course_dept=context['course_dept'],
-            course_credits=context['course_credits'],
-            instructor=instructorPass,
-            super_id=Supervisor.objects.get(user=request.user),
-        )
-        messages.success(request, "Course created successfully.")
-    return redirect('courses-supervisor')
+        # Create the course if no duplicate is found
+        if context['instructor'] == 'None':
+            Course.objects.create(
+                course_name=context['course_name'],
+                course_identifier=context['course_identifier'],
+                course_dept=context['course_dept'],
+                course_credits=context['course_credits'],
+                super_id=Supervisor.objects.get(user=request.user),
+            )
+            messages.success(request, "Course created successfully.")
+        else:
+            instructorPass = Instructor.objects.get(user=context['instructor'])
+            Course.objects.create(
+                course_name=context['course_name'],
+                course_identifier=context['course_identifier'],
+                course_dept=context['course_dept'],
+                course_credits=context['course_credits'],
+                instructor=instructorPass,
+                super_id=Supervisor.objects.get(user=request.user),
+            )
+            messages.success(request, "Course created successfully.")
+        return redirect('courses-supervisor')
 
 
 # Edit an existing course
