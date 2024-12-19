@@ -80,8 +80,9 @@ def edit_user_account(request):
         obj = get_object_or_404(Instructor, user_id=user_id)
     elif user_role == "TA":
         obj = get_object_or_404(TA, user_id=user_id)
-
-    if obj is not None:
+    if obj == 'None':
+        messages.error(request, "User does not exist") #Message if user does not exist
+    else:
         user = obj.user  # Access the related user object
 
         # Update User fields
