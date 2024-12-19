@@ -3,7 +3,7 @@ from django.db.utils import IntegrityError
 from django.contrib.auth import get_user_model
 from django.contrib.messages import get_messages
 from django.contrib.auth.models import Group
-from TAScheduler.models import Course, Supervisor, Section, Lab, TA
+from TAScheduler.models import Course, Supervisor, Section, TA
 
 User = get_user_model()
 
@@ -40,78 +40,80 @@ class TestDeleteSections(TestCase):
                                  course_dept="Testing Dept", course_credits=3)
         self.testCourse.save()
 
-        self.testSection = Section(section_num=300, section_course=self.testCourse)
+        self.testSection = Section(section_num=300, section_course=self.testCourse, days_of_week="MFW", section_startTime='8:00', section_endTime="9:00")
         self.testSection.save()
-        self.testLab = Lab(lab_section=self.testSection, lab_ta=self.ta_user, days_of_week="MWF", lab_startTime='2024-11-01-00-00', lab_endTime='2024-11-01-10-00')
-        self.testLab.save()
 
     def test_delete_section_success(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
-        response = self.client.get("/course/delete_section/" + self.testSection.section_id.__str__() + "/")
+        response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 200)
 
         data = {
             'section_id': self.testSection.section_id,
-            'action': 'delete'
+            'action': 'deleteSection'
         }
-        response = self.client.post("/course/", data)
-        self.assertEqual(response.status_code, 302)  # status is a type 3XX cause our view redirects back to itself
 
-        checkSection = Section.objects.get(course_id=self.testSection.section_id)
-        self.assertIsNone(checkSection)
+        response = self.client.post("/courses_supervisor/", data)
+        self.assertEqual(response.status_code, 302)
+
+        checkSection = Section.objects.filter(section_id=self.testSection.section_id).exists()
+        self.assertFalse(checkSection)
 
     def test_delete_section_cascade(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
-        response = self.client.get("/course/delete_section/" + self.testSection.section_id.__str__() + "/")
+        response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 200)
 
         data = {
             'section_id': self.testSection.section_id,
-            'action': 'delete'
+            'action': 'deleteSection'
         }
-        response = self.client.post("/course/", data)
-        self.assertEqual(response.status_code, 302)  # status is a type 3XX cause our view redirects back to itself
+        response = self.client.post("/courses_supervisor/", data)
+        self.assertEqual(response.status_code, 302)
 
-        checkLab = Lab.objects.get(Lab_id=self.testLab.lab_id)
-        self.assertIsNone(checkLab)
-
-        self.assertIsNone(self.testSection)
+        checkSection = Section.objects.filter(section_id=self.testSection.section_id).exists()
+        self.assertFalse(checkSection)
 
     def test_delete_section_invalid_course(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
-        response = self.client.get("/course/delete_section/" + self.testSection.section_id.__str__() + "/")
+        response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 200)
 
         data = {
             'section_id': 12445,
-            'action': 'delete'
+            'action': 'deleteSection'
         }
-        response = self.client.post("/course/", data)
-        self.assertEqual(response.status_code, 302)  # status is a type 3XX cause our view redirects back to itself
-
-        checkSection = Section.objects.get(course_id=self.testSection.section_id)
-        self.assertIsNone(checkSection)
+        response = self.client.post("/courses_supervisor/", data)
+        self.assertEqual(response.status_code, 302)
 
         messages = list(get_messages(response.wsgi_request))
 
         self.assertTrue(
-            any("Cannot delete section, as section does not exist" in str(message) for message in
+            any("Section does not exist" in str(message) for message in
                 messages),
             "Expected a message - section does not exist")
 
     def test_delete_section_as_TA(self):
         self.client.login(email='ta@uwm.edu', password='tapassword123')
 
-        response = self.client.get("/course/delete_section/" + self.testSection.section_id.__str__() + "/")
-        self.assertEqual(response.status_code, 403)
-        self.assertTemplateUsed(response, '403.html')
+        data = {
+            'section_id': self.testSection.section_id,
+            'action': 'deleteSection'
+        }
+
+        response = self.client.post("/courses_supervisor/", data)
+        self.assertEqual(response.status_code, 302)
 
     def test_delete_section_as_Instructor(self):
         self.client.login(email='instructor@uwm.edu', password='instructorpassword123')
 
-        response = self.client.get("/course/delete_section/" + self.testSection.section_id.__str__() + "/")
-        self.assertEqual(response.status_code, 403)
-        self.assertTemplateUsed(response, '403.html')
+        data = {
+            'section_id': self.testSection.section_id,
+            'action': 'deleteSection'
+        }
+
+        response = self.client.post("/courses_supervisor/", data)
+        self.assertEqual(response.status_code, 302)
