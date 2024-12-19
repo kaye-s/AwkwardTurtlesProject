@@ -158,6 +158,23 @@ class AssignUserToCourseTests(TestCase):
 
         self.assertEqual(response.status_code, 302)
 
+    def test_remove_not_assigned(self):
+        self.client.login(email='supervisor@example.com', password='superpassword123')
+        data = {
+            'course_id': self.course_test.course_id,
+            'course_ta': self.ta_user.id,
+            'action': 'deleteTACourse'
+        }
+        response = self.client.post("/courses_supervisor/", data)
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertTrue(
+            any("TA is not assigned to this course - cannot remove" in str(message) for message in
+                messages),
+            "Expected a message - TA not assigned to this course")
+
+        self.assertEqual(response.status_code, 302)
+
     def test_instructor_access_course_management(self):
         self.client.login(email='instructor@example.com', password='instructorpassword123')
 

@@ -127,6 +127,8 @@ def removeTA_course(request, course_id):
         course.course_ta.remove(context['course_ta'])
         course.save()
         messages.success(request, "TA  successfully removed from course.")
+    else:
+        messages.error(request, "TA is not assigned to this course - cannot remove")
     return redirect('courses-supervisor')
 
 def create_section(request):
