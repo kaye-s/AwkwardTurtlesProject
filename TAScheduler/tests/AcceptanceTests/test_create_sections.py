@@ -1,3 +1,5 @@
+from datetime import datetime, time
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from TAScheduler.models import Course, Supervisor, TA, Instructor, Section
@@ -59,6 +61,15 @@ class CreateCourseTests(TestCase):
         )
         self.course_test.save()
 
+        self.course_test2 = Course.objects.create(
+            super_id=self.supervisor_user,
+            course_name='CS250',
+            course_identifier='250',
+            course_dept='Computer Science',
+            course_credits=3,
+        )
+        self.course_test2.save()
+
     def test_create_section_no_error_no_users(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
@@ -66,12 +77,13 @@ class CreateCourseTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
         data = {
+            'course_id': self.course_test.course_id,
             'section_type': 'Lab',
             'section_num': '600',
-            'section_course': self.course_test.course_id,
+            'section_course': self.course_test,
             'days_of_week': 'MW',
-            'section_startTime': '8:00AM',
-            'section_endTime': '10:00AM',
+            'section_startTime': '08:00',
+            'section_endTime': '10:00',
             'action': 'createSection',
         }
         response = self.client.post("/courses_supervisor/", data)
@@ -79,12 +91,12 @@ class CreateCourseTests(TestCase):
 
         # Check if the course was created successfully
         new_section = Section.objects.get(section_num='600')
-        self.assertEqual(new_section.section_type, 'Test Course')
-        self.assertEqual(new_section.section_num, '600')
-        self.assertEqual(new_section.section_course, 'Computer Science')
-        self.assertEqual(new_section.days_of_week, None)
-        self.assertEqual(new_section.section_startTime, None)
-        self.assertEqual(new_section.section_endTime, None)
+        self.assertEqual(new_section.section_type, 'Lab')
+        self.assertEqual(new_section.section_num, 600)
+        self.assertEqual(new_section.section_course, self.course_test)
+        self.assertEqual(new_section.days_of_week, 'MW')
+        self.assertEqual(new_section.section_startTime, time(8, 0))
+        self.assertEqual(new_section.section_endTime, time(10, 0))
 
     def test_instructor_access_course_management(self):
         self.client.login(email='instructor@example.com', password='instructorpassword123')
@@ -98,31 +110,47 @@ class CreateCourseTests(TestCase):
         response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 403)
 
-    def test_course_identifier_must_be_unique(self):
+    def test_section_identifier_must_be_unique(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
         response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 200)
 
         data = {
-            'course_name': 'Test Course',
-            'course_identifier': '150',
-            'course_dept': 'Computer Science',
-            'course_credits': 3,
-            'action': 'createCourse',
+            'course_id': self.course_test.course_id,
+            'section_type': 'Lab',
+            'section_num': '600',
+            'section_course': self.course_test,
+            'days_of_week': 'MW',
+            'section_startTime': '08:00',
+            'section_endTime': '10:00',
+            'action': 'createSection',
         }
         response = self.client.post("/courses_supervisor/", data)
         self.assertEqual(response.status_code, 302)
 
-        new_course = Course.objects.get(course_name='Test Course')
+        data2 = {
+            'course_id': self.course_test2.course_id,
+            'section_type': 'Lab',
+            'section_num': '600',
+            'section_course': self.course_test2,
+            'days_of_week': 'MW',
+            'section_startTime': '08:00',
+            'section_endTime': '10:00',
+            'action': 'createSection',
+        }
+        response = self.client.post("/courses_supervisor/", data2)
+        self.assertEqual(response.status_code, 302)
+
+        new_section = Section.objects.get(section_num=600)
         messages = list(get_messages(response.wsgi_request))
 
         self.assertTrue(
-            any(f"A course with the identifier '{new_course.course_identifier}' already exists." in str(message) for message in
+            any(f"A section with the identifier '{new_section.section_num}' already exists." in str(message) for
+                message in
                 messages),
-            "Expected a message - Course ID already exists")
-        courses = Course.objects.filter(course_identifier='150')
+            "Expected a message - section ID already exists")
+        courses = Course.objects.filter(course_identifier='600')
         self.assertEqual(courses.count(), 1)
-
 
 

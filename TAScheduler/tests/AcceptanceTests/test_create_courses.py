@@ -132,7 +132,7 @@ class CreateCourseTests(TestCase):
         response = self.client.post("/courses_supervisor/", data)
         self.assertEqual(response.status_code, 302)
 
-        new_course = Course.objects.get(course_name='Test Course')
+        new_course = Course.objects.get(course_name='CS150')
         messages = list(get_messages(response.wsgi_request))
 
         self.assertTrue(
