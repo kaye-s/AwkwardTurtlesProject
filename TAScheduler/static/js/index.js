@@ -259,6 +259,9 @@ const openSectionModal = (sectionId = "", sectionType = "", sectionNum = "", cou
     document.getElementById("sectionEndTimeField").value = sectionEndTime;
     document.getElementById("instructorIdField").value = instructorId;
     document.getElementById("sectionModal").style.display = "block";
+    document.querySelectorAll(".tas_courses_input").forEach(t => {
+        
+    })
   }
 
 

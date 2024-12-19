@@ -28,11 +28,13 @@ def populate_dict(request):
         'section_endTime': escape(request.POST.get('section_endTime')),
         'section_ta': escape(request.POST.get('section_ta')),
         'lecture_instructor': escape(request.POST.get('lecture_instructor')),
+        'lecture_tas': escape(request.POST.get('lecture_tas'))
     }
 
 
 def create_course(request):
     context = populate_dict(request)
+    c = None
 
     # Check if a course with the same identifier already exists
     if Course.objects.filter(course_identifier=context['course_identifier']).exists():
@@ -51,7 +53,7 @@ def create_course(request):
             messages.success(request, "Course created successfully.")
         else:
             instructorPass = Instructor.objects.get(user=context['instructor'])
-            Course.objects.create(
+            c = Course.objects.create(
                 course_name=context['course_name'],
                 course_identifier=context['course_identifier'],
                 course_dept=context['course_dept'],
@@ -60,6 +62,12 @@ def create_course(request):
                 super_id=Supervisor.objects.get(user=request.user),
             )
             messages.success(request, "Course created successfully.")
+            tas = request.POST.getlist("lecture_tas")
+            tas = TA.objects.filter(user__in=tas)
+            if len(tas) != 0:
+                c.course_ta.add(*tas)
+
+       
         return redirect('courses-supervisor')
 
 

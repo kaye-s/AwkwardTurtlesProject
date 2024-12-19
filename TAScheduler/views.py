@@ -59,8 +59,13 @@ class Courses_Supervisor(View):
         sections = Section.objects.all()
         tas = TA.objects.all()
         instructors = Instructor.objects.all()
+        if request.user.groups.all().exists():
+            role = request.user.groups.all()[0]
+        else:
+            role = "Supervisor"
+        role = str(role)
         return render(request, 'courses_supervisor.html',
-                      {'courses': courses, 'instructors': instructors, 'tas': tas, 'sections': sections, 'role': 'Supervisor'})
+                      {'courses': courses, 'instructors': instructors, 'tas': tas, 'sections': sections, 'role': role})
 
     def post(self, request):
         action = request.POST.get('action')
@@ -194,8 +199,13 @@ class courses_other(View):
         courses = Course.objects.all()
         tas = TA.objects.all()
         instructors = Instructor.objects.all()
+        if request.user.groups.all().exists():
+            role = request.user.groups.all()[0]
+        else:
+            role = "Supervisor"
+        role = str(role)
         return render(request, 'courses_other.html',
-                      {'courses': courses, 'instructors': instructors, 'tas': tas, 'role': 'Supervisor'})
+                      {'courses': courses, 'instructors': instructors, 'tas': tas, 'role': role})
 
 class AccountOtherView(View):
 
@@ -228,13 +238,18 @@ class ContactInfoView(View):
         supervisors = search_users(Supervisor)
         instructors = search_users(Instructor)
         tas = search_users(TA)
+        if request.user.groups.all().exists():
+            role = request.user.groups.all()[0]
+        else:
+            role = "Supervisor"
+        role = str(role)
 
         return render(request, 'contact_info_page.html', {
             'current_user': current_user,
             'supervisors': supervisors,
             'instructors': instructors,
             'tas': tas,
-            'role':'Supervisor',
+            'role':role,
             'search_query': search_query,
         })
 

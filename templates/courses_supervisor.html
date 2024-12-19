@@ -37,6 +37,7 @@
           <p class="d-inline-block">Course Code</p>
           <p class="d-inline-block">Department</p>
           <p class="d-inline-block">Credits</p>
+          <p class="d-inline-block">Instructor</p>
           <p class="d-inline-block">Actions</p>
         </div>
         {% for course in courses %}
@@ -45,13 +46,14 @@
             <p>{{ course.course_identifier }}</p>
             <p>{{ course.course_dept }}</p>
             <p>{{ course.course_credits }}</p>
+            <p>{{ course.instructor.user.fname }} {{ course.instructor.user.lname }}</p>
             <!-- Edit and Delete Actions -->
             <div class="d-inline justify-content-center ml-4">
               <button class="btn btn-outline-dark mr-3 text-white" onclick="openModal('{{ course.course_id }}', '{{ course.course_name }}', '{{ course.course_identifier }}', '{{ course.course_dept }}', '{{ course.course_credits }}')"><i class="fa-solid fa-pen-nib"></i></button>
               <form method="post" action="{% url 'courses-supervisor' %}" class="d-inline">
                 {% csrf_token %}
                 <input type="hidden" name="course_id" value="{{ course.course_id }}" class="deleteFormCourse"/>
-                <input type="hidden" name="action" value="delete" />
+                <input type="hidden" name="action" value="deleteCourse" />
                 <button type="submit" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
               </form>
             </div>
@@ -75,20 +77,20 @@
                   <div class="custom-card2">
                     <input class="d-none course_class_for_section" type="text" value="{{ section.section_course.course_id }}">
                     <div class="item">Section number: {{ section.section_num }}</div>
-                    <div class="item">Typer: {{ section.section_type }}</div>
+                    <div class="item">Type: {{ section.section_type }}</div>
                     <div class="item">Course: {{ section.section_course.course_name }}</div>
                     <div class="item">Days of Week:{{ section.days_of_week }}</div>
                     <div class="item">Time:{{ section.section_startTime }} - {{ section.section_endTime }}</div>
                     <div class="item">
                       {% if section.section_ta %}
-                        {{ section.section_ta.user.fname }} {{ section.section_ta.user.lname }}
+                        TA: {{ section.section_ta.user.fname }} {{ section.section_ta.user.lname }}
                       {% else %}
                         No TA
                       {% endif %}
                     </div>
                     <div class="item">
                       {% if section.lecture_instructor %}
-                        {{ section.lecture_instructor.user.fname }} {{ section.lecture_instructor.user.lname }}
+                        Instructor: {{ section.lecture_instructor.user.fname }} {{ section.lecture_instructor.user.lname }}
                       {% else %}
                         No Instructor
                       {% endif %}
@@ -182,6 +184,23 @@
           <div>
             <label for="course_credits">Credits:</label>
             <input type="number" id="courseCreditsField" name="course_credits" required />
+          </div>
+          <div>
+            <label for="course_instructor">Course Instructor:</label>
+            <select name="instructor" id="course_instructor">
+              {% for i in instructors %}
+                <option value="{{ i.user.email }}">{{ i.user.email }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <label for="course_tas">Course TAs:</label>
+          <div style="display: block;max-height: 100px; font-size: 12px; overflow-y: scroll; background: rgb(0,0,0, 0.4); padding: 20px; margin: 0 auto;">
+            {% for t in tas %}
+            <div style="margin-top: 0;">
+              <input class="tas_courses_input" type="checkbox" name="lecture_tas" value="{{ t.user.email }}" style="margin: 0;">
+              <span>{{ t.user.email }}</span>
+            </div>
+            {% endfor %}
           </div>
           <button type="submit" class="btn-grad3 red-btn">Save</button>
         </form>
