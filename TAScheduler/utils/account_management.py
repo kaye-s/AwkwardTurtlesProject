@@ -86,6 +86,8 @@ def edit_user_account(request):
         user = obj.user  # Access the related user object
 
         # Update User fields
+        if context['email'] != 'None' and user.email != context['email']:
+            return messages.error(request, "Cannot change email, create a new user instead")  #Message if user attempts to change email
         if context['fname'] != 'None' and user.first_name != context['fname']:
             did_change = True
             user.fname = context['fname']
@@ -138,8 +140,10 @@ def delete_user_account(request):
     Handles deletion of an existing user account.
     """
     user_id = request.POST.get('email')
-    user = get_object_or_404(User, email=user_id)
-    if user == 'None':
+    user = User.objects.filter(email=user_id).exists()
+    if not user:
         messages.error(request, "User does not exist") #Message if user does not exist
-    user.delete()
+    else:
+        user = User.objects.get(email=user_id)
+        user.delete()
     return redirect('account-management')
