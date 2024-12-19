@@ -155,15 +155,17 @@ class AccountManagementEditTests(TestCase):
             phone_number='9876543210',
             address='456 TA Lane'
         )
-        self.ta_user = TA.objects.create(user=self.ta_user, ta_dept='TADepartment')
+        self.ta_user.save()
+        self.ta_user = TA(user=self.ta_user, ta_dept="dept")
         self.ta_user.save()
 
     @patch('django.contrib.messages.error')
     def test_edit_user_change_name(self, mock_message):
+        user = self.ta_user.user
         post_data = {
-            'id': self.ta_user.id,
+            'user_id': user.email,
             'old_role': 'TA',
-            'role':'TA',
+            'role': 'TA',
             'fname': 'Updated',
         }
 
@@ -172,7 +174,7 @@ class AccountManagementEditTests(TestCase):
 
         edit_user_account(request)
 
-        user = User.objects.get(self.ta_user.id)
+        user = User.objects.get(id=self.ta_user.id)
 
         # Assert that the user's details are updated
         user.refresh_from_db()
@@ -183,8 +185,9 @@ class AccountManagementEditTests(TestCase):
 
     @patch('django.contrib.messages.error')
     def test_edit_user_change_password(self, mock_message):
+        user = self.ta_user.user
         post_data = {
-            'id': self.ta_user.id,
+            'user_id': user.email,
             'old_role': 'TA',
             'role': 'TA',
             'password': 'password456',
@@ -195,7 +198,7 @@ class AccountManagementEditTests(TestCase):
 
         edit_user_account(request)
 
-        user = User.objects.get(self.ta_user.id)
+        user = User.objects.get(id=self.ta_user.id)
 
         user.refresh_from_db()
         # Check password
@@ -206,11 +209,13 @@ class AccountManagementEditTests(TestCase):
 
     @patch('django.contrib.messages.error')
     def test_edit_user_change_email(self, mock_message):
+        user = self.ta_user.user
         post_data = {
-            'id': self.ta_user.id,
+            'user_id': user.email,
             'old_role': 'TA',
             'role': 'TA',
-            'email': 'newemail@example.com'
+            'email': 'newemail@example.com',
+            'action': 'edit',
         }
 
         request = MagicMock()
@@ -223,8 +228,9 @@ class AccountManagementEditTests(TestCase):
 
     @patch('django.contrib.messages.error')
     def test_edit_user_change_role(self, mock_message):
+        user = self.ta_user.user
         post_data = {
-            'id': self.ta_user.id,
+            'user_id': user.email,
             'old_role': 'TA',
             'role': 'Supervisor',
             'password': 'password456',
@@ -235,11 +241,12 @@ class AccountManagementEditTests(TestCase):
 
         edit_user_account(request)
 
-        user = User.objects.get(self.ta_user.id)
+        user = User.objects.get(id=self.ta_user.id)
 
         user.refresh_from_db()
         # Check password
-        self.assertEqual(user.role, 'Supervisor')
+        checks = Supervisor.objects.filter(user=user).exists()
+        self.assertTrue(checks)
 
         # Assert no errors in case of success
         mock_message.assert_not_called()
@@ -261,7 +268,7 @@ class AccountManagementDeleteTests(TestCase):
     @patch('django.contrib.messages.error')
     def test_delete_nothing(self, mock_message):
         post_data = {
-
+            'action': 'delete',
         }
 
         request = MagicMock()
@@ -269,12 +276,12 @@ class AccountManagementDeleteTests(TestCase):
 
         delete_user_account(request)
 
-        user = User.objects.get('ta@example.com')
+        user = User.objects.filter(email='ta@example.com')
 
         self.assertIsNotNone(user)
 
         # Assert no errors in case of success
-        mock_message.assert_not_called()
+        mock_message.assert_called()
 
     @patch('django.contrib.messages.error')
     def test_delete_user_success(self, mock_message):
@@ -300,6 +307,7 @@ class AccountManagementDeleteTests(TestCase):
     def test_delete_user_does_not_exist(self, mock_message):
         post_data = {
             'id': 'email@example.com',
+            'action': 'delete',
         }
 
         request = MagicMock()

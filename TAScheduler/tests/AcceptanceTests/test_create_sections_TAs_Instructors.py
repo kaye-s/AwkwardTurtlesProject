@@ -1,12 +1,14 @@
+from datetime import datetime, time
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from TAScheduler.models import Course, Supervisor, TA, Instructor
+from TAScheduler.models import Course, Supervisor, TA, Instructor, Section
 from django.contrib.auth.models import Group
 from django.contrib.messages import get_messages
 
 User = get_user_model()
 
-class CreateCourseTests(TestCase):
+class CreateSectionTests(TestCase):
     def setUp(self):
         # Create Supervisor User
         self.supervisor_user = User.objects.create_user(
@@ -59,50 +61,38 @@ class CreateCourseTests(TestCase):
         )
         self.course_test.save()
 
-    def test_create_course_no_error_no_instructor(self):
+        self.course_test2 = Course.objects.create(
+            super_id=self.supervisor_user,
+            course_name='CS250',
+            course_identifier='250',
+            course_dept='Computer Science',
+            course_credits=3,
+        )
+        self.course_test2.save()
+
+    def test_create_section_ta(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
         response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 200)
 
         data = {
-            'course_name': 'Test Course',
-            'course_identifier': '600',
-            'course_dept': 'Computer Science',
-            'course_credits': 3,
-            'action': 'createCourse',
+            'course_id': self.course_test.course_id,
+            'section_type': 'Lab',
+            'section_num': '600',
+            'section_course': self.course_test,
+            'days_of_week': 'MW',
+            'section_startTime': '08:00',
+            'section_endTime': '10:00',
+            'section_ta': self.ta_user.id,
+            'action': 'createSection',
         }
         response = self.client.post("/courses_supervisor/", data)
         self.assertEqual(response.status_code, 302)
 
-        # Check if the course was created successfully
-        new_course = Course.objects.get(course_name='Test Course')
-        self.assertEqual(new_course.course_name, 'Test Course')
-        self.assertEqual(new_course.course_identifier, '600')
-        self.assertEqual(new_course.course_dept, 'Computer Science')
-        self.assertEqual(new_course.instructor, None)
-        self.assertEqual(new_course.super_id, self.supervisor_user)
-
-    def test_create_course_no_supervisor(self):
-        self.client.login(email='supervisor@example.com', password='superpassword123')
-
-        response = self.client.get("/courses_supervisor/")
-        self.assertEqual(response.status_code, 200)
-
-        # Test missing supervisor field by omitting super_id
-        data = {
-            'course_name': 'Test Course',
-            'course_identifier': '600',
-            'course_dept': 'Computer Science',
-            'course_credits': 3,
-            'action': 'createCourse',
-        }
-        response = self.client.post("/courses_supervisor/", data)
-        new_course = Course.objects.get(course_name='Test Course')
-        self.assertEqual(new_course.course_name, 'Test Course')
-        self.assertEqual(new_course.course_identifier, '600')
-        self.assertEqual(new_course.course_dept, 'Computer Science')
-
+        # Check if the section was created successfully
+        new_section = Section.objects.get(section_num='600')
+        self.assertEqual(new_section.section_ta, self.ta_user.id)
 
     def test_instructor_access_course_management(self):
         self.client.login(email='instructor@example.com', password='instructorpassword123')
@@ -116,28 +106,45 @@ class CreateCourseTests(TestCase):
         response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 403)
 
-    def test_course_identifier_must_be_unique(self):
+    def test_section_identifier_must_be_unique(self):
         self.client.login(email='supervisor@example.com', password='superpassword123')
 
         response = self.client.get("/courses_supervisor/")
         self.assertEqual(response.status_code, 200)
 
         data = {
-            'course_name': 'Test Course',
-            'course_identifier': '150',
-            'course_dept': 'Computer Science',
-            'course_credits': 3,
-            'action': 'createCourse',
+            'course_id': self.course_test.course_id,
+            'section_type': 'Lab',
+            'section_num': '600',
+            'section_course': self.course_test,
+            'days_of_week': 'MW',
+            'section_startTime': '08:00',
+            'section_endTime': '10:00',
+            'action': 'createSection',
         }
         response = self.client.post("/courses_supervisor/", data)
         self.assertEqual(response.status_code, 302)
 
-        new_course = Course.objects.get(course_name='CS150')
+        data2 = {
+            'course_id': self.course_test2.course_id,
+            'section_type': 'Lab',
+            'section_num': '600',
+            'section_course': self.course_test2,
+            'days_of_week': 'MW',
+            'section_startTime': '08:00',
+            'section_endTime': '10:00',
+            'action': 'createSection',
+        }
+        response = self.client.post("/courses_supervisor/", data2)
+        self.assertEqual(response.status_code, 302)
+
+        new_section = Section.objects.get(section_num=600)
         messages = list(get_messages(response.wsgi_request))
 
         self.assertTrue(
-            any(f"A course with the identifier '{new_course.course_identifier}' already exists." in str(message) for message in
+            any(f"A section with the identifier '{new_section.section_num}' already exists." in str(message) for
+                message in
                 messages),
-            "Expected a message - Course ID already exists")
-        courses = Course.objects.filter(course_identifier='150')
-        self.assertEqual(courses.count(), 1)
+            "Expected a message - section ID already exists")
+        sections = Section.objects.filter(section_num=600)
+        self.assertEqual(sections.count(), 1)

@@ -1,3 +1,9 @@
+const phoneInput1 = document.getElementById('phone_number');
+const phoneInput2 = document.getElementById('edit_phone_number');
+
+if(phoneInput1) phoneInput1.addEventListener('input', validated_phone);
+if(phoneInput2) phoneInput2.addEventListener('input', validated_phone);
+
 function initializeAutocomplete (){
     const address1Input = document.getElementById("address1");
     const editAddress1Input = document.getElementById("edit_address1");
@@ -35,13 +41,6 @@ function initializeAutocomplete (){
     });
 }
 
-const phoneInput1 = document.getElementById('phone_number');
-const phoneInput2 = document.getElementById('edit_phone_number');
-
-phoneInput1.addEventListener('input', validated_phone);
-phoneInput2.addEventListener('input', validated_phone);
-
-
 function validated_phone(e){
   let input = e.target.value;
   console.log("phone_input_debug");
@@ -55,4 +54,3 @@ function validated_phone(e){
   }
   e.target.value = input;
 }
-

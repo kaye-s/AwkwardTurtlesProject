@@ -1,10 +1,148 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+<h1>Courses</h1>
+
+<!-- Display Messages -->
+{% if messages %}
+  <div>
+    {% for message in messages %}
+      <p class="{{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<!-- Table for Displaying Courses -->
+<div class="table-wrapper">
+  <table class="table-div">
+    <thead>
+      <tr>
+        <th>Course Name</th>
+        <th>Course Id</th>
+        <th>Department</th>
+        <th>Credits</th>
+        <th>Instructor</th>
+        <th>TAs</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for course in courses %}
+      <tr>
+        <td>{{ course.course_name }}</td>
+        <td>{{ course.course_identifier }}</td>
+        <td>{{ course.course_dept }}</td>
+        <td>{{ course.course_credits }}</td>
+        <td>
+          {% if course.instructor %}
+            {{ course.instructor.user.fname }} {{ course.instructor.user.lname }}
+          {% else %}
+            None
+          {% endif %}
+        </td>
+        <td>
+        {% if course.course_ta.all %}
+            {% for ta in course.course_ta.all %}
+            {{ ta.user.fname }} {{ ta.user.lname }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+        {% else %}
+            None
+        {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+    
+
+<h1>Sections</h1>
+
+<!-- Table for Displaying Sections -->
+<div class="table-wrapper">
+  <table class="table-div">
+    <thead>
+      <tr>
+        <th>Section ID</th>
+        <th>Type</th>
+        <th>Number</th>
+        <th>Course</th>
+        <th>Days</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Instructor</th>
+        <th>TAs</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for section in sections %}
+      <tr>
+        <td>{{ section.section_id }}</td>
+        <td>{{ section.section_type }}</td>
+        <td>{{ section.section_num }}</td>
+        <td>{{ section.section_course.course_name }}</td>
+        <td>{{ section.days_of_week }}</td>
+        <td>{{ section.section_startTime }}</td>
+        <td>{{ section.section_endTime }}</td>
+        <td>
+          {% if section.lecture_instructor %}
+            {{ section.lecture_instructor.user.fname }} {{ section.lecture_instructor.user.lname }}
+          {% else %}
+            None
+          {% endif %}
+        </td>
+        <td>
+          {% if section.section_ta %}
+            {{ section.section_ta.user.fname }} {{ section.section_ta.user.lname }}
+          {% else %}
+            None
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+  }
+
+  .close-btn {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .create-btn {
+    display: block;
+    margin: 20px auto;
+    background: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .create-btn:hover {
+    background: #45a049;
+  }
+</style>
+{% endblock %}

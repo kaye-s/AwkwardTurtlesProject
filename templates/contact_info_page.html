@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid my-4 text-white">
+    <h2>Your Contact Information</h2>
+    <table class="table text-white w-50">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Address</th>
+            <th scope="col">Phone Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">{{ current_user.fname }} {{ current_user.lname }}</th>
+            <td>{{ current_user.email }}</td>
+            <td>{{ current_user.address }}</td>
+            <td>{{ current_user.phone_number }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+<button id="showUpdateFormBtn" class="btn btn-outline-danger">Update</button>
+
+<!-- Hidden form for updating contact information -->
+<form method="POST" id="updateForm" style="display: none; margin-top: 20px; width: 200px;">
+    {% csrf_token %}
+    <label for="fname">First Name:</label>
+    <input type="text" id="fname" name="fname" value="{{ current_user.fname }}"><br>
+
+    <label for="lname">Last Name:</label>
+    <input type="text" id="lname" name="lname" value="{{ current_user.lname }}"><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" value="{{ current_user.email }}"><br>
+
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address" value="{{ current_user.address }}"><br>
+
+    <label for="phone_number">Phone Number:</label>
+    <input type="text" id="phone_number" name="phone_number" value="{{ current_user.phone_number }}"><br>
+
+    <button type="submit" class="btn btn-outline-success">Save Changes</button>
+</form>
+
+<hr class="bg-light w-75">
+
+<div class="w-50 my-4 mx-5">
+    <h2>Search Contacts</h2>
+<form method="GET">
+    <input type="text" name="search" placeholder="Search by name or email"value="{{ search_query }}">
+    <button type="submit" class="btn btn-outline-light">Search</button>
+</form>
+<br>
+{% if search_query %}
+    <h3>Results for "{{ search_query }}":</h3>
+{% endif %}
+
+<h2>Supervisors</h2>
+<ul>
+    {% for supervisor in supervisors %}
+        <li>{{ supervisor.user.fname }} {{ supervisor.user.lname }} ({{ supervisor.user.email }})</li>
+    {% empty %}
+        <li>No supervisors found.</li>
+    {% endfor %}
+</ul>
+
+<h2>Instructors</h2>
+<ul>
+    {% for instructor in instructors %}
+        <li>{{ instructor.user.fname }} {{ instructor.user.lname }} ({{ instructor.user.email }})</li>
+    {% empty %}
+        <li>No instructors found.</li>
+    {% endfor %}
+</ul>
+
+<h2>TAs</h2>
+<ul>
+    {% for ta in tas %}
+        <li>{{ ta.user.fname }} {{ ta.user.lname }} ({{ ta.user.email }})</li>
+    {% empty %}
+        <li>No TAs found.</li>
+    {% endfor %}
+</ul>
+</div>
+</div>
+
+
+<script>
+    
+    document.getElementById('showUpdateFormBtn').addEventListener('click', function () {
+        const form = document.getElementById('updateForm');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    });
+</script>
+{% endblock %}

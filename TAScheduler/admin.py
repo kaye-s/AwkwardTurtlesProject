@@ -79,7 +79,7 @@ class TAAdmin(admin.ModelAdmin):
     get_lname.short_description = 'Last Name'
 
 from django.contrib import admin
-from .models import Lab, Section, Lecture, Course
+from .models import Section, Course
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
@@ -96,19 +96,4 @@ class SectionAdmin(admin.ModelAdmin):
     list_filter = ('section_course__course_dept',)
     ordering = ('section_num',)
 
-
-@admin.register(Lab)
-class LabAdmin(admin.ModelAdmin):
-    list_display = ('lab_section', 'lab_ta', 'days_of_week', 'lab_startTime', 'lab_endTime')
-    search_fields = ('lab_section__section_course__course_name', 'lab_ta__user__email')
-    list_filter = ('days_of_week',)
-    ordering = ('lab_startTime',)
-
-
-@admin.register(Lecture)
-class LectureAdmin(admin.ModelAdmin):
-    list_display = ('lecture_section', 'lecture_instructor', 'days_of_week', 'lecture_startTime', 'lecture_endTime')
-    search_fields = ('lecture_section__section_course__course_name', 'lecture_instructor__user__email')
-    list_filter = ('days_of_week',)
-    ordering = ('lecture_startTime',)
 
