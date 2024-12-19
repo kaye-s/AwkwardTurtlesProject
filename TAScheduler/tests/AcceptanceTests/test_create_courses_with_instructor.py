@@ -6,7 +6,7 @@ from django.contrib.messages import get_messages
 
 User = get_user_model()
 
-class CreateCourseTests(TestCase):
+class CreateCourseInstructorTests(TestCase):
     def setUp(self):
         # Create Supervisor User
         self.supervisor_user = User.objects.create_user(

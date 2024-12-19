@@ -8,7 +8,7 @@ from django.contrib.messages import get_messages
 
 User = get_user_model()
 
-class CreateCourseTests(TestCase):
+class CreateSectionTests(TestCase):
     def setUp(self):
         # Create Supervisor User
         self.supervisor_user = User.objects.create_user(
@@ -89,7 +89,7 @@ class CreateCourseTests(TestCase):
         response = self.client.post("/courses_supervisor/", data)
         self.assertEqual(response.status_code, 302)
 
-        # Check if the course was created successfully
+        # Check if the section was created successfully
         new_section = Section.objects.get(section_num='600')
         self.assertEqual(new_section.section_type, 'Lab')
         self.assertEqual(new_section.section_num, 600)
@@ -150,7 +150,7 @@ class CreateCourseTests(TestCase):
                 message in
                 messages),
             "Expected a message - section ID already exists")
-        courses = Course.objects.filter(course_identifier='600')
-        self.assertEqual(courses.count(), 1)
+        sections = Section.objects.filter(section_num=600)
+        self.assertEqual(sections.count(), 1)
 
 
