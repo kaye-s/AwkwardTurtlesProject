@@ -121,11 +121,8 @@ class AccountManagementEditTests(TestCase):
         response = self.client.post("/account-management/", data)
         self.assertEqual(response.status_code, 302) #status is a type 3XX cause our view redirects back to itself
 
-        messages = list(get_messages(response.wsgi_request))
-
-        self.assertTrue(
-            any("Cannot edit email, please instead create a new account for the user" in str(message) for message in messages),
-            "Expected a message - inability to edit email")
+        self.ta_user.user.refresh_from_db()
+        self.assertEqual('ta@example.com', self.ta_user.user.email) #Ensure email was not changed
 
     def test_ta_access_account_management(self):
         self.client.login(email='ta@example.com', password='tapassword123')
