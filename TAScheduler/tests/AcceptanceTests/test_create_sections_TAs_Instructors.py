@@ -94,6 +94,31 @@ class CreateSectionTests(TestCase):
         new_section = Section.objects.get(section_num='600')
         self.assertEqual(new_section.section_ta, self.ta_user.id)
 
+    def test_create_section_ta_and_instructor(self):
+        self.client.login(email='supervisor@example.com', password='superpassword123')
+
+        response = self.client.get("/courses_supervisor/")
+        self.assertEqual(response.status_code, 200)
+
+        data = {
+            'course_id': self.course_test.course_id,
+            'section_type': 'Lab',
+            'section_num': '600',
+            'section_course': self.course_test,
+            'days_of_week': 'MW',
+            'section_startTime': '08:00',
+            'section_endTime': '10:00',
+            'lecture_instructor': self.instructor_user.id,
+            'section_ta': self.ta_user.id,
+            'action': 'createSection',
+        }
+        response = self.client.post("/courses_supervisor/", data)
+        self.assertEqual(response.status_code, 302)
+
+        # Check if the section was created successfully
+        new_section = Section.objects.get(section_num='600')
+        self.assertEqual(new_section.section_ta, self.ta_user.id)
+
     def test_instructor_access_course_management(self):
         self.client.login(email='instructor@example.com', password='instructorpassword123')
 
