@@ -234,6 +234,7 @@ class ContactInfoView(View):
             'supervisors': supervisors,
             'instructors': instructors,
             'tas': tas,
+            'role':'Supervisor',
             'search_query': search_query,
         })
 

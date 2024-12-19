@@ -149,16 +149,28 @@ if(search_bar){
     }) 
 }
 
+let courseIds = [];
+
 if(courses_card){
-    courses_card.forEach(course_card => {
-        course_card.addEventListener("click", () => {
-            document.getElementById("ol-sections").style.display = "block"; 
+    courses_card.forEach((course_card, i) => {
+        courseIds[i] = course_card.querySelector(".deleteFormCourse").value;
+        course_card.addEventListener("click", (e) => {
+            document.getElementById("ol-sections").classList.remove("d-none"); 
             document.getElementById("sec-message").style.display = "none"; 
+            document.getElementById("sections-content").childNodes.forEach(c => {
+
+                if(c.style && c.querySelector(".course_class_for_section").value == courseIds[i]){
+                    c.style.display = "block";
+                } else if (c.style){
+                    c.style.display = "none";
+                }
+            })
+            document.getElementById("sectionsCourseId").value = courseIds[i];
             
-            setTimeout(() => {
-                document.getElementById("ol-sections").style.display = "none"; 
-                document.getElementById("sec-message").style.display = "block"; 
-            }, 2000)
+            // setTimeout(() => {
+            //     document.getElementById("ol-sections").classList.add("d-none"); 
+            //     document.getElementById("sec-message").style.display = "block"; 
+            // }, 2000)
         })
     })
 }
@@ -179,7 +191,7 @@ if(ta_group){
 
 const openModal = (courseId = "", courseName = "", courseIdentifier = "", courseDept = "", courseCredits = "") => {
     document.getElementById("modalTitle").textContent = courseId ? "Edit Course" : "Create New Course";
-    document.getElementById("courseFormAction").value = courseId  ? "edit" : "create";
+    document.getElementById("courseFormAction").value = courseId  ? "editCourse" : "createCourse";
     document.getElementById("courseIdField").value = courseId;
     document.getElementById("courseNameField").value = courseName;
     document.getElementById("courseIdentifierField").value = courseIdentifier;

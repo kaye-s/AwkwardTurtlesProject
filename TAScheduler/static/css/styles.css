@@ -934,7 +934,7 @@
 }
 .course-page-container {
   padding: 30px;
-  width: 85%;
+  width: 87%;
   margin: auto;
 }
 .course-page-container .jumbotron {
@@ -950,8 +950,9 @@
   font-family: "Chango";
 }
 .course-page-container .table-wrapper {
+  height: fit-content;
   display: flex;
-  justify-content: space-between;
+  position: relative;
   color: white;
   padding: 20px;
   border-radius: 20px;
@@ -973,8 +974,13 @@
 .course-page-container .table-wrapper::-webkit-scrollbar-track {
   background-color: rgba(239, 77, 8, 0.174);
 }
+.course-page-container .table-wrapper .sections-container {
+  width: 38%;
+  position: absolute;
+  right: 10px;
+}
 .course-page-container .table-wrapper .table-content {
-  width: 65%;
+  width: 62%;
   height: 60vh;
   overflow-y: scroll;
   font-family: sans-serif;
@@ -1025,10 +1031,8 @@
   border-color: rgba(190, 179, 179, 0.358);
   transform: scale(0.95);
 }
-.course-page-container #courseModal {
+.course-page-container .modal-content {
   color: white;
-}
-.course-page-container #courseModal .modal-content {
   animation-name: open-x0;
   animation-duration: 0.8s;
   animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
@@ -1188,4 +1192,35 @@ select {
 }
 .custom-container .for-some-stuff h4 {
   font-size: 40px;
+}
+
+.text-pretty-small{
+  font-size: 10px;
+  font-family: "sans-serif";
+  width: 40px;
+  margin: 0 2px;
+  text-align: center;
+  display: inline-block;
+}
+
+.custom-card2{
+  border: 1px solid rgba(245, 206, 206, 0.816);
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.custom-card2 .item{
+  margin: 5px 10px;
+  font-size: 10px;
+}
+
+.custom-card2 i{
+  font-size: 10px;
+}
+
+.custom-anotherx0{
+  max-height: 300px;
+  width: 100%;
+  border-radius: inherit;
+  overflow-y: scroll;
 }

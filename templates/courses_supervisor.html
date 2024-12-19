@@ -1,323 +1,191 @@
 {% extends 'base.html' %}
+{% block title %}
+  Courses
+{% endblock %}
 
 {% block content %}
-<h1>Manage Courses</h1>
+  <div class="course-page-container">
+    <div class="d-flex justify-content-center align-items-center jumbotron jumbotron-fluid" style="background-image: url('/static/media/undraw.svg');">
+      <div class="container text-white">
+        <h1 class="display-2" style="font-family:sans-serif;">Quick Overview</h1>
+        <div class="text-center" style="font-family:sans-serif;">
+          <p class="lead w-75 mx-auto">Currently managing {{ courses|length }} course{{ courses|pluralize }}</p>
+          <p>No section data currently available.</p>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex text-white">
+      <h1>Manage Courses</h1>
+      <!-- Button to Create a New Course -->
+      <button class="btn-grad3 mx-2" onclick="openModal()"><i class="fa-solid fa-folder-plus"></i></button>
+    </div>
 
-<!-- Display Messages -->
-{% if messages %}
-  <div>
-    {% for message in messages %}
-      <p class="{{ message.tags }}">{{ message }}</p>
-    {% endfor %}
-  </div>
-{% endif %}
-
-<!-- Table for Displaying Courses -->
-<div class="table-wrapper">
-  <table class="table-div">
-    <thead>
-      <tr>
-        <th>Course Name</th>
-        <th>Course Id</th>
-        <th>Department</th>
-        <th>Credits</th>
-        <th>Instructor</th>
-        <th>TAs</th>  
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for course in courses %}
-      <tr>
-        <td>{{ course.course_name }}</td>
-        <td>{{ course.course_identifier }}</td>
-        <td>{{ course.course_dept }}</td>
-        <td>{{ course.course_credits }}</td>
-        <td>
-          {% if course.instructor %}
-            {{ course.instructor.user.fname }} {{ course.instructor.user.lname }}
-          {% else %}
-            None
-          {% endif %}
-        </td>
-        <td>
-        {% if course.course_ta.all %}
-            {% for ta in course.course_ta.all %}
-            {{ ta.user.fname }} {{ ta.user.lname }}{% if not forloop.last %}, {% endif %}
+    <!-- Display Messages -->
+    {% if messages %}
+      <div class="w-50">
+        {% for message in messages %}
+          <p class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}">{{ message }}</p>
         {% endfor %}
-        {% else %}
-            None
-        {% endif %}
-        </td>
-        <td>
-          <!--
-            <button class="btn-gradx1" onclick="openModal('{{ course.course_id }}', '{{ course.course_name }}', '{{ course.course_identifier }}', '{{ course.course_dept }}', '{{ course.course_credits }}', '{{ course.instructor.id|default:'' }}')">Edit</button>
-          -->
-          <form method="post" action="{% url 'courses-supervisor' %}" style="display:inline;">
-            {% csrf_token %}
-              <input type="hidden" name="action" value="deleteCourse">
-              <input type="hidden" name="course_id" value={{ course.course_id }}>
-            <button type="submit" class="btn-gradx2">Delete</button>
-          </form>  
-          <form method="post" action="{% url 'courses-supervisor' %}" style="display:inline;">
-            {% csrf_token %}
-                <label for="ta_id">Assign TA:</label>
-                <select id="taIdField" name="course_ta">
-                <option value="" selected disabled>Select TA</option>
-                {% for ta in tas %}
-                  <option value="{{ ta.id }}">{{ ta.user.fname }} {{ ta.user.lname }}</option>
-                {% endfor %}
-                </select>
+      </div>
+    {% endif %}
 
-            <input type="hidden" name="action" value="addTACourse">
-            <input type="hidden" name="course_id" value="{{ course.course_id }}">
-            <button type="submit" class="btn-gradx2">ADD TA</button>
-          </form>
-          <form method="post" action="{% url 'courses-supervisor' %}" style="display:inline;">
-            {% csrf_token %}
-                <label for="ta_id">Remove TA:</label>
-                <select id="taIdField" name="course_ta">
-                <option value="" selected disabled>Select TA</option>
-                {% for ta in tas %}
-                  <option value="{{ ta.id }}">{{ ta.user.fname }} {{ ta.user.lname }}</option>
-                {% endfor %}
-                </select>
-
-            <input type="hidden" name="action" value="deleteTACourse">
-            <input type="hidden" name="course_id" value="{{ course.course_id }}">
-            <button type="submit" class="btn-gradx2">REMOVE TA</button>
-          </form>    
-
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-
-<!-- Button to Create a New Course -->
-<button class="create-btn" onclick="openCourseModal()">Create New Course</button>
-
-<!-- Modal for Create/Edit Course. -->
-<div id="courseModal" class="modal" style="display:none;">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    <h2 id="modalTitle">Create/Edit Course</h2>
-    <form method="post" action="{% url 'courses-supervisor' %}" id="courseForm">
-      {% csrf_token %}
-      <input type="hidden" name="action" id="formAction" value="createCourse">
-      <input type="hidden" name="course_id" id="courseIdField" />
-      
-      <label for="course_name">Course Name:</label>
-      <input type="text" id="courseNameField" name="course_name" required />
-      
-      <label for="course_identifier">Course Identifier:</label>
-      <input type="text" id="courseIdentifierField" name="course_identifier" required />
-      
-      <label for="course_dept">Department:</label>
-      <input type="text" id="courseDeptField" name="course_dept" required />
-      
-      <label for="course_credits">Credits:</label>
-      <input type="number" id="courseCreditsField" name="course_credits" required />
-
-      <label for="instructor_id">Assign Instructor:</label>
-      <select id="instructorIdField" name="instructor">
-        <option value="" selected disabled>Select Instructor</option>
-        {% for instructor in instructors %}
-          <option value="{{ instructor.user }}">{{ instructor.user.fname }} {{ instructor.user.lname }}</option>
-        {% endfor %}
-      </select>
-      
-      <button type="submit" class="btn-gradx0">Save</button>
-    </form>
-  </div>
-</div>
-
-<hr>
-
-<h1>Manage Sections</h1>
-
-<!-- Table for Displaying Sections -->
-<div class="table-wrapper">
-  <table class="table-div">
-    <thead>
-      <tr>
-        <th>Number</th>
-        <th>Type</th>
-        <th>Course</th>
-        <th>Days</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>TA</th>
-        <th>Instructor</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for section in sections %}
-      <tr>
-        <td>{{ section.section_num }}</td>
-        <td>{{ section.section_type }}</td>
-        <td>{{ section.section_course.course_name }}</td>
-        <td>{{ section.days_of_week }}</td>
-        <td>{{ section.section_startTime }}</td>
-        <td>{{ section.section_endTime }}</td>
-        <td>
-          {% if section.section_ta %}
-            {{ section.section_ta.user.fname }} {{ section.section_ta.user.lname }}
-          {% else %}
-            None
-          {% endif %}
-        </td>
-        <td>
-          {% if section.lecture_instructor %}
-            {{ section.lecture_instructor.user.fname }} {{ section.lecture_instructor.user.lname }}
-          {% else %}
-            None
-          {% endif %}
-        </td>
-        <td>
-          <button class="btn-gradx1" onclick="openSectionModal('{{ section.section_id }}', '{{ section.section_type }}', '{{ section.section_num }}', '{{ section.section_course.course_name }}', '{{ section.days_of_week }}', '{{ section.section_startTime }}', '{{ section.section_endTime }}', '{{ section.section_ta.id|default:'' }}', '{{ section.lecture_instructor.id|default:'' }}')">Edit</button>
-          <form method="post" action="{% url 'courses-supervisor' %}" style="display:inline;">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="deleteSection">
-            <input type="hidden" name="section_id" value="{{ section.section_id }}">
-            <button type="submit" class="btn-gradx2">Delete</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-
-<!-- Button to Create a New Section -->
-<button class="create-btn" onclick="openSectionModal()">Create New Section</button>
-
-<!-- Modal for Create/Edit Section -->
-<div id="sectionModal" class="modal" style="display:none;">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    <h2 id="modalTitle">Create/Edit Section</h2>
-    <form method="post" action="{% url 'courses-supervisor' %}" id="sectionForm">
-      {% csrf_token %}
-      <input type="hidden" name="action" id="formAction" value="createSection">
-      <input type="hidden" name="section_id" id="sectionIdField" />
-        
-      <label for="section_type">Course section belongs to:</label>
-      <select id="courseIdField" name="course_id">
-        <option value="" selected disabled>Select Course</option>
+    <!-- Table for Displaying Courses -->
+    <div class="table-wrapper">
+      <div class="table-content">
+        <div class="table-header">
+          <p class="d-inline-block">Title</p>
+          <p class="d-inline-block">Course Code</p>
+          <p class="d-inline-block">Department</p>
+          <p class="d-inline-block">Credits</p>
+          <p class="d-inline-block">Actions</p>
+        </div>
         {% for course in courses %}
-          <option value="{{ course.course_id }}">{{ course.course_name }} </option>
+          <div class="custom-card">
+            <p>{{ course.course_name }}</p>
+            <p>{{ course.course_identifier }}</p>
+            <p>{{ course.course_dept }}</p>
+            <p>{{ course.course_credits }}</p>
+            <!-- Edit and Delete Actions -->
+            <div class="d-inline justify-content-center ml-4">
+              <button class="btn btn-outline-dark mr-3 text-white" onclick="openModal('{{ course.course_id }}', '{{ course.course_name }}', '{{ course.course_identifier }}', '{{ course.course_dept }}', '{{ course.course_credits }}')"><i class="fa-solid fa-pen-nib"></i></button>
+              <form method="post" action="{% url 'courses-supervisor' %}" class="d-inline">
+                {% csrf_token %}
+                <input type="hidden" name="course_id" value="{{ course.course_id }}" class="deleteFormCourse"/>
+                <input type="hidden" name="action" value="delete" />
+                <button type="submit" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+              </form>
+            </div>
+          </div>
         {% endfor %}
-      </select>
-      
-      <label for="section_type">Section Type:</label>
-      <input type="text" id="sectionTypeField" name="section_type" required />
-      
-      <label for="section_num">Section Number:</label>
-      <input type="text" id="sectionNumField" name="section_num" required />
-      
-      <label for="section_days">Days of Week:</label>
-      <input type="text" id="sectionDaysField" name="days_of_week" required />
-      
-      <label for="section_startTime">Start Time:</label>
-      <input type="time" id="sectionStartTimeField" name="section_startTime" required />
-      
-      <label for="section_endTime">End Time:</label>
-      <input type="time" id="sectionEndTimeField" name="section_endTime" required />
+      </div>
+      <div class="sections-container">
+        <div id="sec-message">
+          <p class="w-50 mx-auto card bg-dark text-light text-center" style="font-family:Modern Antiqua;">Section Info</p>
+          <p class="w-75 mx-auto text-center">Click on a course card to view its related sections</p>
+        </div>
+        <div id="ol-sections" class="d-none">
+          
+          <!-- Button to Create a New Section -->
+           <div class="w-75 mx-auto"><button class="create-btn btn-grad3 mx-auto" onclick="openSectionModal()"><i class="fa-solid fa-puzzle-piece"></i></button></div>
+          <div class="table-wrapper">
+            <div class="table-div overflow-scroll custom-anotherx0">
+              <div id="sections-content">
+                {% for section in sections %}
+              
+                  <div class="custom-card2">
+                    <input class="d-none course_class_for_section" type="text" value="{{ section.section_course.course_id }}">
+                    <div class="item">Number: {{ section.section_num }}</div>
+                    <div class="item">Typer: {{ section.section_type }}</div>
+                    <div class="item">Course: {{ section.section_course.course_name }}</div>
+                    <div class="item">Days of Week:{{ section.days_of_week }}</div>
+                    <div class="item">Time:{{ section.section_startTime }} - {{ section.section_endTime }}</div>
+                    <div class="item">
+                      {% if section.section_ta %}
+                        {{ section.section_ta.user.fname }} {{ section.section_ta.user.lname }}
+                      {% else %}
+                        No TA
+                      {% endif %}
+                    </div>
+                    <div class="item">
+                      {% if section.lecture_instructor %}
+                        {{ section.lecture_instructor.user.fname }} {{ section.lecture_instructor.user.lname }}
+                      {% else %}
+                        No Instructor
+                      {% endif %}
+                    </div>
+                    <div class="item edit-group-sections">
+                      <button class="btn btn-success" onclick="openSectionModal('{{ section.section_id }}', '{{ section.section_type }}', '{{ section.section_num }}', '{{ section.section_course.course_name }}', '{{ section.days_of_week }}', '{{ section.section_startTime }}', '{{ section.section_endTime }}', '{{ section.section_ta.id|default:'' }}', '{{ section.lecture_instructor.id|default:'' }}')">
+                        <i class="input-edit fa-solid fa-pen-to-square p-2"></i>
+                      </button>
+                      <form method="post" action="{% url 'courses-supervisor' %}" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="deleteSection" />
+                        <input type="hidden" name="section_id" value="{{ section.section_id }}" />
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-delete-left p-2"></i></button>
+                      </form>
+                      
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+              <!-- Modal for Create/Edit Section -->
+              <div id="sectionModal" class="modal" style="display:none; color:black;">
+                <div class="modal-content">
+                  <span class="close-btn" onclick="closeModal()">&times;</span>
+                  <h2 id="modalTitle">Create/Edit Section</h2>
+                  <form method="post" action="{% url 'courses-supervisor' %}" id="sectionForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" id="formAction" value="createSection" />
+                    <input type="hidden" name="section_id" id="sectionIdField" />
+                    <input type="hidden" name="course_id" id="sectionsCourseId">
+                    <label for="section_type">Section Type:</label>
+                    <input type="text" id="sectionTypeField" name="section_type" required />
 
+                    <label for="section_num">Section Number:</label>
+                    <input type="number" id="sectionNumField" name="section_num" required />
 
-      <label for="instructor_id">Assign Instructor:</label>
-      <select id="instructorIdField" name="lecture_instructor">
-        <option value="" selected disabled>Select Instructor</option>
-        {% for instructor in instructors %}
-          <option value="{{ instructor.id }}">{{ instructor.user.fname }} {{ instructor.user.lname }}</option>
-        {% endfor %}
-      </select>
+                    <label for="section_days">Days of Week:</label>
+                    <input type="text" id="sectionDaysField" name="days_of_week" required />
 
-      <label for="ta_id">Assign TA:</label>
-      <select id="taIdField" name="section_ta">
-        <option value="" selected disabled>Select TA</option>
-        {% for ta in tas %}
-          <option value="{{ ta.id }}">{{ ta.user.fname }} {{ ta.user.lname }}</option>
-        {% endfor %}
-      </select>
-      
-      <button type="submit" class="btn-gradx0">Save</button>
-    </form>
+                    <label for="section_startTime">Start Time:</label>
+                    <input type="time" id="sectionStartTimeField" name="section_startTime" required />
+
+                    <label for="section_endTime">End Time:</label>
+                    <input type="time" id="sectionEndTimeField" name="section_endTime" required />
+
+                    <label for="instructor_id">Assign Instructor:</label>
+                    <select id="instructorIdField" name="lecture_instructor">
+                      <option value="" selected disabled>Select Instructor</option>
+                      {% for instructor in instructors %}
+                        <option value="{{ instructor.id }}">{{ instructor.user.fname }} {{ instructor.user.lname }}</option>
+                      {% endfor %}
+                    </select>
+
+                    <label for="ta_id">Assign TA:</label>
+                    <select id="taIdField" name="section_ta">
+                      <option value="" selected disabled>Select TA</option>
+                      {% for ta in tas %}
+                        <option value="{{ ta.id }}">{{ ta.user.fname }} {{ ta.user.lname }}</option>
+                      {% endfor %}
+                    </select>
+
+                    <button type="submit" class="btn-gradx0">Save</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal for Create/Edit Course -->
+    <div id="courseModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()"><i class="fa-regular fa-circle-xmark"></i></span>
+        <h2 id="modalTitle">Create/Edit Course</h2>
+        <form method="post" action="{% url 'courses-supervisor' %}" id="courseForm">
+          {% csrf_token %}
+          <input type="hidden" name="course_id" id="courseIdField" />
+          <input type="hidden" name="action" value="create" id="courseFormAction" />
+          <div>
+            <label for="course_name">Course Name:</label>
+            <input type="text" id="courseNameField" name="course_name" required />
+          </div>
+          <div>
+            <label for="course_identifier">Course Identifier:</label>
+            <input type="text" id="courseIdentifierField" name="course_identifier" required />
+          </div>
+          <div>
+            <label for="course_dept">Department:</label>
+            <input type="text" id="courseDeptField" name="course_dept" required />
+          </div>
+          <div>
+            <label for="course_credits">Credits:</label>
+            <input type="number" id="courseCreditsField" name="course_credits" required />
+          </div>
+          <button type="submit" class="btn-grad3 red-btn">Save</button>
+        </form>
+      </div>
+    </div>
   </div>
-</div>
-
-<script>
-  function openCourseModal(courseId = "", courseName = "", courseIdentifier = "", courseDept = "", courseCredits = "", instructorId = "") {
-    // Similar logic to the course modal, as you already have
-    document.getElementById("modalTitle").textContent = courseId ? "Edit Course" : "Create Course";
-    const formAction = courseId ? `{% url 'courses-supervisor' %}`.replace('0', courseId) : "{% url 'courses-supervisor' %}";
-    document.getElementById("courseForm").action = formAction;
-    document.getElementById("formAction").value = courseId ? 'editCourse' : 'createCourse';
-    document.getElementById("courseIdField").value = courseId;
-    document.getElementById("courseNameField").value = courseName;
-    document.getElementById("courseIdentifierField").value = courseIdentifier;
-    document.getElementById("courseDeptField").value = courseDept;
-    document.getElementById("courseCreditsField").value = courseCredits;
-    document.getElementById("instructorIdField").value = instructorId;
-    document.getElementById("courseModal").style.display = "block";
-  }
-
-  function openSectionModal(sectionId = "", sectionType = "", sectionNum = "", courseName = "", sectionDays = "", sectionStartTime = "", sectionEndTime = "", taId = "", instructorId = "") {
-    document.getElementById("modalTitle").textContent = sectionId ? "Edit Section" : "Create Section";
-    document.getElementById("sectionIdField").value = sectionId;
-    document.getElementById("sectionTypeField").value = sectionType;
-    document.getElementById("sectionNumField").value = sectionNum;
-    document.getElementById("sectionDaysField").value = sectionDays;
-    document.getElementById("sectionStartTimeField").value = sectionStartTime;
-    document.getElementById("sectionEndTimeField").value = sectionEndTime;
-    document.getElementById("instructorIdField").value = instructorId;
-    document.getElementById("sectionModal").style.display = "block";
-  }
-</script>
-
-<style>
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 400px;
-    text-align: center;
-  }
-
-  .close-btn {
-    float: right;
-    font-size: 20px;
-    cursor: pointer;
-  }
-
-  .create-btn {
-    display: block;
-    margin: 20px auto;
-    background: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .create-btn:hover {
-    background: #45a049;
-  }
-</style>
 {% endblock %}

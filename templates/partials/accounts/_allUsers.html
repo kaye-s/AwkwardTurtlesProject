@@ -5,7 +5,6 @@
             <h3 class="d-inline">Supervisors</h3>
             <p class="text-right badge badge-light">{{ supervisors|length }} found</p>
         </div>
-        <div class="search-bar"><div><input class="search-bar-input" type="text" placeholder="Search for supervisor..."></div></div>
     </div>
     <div class="role-group">
         {% if supervisors|length == 0 %}
@@ -34,10 +33,6 @@
         </div>
          {% endfor %}
     </div>
-    <div class="search-err text-center">
-        <i class="fa-solid fa-filter-circle-xmark"></i>
-        <p>Empty Search</p>
-    </div>
 </div>
 <br><br>
 {% endif %}
@@ -48,7 +43,6 @@
             <h3 class="d-inline">Instructors</h3>
             <p class="text-right badge badge-light">{{ instructors|length }} found</p>
         </div>
-        <div class="search-bar"><div><input class="search-bar-input" type="text" placeholder="Search for instructor..."></div></div>
     </div>
     <div class="role-group">
         {% if instructors|length == 0 %}
@@ -77,10 +71,6 @@
         </div>
         {% endfor %}
     </div>
-    <div class="search-err text-center">
-        <i class="fa-solid fa-filter-circle-xmark"></i>
-        <p>Empty Search</p>
-    </div>
 </div>
 <br><br>
 {% endif %}
@@ -90,7 +80,6 @@
             <h3 class="d-inline">TAs</h3>
             <p class="text-right badge badge-light">{{ tas|length }} found</p>
         </div>
-        <div class="search-bar"><div><input class="search-bar-input" type="text" placeholder="Search for ta..."></div></div>
     </div>
     <div class="role-group">
        {% if tas|length == 0 %}
@@ -117,9 +106,5 @@
             </div>
         </div>
         {% endfor %}
-    </div>
-    <div class="search-err text-center">
-        <i class="fa-solid fa-filter-circle-xmark"></i>
-        <p>Empty Search</p>
     </div>
 </div>
