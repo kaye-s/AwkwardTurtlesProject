@@ -37,11 +37,11 @@ class AccountManagementCreateTests(TestCase):
             'course_identifier': '150',
             'course_dept': 'Computer Science',
             'course_credits': 3,
-            'super_id': self.supervisor_user.id,
         }
 
         request = MagicMock()
         request.POST = post_data
+        request.user = self.supervisor_user.user
 
         create_course(request)
 
