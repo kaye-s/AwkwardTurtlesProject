@@ -15,14 +15,29 @@ class AccountManagementCreateTests(TestCase):
 
     def setUp(self):
         self.url = reverse('courses-supervisor')
+        self.supervisor_user = User.objects.create_user(
+            email='supervisor@example.com',
+            password='superpassword123',
+            fname='Supervisor',
+            lname='User',
+            address='123 Supervisor Lane',
+            phone_number='1234567890'
+        )
+
+        supervisor_group, _ = Group.objects.get_or_create(name='Supervisor')
+        self.supervisor_user.groups.add(supervisor_group)
+        self.supervisor_user.save()
+        self.supervisor_user = Supervisor(user=self.supervisor_user, admin_dept="dept")
+        self.supervisor_user.save()
 
     @patch('django.contrib.messages.error')
-    def test_create_user_success(self, mock_message):
+    def test_create_course_success(self, mock_message):
         post_data = {
             'course_name': 'Test Course',
             'course_identifier': '150',
             'course_dept': 'Computer Science',
             'course_credits': 3,
+            'super_id': self.supervisor_user.id,
         }
 
         request = MagicMock()
@@ -32,13 +47,9 @@ class AccountManagementCreateTests(TestCase):
 
         course = Course.objects.get(course_name='Test Course')
 
-        # Assert user is created
-        self.assertEqual(course.course_name, 'John')
-        self.assertEqual(user.lname, 'Doe')
-
-        # Assert role is created
-        ta_obj = TA.objects.get(user=user)
-        self.assertEqual(ta_obj.ta_dept, 'Computer Science')
+        # Assert course is created
+        self.assertEqual(course.course_name, 'Test Course')
+        self.assertEqual(course.course_identifier, '150')
 
         # Assert no errors in case of success
         mock_message.assert_not_called()
