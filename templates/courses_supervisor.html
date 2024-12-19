@@ -74,7 +74,7 @@
               
                   <div class="custom-card2">
                     <input class="d-none course_class_for_section" type="text" value="{{ section.section_course.course_id }}">
-                    <div class="item">Number: {{ section.section_num }}</div>
+                    <div class="item">Section number: {{ section.section_num }}</div>
                     <div class="item">Typer: {{ section.section_type }}</div>
                     <div class="item">Course: {{ section.section_course.course_name }}</div>
                     <div class="item">Days of Week:{{ section.days_of_week }}</div>
@@ -94,14 +94,14 @@
                       {% endif %}
                     </div>
                     <div class="item edit-group-sections">
-                      <button class="btn btn-success" onclick="openSectionModal('{{ section.section_id }}', '{{ section.section_type }}', '{{ section.section_num }}', '{{ section.section_course.course_name }}', '{{ section.days_of_week }}', '{{ section.section_startTime }}', '{{ section.section_endTime }}', '{{ section.section_ta.id|default:'' }}', '{{ section.lecture_instructor.id|default:'' }}')">
-                        <i class="input-edit fa-solid fa-pen-to-square p-2"></i>
+                      <button class="btn btn-outline-success" onclick="openSectionModal('{{ section.section_id }}', '{{ section.section_type }}', '{{ section.section_num }}', '{{ section.section_course.course_name }}', '{{ section.days_of_week }}', '{{ section.section_startTime }}', '{{ section.section_endTime }}', '{{ section.section_ta.id|default:'' }}', '{{ section.lecture_instructor.id|default:'' }}')">
+                        <i class="fa-solid fa-pen-to-square"></i>
                       </button>
                       <form method="post" action="{% url 'courses-supervisor' %}" style="display:inline;">
                         {% csrf_token %}
                         <input type="hidden" name="action" value="deleteSection" />
                         <input type="hidden" name="section_id" value="{{ section.section_id }}" />
-                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-delete-left p-2"></i></button>
+                        <button type="submit" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
                       </form>
                       
                     </div>
@@ -111,9 +111,9 @@
               <!-- Modal for Create/Edit Section -->
               <div id="sectionModal" class="modal" style="display:none; color:black;">
                 <div class="modal-content">
-                  <span class="close-btn" onclick="closeModal()">&times;</span>
+                  <span class="close-btn" onclick="closeSectionModal()" style="">&times;</span>
                   <h2 id="modalTitle">Create/Edit Section</h2>
-                  <form method="post" action="{% url 'courses-supervisor' %}" id="sectionForm">
+                  <form method="post" action="{% url 'courses-supervisor' %}" id="sectionForm" class="w-75">
                     {% csrf_token %}
                     <input type="hidden" name="action" id="formAction" value="createSection" />
                     <input type="hidden" name="section_id" id="sectionIdField" />

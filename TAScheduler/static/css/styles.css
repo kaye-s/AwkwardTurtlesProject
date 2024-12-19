@@ -975,7 +975,7 @@
   background-color: rgba(239, 77, 8, 0.174);
 }
 .course-page-container .table-wrapper .sections-container {
-  width: 38%;
+  width: 32%;
   position: absolute;
   right: 10px;
 }
@@ -1050,7 +1050,7 @@
   align-items: center;
   background: linear-gradient(to top right, rgba(238, 27, 27, 0.333), rgba(111, 3, 3, 0.557), rgba(18, 18, 18, 0.655));
 }
-.course-page-container #courseModal .modal-content .close-btn {
+.course-page-container .modal-content .close-btn {
   color: rgba(149, 149, 149, 0.91);
   font-size: 2pc;
   position: absolute;
@@ -1059,7 +1059,7 @@
   cursor: pointer;
   transition: 0.4s all ease;
 }
-.course-page-container #courseModal .modal-content .close-btn:hover {
+.course-page-container .modal-content .close-btn:hover {
   color: white;
 }
 .course-page-container #courseModal .modal-content #courseForm {
@@ -1211,15 +1211,20 @@ select {
 
 .custom-card2 .item{
   margin: 5px 10px;
-  font-size: 10px;
+  font-size: 14px;
+}
+
+.custom-card2 button{
+  border-radius: 50%;
+  text-align: center;
+
 }
 
 .custom-card2 i{
-  font-size: 10px;
 }
 
 .custom-anotherx0{
-  max-height: 300px;
+  max-height: 350px;
   width: 100%;
   border-radius: inherit;
   overflow-y: scroll;

@@ -260,3 +260,8 @@ const openSectionModal = (sectionId = "", sectionType = "", sectionNum = "", cou
     document.getElementById("instructorIdField").value = instructorId;
     document.getElementById("sectionModal").style.display = "block";
   }
+
+
+const closeSectionModal = () => {
+    document.getElementById("sectionModal").style.display = "none";
+}
