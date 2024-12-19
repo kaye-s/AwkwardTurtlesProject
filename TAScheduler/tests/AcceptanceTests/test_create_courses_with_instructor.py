@@ -70,7 +70,7 @@ class CreateCourseTests(TestCase):
             'course_identifier': '600',
             'course_dept': 'Computer Science',
             'course_credits': 3,
-            'instructor': self.instructor_user.id,
+            'instructor': self.instructor_user.user,
             'action': 'createCourse',
         }
         response = self.client.post("/courses_supervisor/", data)
@@ -78,4 +78,4 @@ class CreateCourseTests(TestCase):
 
         # Check if the course was created successfully
         new_course = Course.objects.get(course_name='Test Course')
-        self.assertEqual(new_course.instructor, self.instructor_user.id)
+        self.assertEqual(new_course.instructor, self.instructor_user)
